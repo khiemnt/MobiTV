@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Mobi TV</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Password</string>
+    <string name="title_login">Login</string>
+    <string name="title_error">Error</string>
+    <string name="msg_email_error">The email format is invalid</string>
+    <string name="msg_password_error">Password is too short</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+</resources>
