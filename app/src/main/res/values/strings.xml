@@ -9,4 +9,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="see_all"><![CDATA[Xem tất cả >]]></string>
+    <string name="view_more">thêm</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="tab_lien_quan">LIÊN QUAN</string>
+    <string name="tab_binh_luan">BÌNH LUẬN</string>
 </resources>

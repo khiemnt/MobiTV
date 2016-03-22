@@ -24,7 +24,9 @@
         <activity
             android:name=".screen.login.LoginActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+                android:name=".screen.videodetail.VideoDetailActivity"
+                android:screenOrientation="portrait"/>
         <!-- Fabric -->
         <meta-data
             android:name="io.fabric.ApiKey"

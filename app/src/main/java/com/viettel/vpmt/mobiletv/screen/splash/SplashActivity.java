@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.screen.login.LoginActivity;
+import com.viettel.vpmt.mobiletv.screen.videodetail.VideoDetailActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -29,8 +29,8 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    Thread.sleep(30);
+                    startActivity(new Intent(SplashActivity.this, VideoDetailActivity.class));
                     SplashActivity.this.finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
