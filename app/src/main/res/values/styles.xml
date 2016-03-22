@@ -3,4 +3,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Box" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Box.Title">
+        <item name="android:textSize">@dimen/box_title_text_size</item>
+    </style>
+    <style name="Box.ViewMore">
+        <item name="android:textSize">@dimen/box_view_more_text_size</item>
+    </style>
+
 </resources>

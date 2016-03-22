@@ -16,4 +16,6 @@
     <dimen name="divider_large">25dp</dimen>
     <dimen name="padding_medium">7dp</dimen>
     <dimen name="padding_small">5dp</dimen>
+    <dimen name="box_title_text_size">18sp</dimen>
+    <dimen name="box_view_more_text_size">17sp</dimen>
 </resources>

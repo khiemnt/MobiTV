@@ -8,4 +8,5 @@
     <string name="msg_password_error">Password is too short</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="see_all"><![CDATA[Xem tất cả >]]></string>
 </resources>
