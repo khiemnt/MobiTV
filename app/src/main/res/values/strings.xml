@@ -8,7 +8,7 @@
     <string name="msg_password_error">Password is too short</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="see_all">Xem tất cả </string>
+    <string name="see_all">Xem tất cả</string>
     <string name="action_search">Search</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
@@ -16,7 +16,6 @@
     <string name="title_network_lost">Lỗi kết nối</string>
     <string name="msg_network_lost">Không có kết nối mạng. Vui lòng thử lại!</string>
     <string name="splash_desc">Hoàn toàn miễn phí data 3G</string>
-    <string name="see_all"><![CDATA[Xem tất cả >]]></string>
     <string name="view_more">thêm</string>
     <string name="favorite">Yêu thích</string>
     <string name="tab_lien_quan">LIÊN QUAN</string>
