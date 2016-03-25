@@ -36,12 +36,6 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
         return videoRelativeFragment;
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState)
-//    {
-//        super.onCreate(savedInstanceState);
-//    }
-
 
     @Override
     protected int getLayoutId()

@@ -47,7 +47,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     @Override
     protected int getLayoutId()
     {
-        return R.layout.video_detail_layout;
+        return R.layout.activity_video_detail;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
         videoView.setVideoURI(Uri.parse(videoDetail.getStreams().getUrlStreaming()));
         tvTitle.setText(videoDetail.getVideoDetail().getName());
         tvFullDes.setText(videoDetail.getVideoDetail().getDescription());
-        tvTag.setText("Tag: " + videoDetail.getVideoDetail().getTag());
+        tvTag.setText("Tags: " + videoDetail.getVideoDetail().getTag());
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
         if (videoDetail.getVideoRelated() != null)
         {

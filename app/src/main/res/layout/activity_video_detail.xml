@@ -84,6 +84,7 @@
             <com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/padding_medium"
                     android:layout_height="wrap_content"
                     android:background="@color/common_bg_color"/>
         </LinearLayout>
