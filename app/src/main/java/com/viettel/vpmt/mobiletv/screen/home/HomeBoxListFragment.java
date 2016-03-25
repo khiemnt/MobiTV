@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.base.BaseListFragment;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
 
 import butterknife.Bind;
@@ -16,7 +16,7 @@ import butterknife.Bind;
  * Common Fragment
  * Created by neo on 3/22/2016.
  */
-public class HomeBoxFragment extends BaseFragment<HomeBoxFragmentPresenter, HomeBoxActivity> implements HomeBoxFragmentView {
+public class HomeBoxListFragment extends BaseListFragment<HomeBoxFragmentPresenter, HomeBoxActivity> implements HomeBoxFragmentView {
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
 

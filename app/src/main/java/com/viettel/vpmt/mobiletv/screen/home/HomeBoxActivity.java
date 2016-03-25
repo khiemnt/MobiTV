@@ -39,7 +39,7 @@ public class HomeBoxActivity extends BaseActivity<HomeBoxFragmentPresenter> impl
      */
     private void addFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.common_content_frame, new HomeBoxFragment());
+        transaction.add(R.id.common_content_frame, new HomeBoxListFragment());
         transaction.commit();
     }
 

@@ -15,8 +15,12 @@ public class Content {
     private String mType;
     @SerializedName("description")
     private String mDescription;
+    @SerializedName("tag")
+    private String tag;
     @SerializedName("coverImage")
     private String mCoverImage;
+    @SerializedName("isFavourite")
+    private boolean isFavourite;
     @SerializedName("item_id")
     private String mItemId;
     @SerializedName("avatarImage")
@@ -76,6 +80,26 @@ public class Content {
 
     public void setAvatarImage(String avatarImage) {
         mAvatarImage = avatarImage;
+    }
+
+    public String getTag()
+    {
+        return tag;
+    }
+
+    public void setTag(String tag)
+    {
+        this.tag = tag;
+    }
+
+    public boolean isFavourite()
+    {
+        return isFavourite;
+    }
+
+    public void setIsFavourite(boolean isFavourite)
+    {
+        this.isFavourite = isFavourite;
     }
 
     public interface Type {

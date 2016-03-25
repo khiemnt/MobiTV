@@ -59,7 +59,6 @@
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_below="@+id/fragment_video_detail_tvTitle"
                       android:id="@+id/fragment_video_detail_tvFullDes"
                       android:maxLines="3"
                       android:textSize="@dimen/video_detail_full_description_size"
@@ -70,19 +69,11 @@
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:id="@+id/fragment_video_detail_tvActor"
+                      android:id="@+id/fragment_video_detail_tvTag"
                       android:textColor="@color/grey"
                       android:textSize="@dimen/video_detail_full_description_size"
-                      android:layout_below="@id/fragment_video_detail_tvFullDes"
                       android:text="Tag: Antoine Griezman, Ronaldo"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:textSize="@dimen/video_detail_full_description_size"
-                      android:textColor="@color/grey"
-                      android:id="@+id/fragment_video_detail_tvCountry"
-                      android:layout_below="@id/fragment_video_detail_tvActor"
-                      android:text="Giải đấu: Larada"
-                      android:layout_marginBottom="3dp"/>
+
             <com.viewpagerindicator.TitlePageIndicator
                     android:id="@+id/sliding_tabs"
                     android:padding="10dp"
@@ -90,7 +81,7 @@
                     android:layout_gravity="center"
                     style="@style/MyCustomTabPageIndicator"
                     android:layout_width="match_parent"/>
-            <com.viettel.vpmt.mobiletv.screen.videodetail.view.WrapContentHeightViewPager
+            <com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

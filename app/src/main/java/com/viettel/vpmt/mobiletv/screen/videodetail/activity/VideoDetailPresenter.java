@@ -1,4 +1,4 @@
-package com.viettel.vpmt.mobiletv.screen.videodetail;
+package com.viettel.vpmt.mobiletv.screen.videodetail.activity;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 
@@ -7,5 +7,5 @@ import com.viettel.vpmt.mobiletv.base.BasePresenter;
  */
 public interface VideoDetailPresenter extends BasePresenter
 {
-    void initImageSlides();
+    void getDetailVideo();
 }

@@ -29,7 +29,7 @@
             android:name=".screen.home.HomeBoxActivity"
             android:screenOrientation="portrait" />
         <activity
-                android:name=".screen.videodetail.VideoDetailActivity"
+                android:name=".screen.videodetail.activity.VideoDetailActivity"
                 android:screenOrientation="portrait"/>
         <!-- Fabric -->
         <meta-data
