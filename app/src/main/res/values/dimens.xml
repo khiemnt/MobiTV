@@ -15,7 +15,18 @@
     <dimen name="divider_small">2px</dimen>
     <dimen name="divider_large">25dp</dimen>
     <dimen name="padding_medium">7dp</dimen>
+    <dimen name="padding_large">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
-    <dimen name="box_title_text_size">18sp</dimen>
-    <dimen name="box_view_more_text_size">17sp</dimen>
+    <dimen name="box_title_text_size">15sp</dimen>
+    <dimen name="box_view_more_text_size">12sp</dimen>
+    <dimen name="banner_height">150dp</dimen>
+    <dimen name="indicator_circle_radius">5dp</dimen>
+    <dimen name="indicator_circle_bottom_padding">20dp</dimen>
+    <dimen name="item_channel_size">100dp</dimen>
+    <dimen name="item_video_width">150dp</dimen>
+    <dimen name="item_video_height">100dp</dimen>
+    <dimen name="item_content_text_size">13sp</dimen>
+    <dimen name="item_content_desc_text_size">13sp</dimen>
+    <dimen name="item_film_width">120dp</dimen>
+    <dimen name="item_film_height">150dp</dimen>
 </resources>

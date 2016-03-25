@@ -1,17 +1,109 @@
 <resources>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+<!--com.viettel.vpmt.mobiletv:-->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="Box" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/white</item>
+    <style name="TextSans" parent="TextAppearance.AppCompat.Medium">
+        <item name="typeFaceFont">@string/OpenSans</item>
+    </style>
+
+    <!-- Box -->
+    <style name="Box" parent="TextSans">
     </style>
 
     <style name="Box.Title">
         <item name="android:textSize">@dimen/box_title_text_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="typeFaceStyle">@string/Semibold</item>
     </style>
-    <style name="Box.ViewMore">
+
+    <style name="Box.SeeAll">
         <item name="android:textSize">@dimen/box_view_more_text_size</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="typeFaceStyle">@string/Regular</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/see_all</item>
+        <item name="android:drawableRight">@drawable/ic_arrow_right</item>
+    </style>
+
+    <!-- Video -->
+    <style name="Video" parent="TextSans"></style>
+
+    <style name="Video.ItemLayout">
+        <item name="android:layout_width">@dimen/item_video_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Video.CoverImage">
+        <item name="android:layout_width">@dimen/item_video_width</item>
+        <item name="android:layout_height">@dimen/item_video_height</item>
+    </style>
+
+    <style name="Video.Title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">2</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:textSize">@dimen/item_content_text_size</item>
+        <item name="typeFaceStyle">@string/Semibold</item>
+    </style>
+    <style name="Video.Desc">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">2</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:textSize">@dimen/item_content_desc_text_size</item>
+        <item name="typeFaceStyle">@string/Regular</item>
+    </style>
+
+    <!-- Film -->
+    <style name="Film" parent="TextSans"></style>
+    <style name="Film.ItemLayout">
+        <item name="android:layout_width">@dimen/item_film_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="Film.CoverImage">
+        <item name="android:layout_width">@dimen/item_film_width</item>
+        <item name="android:layout_height">@dimen/item_film_height</item>
+    </style>
+    <style name="Film.Title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">2</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:textSize">@dimen/item_content_text_size</item>
+        <item name="typeFaceStyle">@string/Semibold</item>
+    </style>
+
+    <!-- Play button -->
+    <style name="PlayButton">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="PlayButton.Small">
+        <item name="android:src">@drawable/ic_play_circle_outline_big</item>
+        <item name="android:layout_centerInParent">true</item>
     </style>
 
 </resources>

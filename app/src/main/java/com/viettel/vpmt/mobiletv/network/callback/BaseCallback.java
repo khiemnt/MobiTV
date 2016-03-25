@@ -15,33 +15,29 @@ import retrofit2.Response;
  * Created by neo on 2/15/2016.
  */
 public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
-    public static final int NETWORK_ERROR = 999;
+    public static final String NETWORK_ERROR = "999";
 
     @Override
     public void onResponse(Call<ResponseDTO<T>> call, Response<ResponseDTO<T>> response) {
         // Get body of request
         ResponseDTO<T> body = null;
-        int errorCode = NETWORK_ERROR;
+        String responseCode = NETWORK_ERROR;
         String message = "";
 
         if (response.isSuccess()) {
             body = response.body();
-            errorCode = body.getErrorCode();
+            responseCode = body.getResponseCode();
             message = body.getMessage();
-        } else {
-            try {
-                body = new Gson().fromJson(response.errorBody().string(), ResponseDTO.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+
         if (body == null) {
             onError(NETWORK_ERROR, "Unknown error");
+            return;
         }
 
         // If not success
-        if (errorCode != Constants.CODE_SUCCESS) {
-            onError(errorCode, message);
+        if (!Constants.CODE_SUCCESS.equals(responseCode)) {
+            onError(responseCode, message);
             return;
         }
 
@@ -54,7 +50,7 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
         onError(NETWORK_ERROR, t.getMessage());
     }
 
-    public abstract void onError(int errorCode, String errorMessage);
+    public abstract void onError(String errorCode, String errorMessage);
     public abstract void onResponse(T data);
 
 //    public static <T> BaseCallback<T> newInstance(final BaseView view) {

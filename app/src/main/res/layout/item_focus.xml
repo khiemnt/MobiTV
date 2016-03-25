@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Video.ItemLayout">
+
+    <ImageView
+        android:id="@+id/item_focus_iv"
+        style="@style/Video.CoverImage"/>
+
+    <com.viettel.vpmt.mobiletv.common.view.CTextView
+        android:id="@+id/item_focus_title_tv"
+        style="@style/Video.Title"/>
+
+    <com.viettel.vpmt.mobiletv.common.view.CTextView
+        android:id="@+id/item_focus_desc_tv"
+        style="@style/Video.Desc"
+        android:drawableRight="@drawable/ic_live"/>
+</LinearLayout>

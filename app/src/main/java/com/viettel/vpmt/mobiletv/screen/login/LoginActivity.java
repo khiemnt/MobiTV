@@ -1,11 +1,11 @@
 package com.viettel.vpmt.mobiletv.screen.login;
 
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
-import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -37,8 +37,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnClick(R.id.login_login_bt)
     public void doLogin() {
-        getPresenter().doLogin(DeviceUtils.getDeviceId(this), mEmailEt.getText().toString(),
-                mPasswordEt.getText().toString(), true);
+//        getPresenter().doLogin(DeviceUtils.getDeviceId(this), mEmailEt.getText().toString(),
+//                mPasswordEt.getText().toString(), true);
+        finish();
     }
 
     @Override

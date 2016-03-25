@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_bg_color"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.viettel.vpmt.mobiletv.screen.splash.SplashActivity">
 
-    <TextView
+
+    <ImageView
+        android:id="@+id/app_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceLarge"
         android:layout_centerInParent="true"
-        android:textStyle="bold"
-        android:text="@string/app_name"/>
+        android:src="@drawable/app_logo"/>
+
+    <com.viettel.vpmt.mobiletv.common.view.CTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_logo"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_centerInParent="true"
+        android:text="@string/splash_desc"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_medium"
+        app:typeFaceFont="@string/OpenSans"
+        app:typeFaceStyle="@string/LightItalic"/>
 </RelativeLayout>

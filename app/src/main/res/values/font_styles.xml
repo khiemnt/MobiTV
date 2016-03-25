@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Font style-->
+    <string name="OpenSans">OpenSans</string>
+    <string name="Bold">Bold</string>
+    <string name="BoldItalic">BoldItalic</string>
+    <string name="ExtraBold">ExtraBold</string>
+    <string name="ExtraBoldItalic">ExtraBoldItalic</string>
+    <string name="Italic">Italic</string>
+    <string name="Light">Light</string>
+    <string name="LightItalic">LightItalic</string>
+    <string name="Semibold">Semibold</string>
+    <string name="SemiboldItalic">SemiboldItalic</string>
+    <string name="Regular">Regular</string>
+
+</resources>
