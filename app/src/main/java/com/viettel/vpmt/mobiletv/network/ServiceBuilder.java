@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by neo on 2/15/2016.
  */
 public class ServiceBuilder {
-    public static final String BASE_URL = "http://172.16.10.85:8192/mailbox/";
+    public static final String BASE_URL = "http://125.235.242.166/api_yii2.php/v1/";
 
     public static final int TOKEN_EXPIRED = 401;
 

@@ -46,7 +46,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         mProgressDialog.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setCanceledOnTouchOutside(false);
-
     }
 
     @Override
@@ -69,13 +68,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     @Override
-    public void onRequestError(int errorCode, String errorMessage) {
-        if (errorCode == ServiceBuilder.TOKEN_EXPIRED) {
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            ActivityCompat.finishAffinity(this);
-            startActivity(loginIntent);
-        } else
-            DialogUtils.showErrorAlert(this, errorMessage);
+    public void onRequestError(String errorCode, String errorMessage) {
+        DialogUtils.showErrorAlert(this, errorMessage);
         hideProgress();
     }
 

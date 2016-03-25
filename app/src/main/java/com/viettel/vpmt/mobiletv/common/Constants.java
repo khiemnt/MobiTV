@@ -5,5 +5,5 @@ package com.viettel.vpmt.mobiletv.common;
  * Created by neo on 2/15/2016.
  */
 public interface Constants {
-    int CODE_SUCCESS = 200;
+    String CODE_SUCCESS = "200";
 }

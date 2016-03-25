@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.view.Display;
 
 /**
@@ -21,5 +22,10 @@ public class DeviceUtils {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    public static int getDpi(Context context) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return (int)(metrics.density * 160f);
     }
 }

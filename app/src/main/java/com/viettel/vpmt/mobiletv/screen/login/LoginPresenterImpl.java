@@ -15,16 +15,6 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
 
     @Override
     public void doLogin(String deviceId, String email, String password, boolean isAdmin) {
-        if (!StringUtils.validateEmail(email)) {
-            mView.onEmailError();
-            return;
-        }
-
-        if (password.length() < 3) {
-            mView.onPasswordError();
-            return;
-        }
-
         mView.showProgress();
     }
 

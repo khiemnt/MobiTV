@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by neo on 12/15/14.
  */
 public class ResponseDTO<DTO> implements Serializable {
-    private int errorCode;
+    private String responseCode;
 
     @SerializedName("data")
     private DTO result;
@@ -28,12 +28,12 @@ public class ResponseDTO<DTO> implements Serializable {
         this.result = result;
     }
 
-    public int getErrorCode() {
-        return errorCode;
+    public String getResponseCode() {
+        return responseCode;
     }
 
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
     public String getMessage() {

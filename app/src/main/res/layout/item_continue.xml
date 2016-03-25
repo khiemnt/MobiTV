@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/Video.ItemLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        style="@style/Video.CoverImage">
+
+        <ImageView
+            android:id="@+id/item_continue_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView style="@style/PlayButton.Small"/>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/item_continue_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:progressDrawable="@drawable/continue_progress_bar"/>
+
+    <com.viettel.vpmt.mobiletv.common.view.CTextView
+        android:id="@+id/item_continue_title_tv"
+        style="@style/Video.Title"/>
+</LinearLayout>

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.screen.videodetail.VideoDetailActivity;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
+import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,6 +23,7 @@ public class SplashActivity extends AppCompatActivity {
                 return;
             }
         }
+        Logger.d("TAG", "DPI " + DeviceUtils.getDpi(this));
 
         setContentView(R.layout.activity_splash);
 
@@ -29,8 +32,8 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(30);
-                    startActivity(new Intent(SplashActivity.this, VideoDetailActivity.class));
+                    Thread.sleep(3000);
+                    startActivity(new Intent(SplashActivity.this, HomeBoxActivity.class));
                     SplashActivity.this.finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

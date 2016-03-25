@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="@dimen/screen_margin">
 
-    <TextView
+    <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/screen_margin"
@@ -22,7 +22,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
+        <com.viettel.vpmt.mobiletv.common.view.CTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,7 +46,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
+        <com.viettel.vpmt.mobiletv.common.view.CTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:id="@+id/login_error_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
