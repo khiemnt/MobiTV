@@ -18,4 +18,12 @@
     <dimen name="padding_small">5dp</dimen>
     <dimen name="box_title_text_size">18sp</dimen>
     <dimen name="box_view_more_text_size">17sp</dimen>
+    <dimen name="app_margin_left">5dp</dimen>
+    <dimen name="app_margin_right">5dp</dimen>
+    <dimen name="margin_left_medium">10dp</dimen>
+    <dimen name="margin_left_large">15dp</dimen>
+    <!--video detail-->
+    <dimen name="video_detail_title_size">18sp</dimen>
+    <dimen name="video_detail_full_description_size">12sp</dimen>
+
 </resources>

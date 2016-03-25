@@ -7,4 +7,5 @@ import com.viettel.vpmt.mobiletv.base.BasePresenter;
  */
 public interface VideoDetailPresenter extends BasePresenter
 {
+    void initImageSlides();
 }

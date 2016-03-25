@@ -5,7 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.PageFragment;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.CommentFragment;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoRelativeFragment;
 
 /**
  * Created by ThanhTD on 3/22/2016.
@@ -30,7 +31,15 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        return PageFragment.newInstance(position + 1);
+        switch (position)
+        {
+            case 0:
+                return VideoRelativeFragment.newInstance();
+            case 1:
+                return CommentFragment.newInstance();
+            default:
+                return VideoRelativeFragment.newInstance();
+        }
     }
 
     @Override

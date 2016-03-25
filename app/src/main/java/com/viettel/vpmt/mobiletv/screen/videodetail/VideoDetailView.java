@@ -7,4 +7,5 @@ import com.viettel.vpmt.mobiletv.base.BaseView;
  */
 public interface VideoDetailView extends BaseView<VideoDetailPresenter>
 {
+    void doLoadVideo(String url);
 }
