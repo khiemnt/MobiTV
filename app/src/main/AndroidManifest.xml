@@ -29,6 +29,9 @@
             android:name=".screen.home.HomeBoxActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".screen.bundle.BundleActivity"
+            android:screenOrientation="portrait" />
+        <activity
                 android:name=".screen.videodetail.VideoDetailActivity"
                 android:screenOrientation="portrait"/>
         <!-- Fabric -->

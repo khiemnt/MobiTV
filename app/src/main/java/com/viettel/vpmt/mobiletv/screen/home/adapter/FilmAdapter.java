@@ -41,6 +41,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(FilmAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
+        if (content == null) {
+            return;
+        }
 
         // Lazy load cover
         ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, true);

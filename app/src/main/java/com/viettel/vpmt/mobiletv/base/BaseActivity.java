@@ -89,30 +89,4 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      * Return layout resource id for activity
      */
     protected abstract int getLayoutId();
-
-    /**
-     * Add main fragment
-     */
-    public void addFragment(BaseFragment fragment, Bundle args, boolean addToBackStack) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        if (args != null) {
-            fragment.setArguments(args);
-        }
-
-        transaction.add(R.id.common_content_frame, fragment);
-
-        if (addToBackStack) {
-            transaction.addToBackStack(fragment.getClass().getSimpleName());
-        }
-
-        transaction.commit();
-    }
-
-    /**
-     * Pop last fragment
-     */
-    public void popBackStack() {
-        getSupportFragmentManager().popBackStack();
-    }
 }

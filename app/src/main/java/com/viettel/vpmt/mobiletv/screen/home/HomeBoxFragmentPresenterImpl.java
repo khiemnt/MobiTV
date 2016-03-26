@@ -1,13 +1,11 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
-import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
@@ -21,8 +19,6 @@ import java.util.List;
  */
 public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragmentView> implements HomeBoxFragmentPresenter {
     private static final String TAG = HomeBoxFragmentPresenterImpl.class.getSimpleName();
-
-    private RecyclerView.Adapter mAdapter;
 
     public HomeBoxFragmentPresenterImpl(HomeBoxFragmentView view) {
         super(view);
@@ -46,11 +42,9 @@ public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragm
         String path = args.getString(Constants.Extras.PATH, "");
         String scope = args.getString(Constants.Extras.SCOPE, "");
         String id = args.getString(Constants.Extras.ID, "");
-        boolean isSeeAll = args.getBoolean(Constants.Extras.IS_SEE_ALL, false);
-        int limit = isSeeAll ? ApiConstants.PAGE_COUNT : 0;
 
         // Send request
-        ServiceBuilder.getService().getHomeBox(scope, path, id, 0 , limit).enqueue(mCallback);
+        ServiceBuilder.getService().getHomeBox(scope, path, id).enqueue(mCallback);
     }
 
     private BaseCallback<List<Box>> mCallback = new BaseCallback<List<Box>>() {

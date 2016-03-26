@@ -11,7 +11,6 @@ public interface Constants {
         String PATH = "path";
         String SCOPE = "scope";
         String ID = "id";
-        String IS_SEE_ALL = "is_see_all";
         String BOX_TYPE = "box_type";
     }
 }

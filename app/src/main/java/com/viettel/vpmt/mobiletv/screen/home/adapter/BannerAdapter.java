@@ -30,6 +30,10 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public View instantiateItem(ViewGroup container, int position) {
         Content content = getItem(position);
+        if (content == null) {
+            return new View(mContext);
+        }
+
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.item_banner, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_banner_image_view);

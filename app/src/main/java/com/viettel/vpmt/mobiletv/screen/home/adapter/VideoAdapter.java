@@ -41,6 +41,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(VideoAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
+        if (content == null) {
+            return;
+        }
 
         // Lazy load cover
         ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, true);

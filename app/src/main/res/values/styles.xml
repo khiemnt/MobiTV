@@ -8,6 +8,13 @@
         <item name="typeFaceFont">@string/OpenSans</item>
     </style>
 
+    <!-- Action bar -->
+    <style name="ActionBarIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?attr/actionBarItemBackground</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
     <!-- Box -->
     <style name="Box" parent="TextSans">
     </style>
@@ -62,7 +69,7 @@
         <item name="android:layout_width">@dimen/item_channel_width</item>
         <item name="android:layout_height">@dimen/item_channel_height</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:background">@drawable/bg_item_channel</item>
     </style>
 
     <style name="Channel.CoverImage">

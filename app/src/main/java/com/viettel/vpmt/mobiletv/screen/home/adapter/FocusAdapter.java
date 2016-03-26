@@ -41,6 +41,9 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(FocusAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
+        if (content == null) {
+            return;
+        }
 
         // Lazy load cover
         ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, true);

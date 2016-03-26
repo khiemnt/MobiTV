@@ -8,6 +8,8 @@ import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
+import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxFragment;
 
 /**
@@ -15,10 +17,10 @@ import com.viettel.vpmt.mobiletv.screen.home.HomeBoxFragment;
  * Created by neo on 3/25/2016.
  */
 public class SeeAllClickListener implements View.OnClickListener {
-    private BaseActivity mBaseActivity;
+    private HomeBoxActivity mBaseActivity;
     private Box mBox;
 
-    public SeeAllClickListener(BaseActivity baseActivity, Box box) {
+    public SeeAllClickListener(HomeBoxActivity baseActivity, Box box) {
         mBaseActivity = baseActivity;
         mBox = box;
     }
@@ -31,6 +33,6 @@ public class SeeAllClickListener implements View.OnClickListener {
         args.putString(Constants.Extras.SCOPE, ApiConstants.SCOPE_DEFAULT);
         args.putString(Constants.Extras.ID, mBox.getId());
 
-        mBaseActivity.addFragment(new HomeBoxFragment(), args, true);
+        mBaseActivity.openBundleHome(mBox.getType(), mBox.getId());
     }
 }

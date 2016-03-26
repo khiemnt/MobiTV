@@ -10,5 +10,8 @@ import com.viettel.vpmt.mobiletv.network.dto.Box;
  * Created by neo on 3/22/2016.
  */
 public interface BundlePresenter extends BasePresenter {
-    void getData(Box.Type boxType, Bundle args);
+    int ITEM_LIMIT = 18;
+
+    void getData(Box.Type boxType, String id);
+    void loadMore();
 }

@@ -40,6 +40,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     @Override
     public void onBindViewHolder(ChannelAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
+        if (content == null) {
+            return;
+        }
 
         ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, false);
     }

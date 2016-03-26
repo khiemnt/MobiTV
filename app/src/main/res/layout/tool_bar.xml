@@ -12,10 +12,9 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <ImageView
+        <com.viettel.vpmt.mobiletv.common.view.SquareImage
             android:id="@+id/toolbar_back_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ActionBarIcon"
             android:src="@drawable/ic_back"/>
 
         <com.viettel.vpmt.mobiletv.common.view.CTextView
@@ -44,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_medium"
+            android:background="@drawable/bg_toolbar_icon"
             android:src="@drawable/ic_search"/>
     </LinearLayout>
 </android.support.v7.widget.Toolbar>
