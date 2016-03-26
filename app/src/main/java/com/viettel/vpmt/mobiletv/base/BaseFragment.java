@@ -3,15 +3,9 @@ package com.viettel.vpmt.mobiletv.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import com.viettel.vpmt.mobiletv.R;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -19,10 +13,6 @@ import butterknife.ButterKnife;
  * Created by neo on 3/22/2016.
  */
 public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivity> extends Fragment implements BaseView<P> {
-    @Bind(R.id.common_progress_bar)
-    ProgressBar mProgressBar;
-    @Bind(R.id.common_swipe_refresh)
-    SwipeRefreshLayout mSwipeLayout;
     private P mPresenter;
     protected View mRootView;
 
@@ -65,26 +55,11 @@ public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivi
 
     @Override
     public void onRequestError(String errorCode, String errorMessage) {
-        if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.GONE);
-        }
-
-        if (mSwipeLayout != null) {
-            mSwipeLayout.setVisibility(View.VISIBLE);
-        }
-
         getBaseActivity().onRequestError(errorCode, errorMessage);
     }
 
     @Override
     public void onRequestSuccess() {
-        if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.GONE);
-        }
-
-        if (mSwipeLayout != null) {
-            mSwipeLayout.setVisibility(View.VISIBLE);
-        }
         getBaseActivity().onRequestSuccess();
     }
 
