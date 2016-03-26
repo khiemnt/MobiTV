@@ -49,12 +49,6 @@ public class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter
     }
 
     @Override
-    public int getItemPosition(Object object)
-    {
-        return super.getItemPosition(object);
-    }
-
-    @Override
     public CharSequence getPageTitle(int position)
     {
         // Generate title based on item position
