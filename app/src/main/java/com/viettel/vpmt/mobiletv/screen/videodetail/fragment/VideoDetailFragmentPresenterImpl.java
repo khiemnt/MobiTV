@@ -17,13 +17,13 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
     }
 
     @Override
-    public void getDetailVideo()
+    public void getDetailVideo(float videoId)
     {
         if (!NetworkUtils.checkNetwork(mView.getViewContext()))
         {
             return;
         }
-        ServiceBuilder.getService().getDetailVideo(776504).enqueue(new BaseCallback<VideoDetail>()
+        ServiceBuilder.getService().getDetailVideo(videoId).enqueue(new BaseCallback<VideoDetail>()
         {
             @Override
             public void onError(String errorCode, String errorMessage)

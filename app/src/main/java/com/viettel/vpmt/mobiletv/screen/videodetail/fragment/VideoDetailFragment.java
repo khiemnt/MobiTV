@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -56,7 +57,9 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     @Override
     public void onPrepareLayout()
     {
-        getPresenter().getDetailVideo();
+        Bundle bundle = getArguments();
+        float videoId = bundle.getFloat("videoId");
+        getPresenter().getDetailVideo(videoId);
         CustomTextViewExpandable.makeTextViewResizable(tvFullDes, 3, getString(R.string.view_more), false);
     }
 
@@ -78,7 +81,10 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
         {
             adapter = new SampleFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             viewPager.setAdapter(adapter);
+            viewPager.invalidate();
         }
+        adapter.notifyDataSetChanged();
+        adapter.getItem(0);
         tabLayout.setViewPager(viewPager);
     }
 }

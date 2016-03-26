@@ -20,5 +20,5 @@ public interface MobitvService
     Call<ResponseDTO<List<Box>>> getHome();
 
     @GET("video/get-detail")
-    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Query("id") long videoId);
+    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Query("id") float videoId);
 }

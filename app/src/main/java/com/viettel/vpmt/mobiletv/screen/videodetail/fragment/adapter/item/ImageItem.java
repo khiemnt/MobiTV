@@ -5,13 +5,25 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.item;
  */
 public class ImageItem
 {
+    Float videoId;
     String uri;
     String des;
 
-    public ImageItem(String uri, String des)
+    public ImageItem(String videoId, String uri, String des)
     {
+        this.videoId = Float.valueOf(videoId);
         this.uri = uri;
         this.des = des;
+    }
+
+    public Float getVideoId()
+    {
+        return videoId;
+    }
+
+    public void setVideoId(Float videoId)
+    {
+        this.videoId = videoId;
     }
 
     public String getUri()

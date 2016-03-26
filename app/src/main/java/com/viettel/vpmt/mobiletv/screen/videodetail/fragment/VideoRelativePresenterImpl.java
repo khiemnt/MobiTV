@@ -32,7 +32,7 @@ public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeV
         List<ImageItem> imageItems = new ArrayList<>();
         for (Content content : videos)
         {
-            imageItems.add(new ImageItem(content.getAvatarImage(), content.getDescription()));
+            imageItems.add(new ImageItem(content.getId(),content.getAvatarImage(), content.getDescription()));
         }
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(imageItems, mView.getViewContext());
         mView.loadRelativeVideo(recyclerViewAdapter);

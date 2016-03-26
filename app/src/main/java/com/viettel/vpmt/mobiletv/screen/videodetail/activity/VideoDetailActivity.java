@@ -21,7 +21,11 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     private void addFragment()
     {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.video_detail_frame_layout, new VideoDetailFragment());
+        Bundle bundle = new Bundle();
+        bundle.putFloat("videoId", 776504);
+        VideoDetailFragment fragment = new VideoDetailFragment();
+        fragment.setArguments(bundle);
+        transaction.add(R.id.video_detail_frame_layout, fragment);
         transaction.commit();
     }
 

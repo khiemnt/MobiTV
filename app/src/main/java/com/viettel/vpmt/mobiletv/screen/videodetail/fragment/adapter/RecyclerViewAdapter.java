@@ -1,6 +1,9 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragment;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.item.ImageItem;
 
 import java.util.List;
@@ -68,6 +72,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     {
                     }
                 });
+        holder.image.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putFloat("videoId", imageItems.get(position).getVideoId());
+                VideoDetailFragment fragment = new VideoDetailFragment();
+                fragment.setArguments(bundle);
+                transaction.add(R.id.video_detail_frame_layout, fragment);
+                transaction.commit();
+            }
+        });
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
