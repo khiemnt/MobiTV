@@ -41,4 +41,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    private void autoLogin() {
+
+    }
 }

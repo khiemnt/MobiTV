@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/item_channel_size"
-    android:layout_height="@dimen/item_channel_size"
-    android:background="@drawable/bg_item_channel"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_small">
+    style="@style/Channel.ItemLayout">
 
     <ImageView
         android:id="@+id/item_channel_iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        style="@style/Channel.CoverImage"/>
 </LinearLayout>

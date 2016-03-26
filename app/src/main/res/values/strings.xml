@@ -20,4 +20,5 @@
     <string name="favorite">Yêu thích</string>
     <string name="tab_lien_quan">LIÊN QUAN</string>
     <string name="tab_binh_luan">BÌNH LUẬN</string>
+    <string name="loading">Đang tải…</string>
 </resources>

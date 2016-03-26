@@ -1,4 +1,4 @@
-package com.viettel.vpmt.mobiletv.screen.home;
+package com.viettel.vpmt.mobiletv.screen.bundle;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -11,25 +11,29 @@ import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
 
 import java.util.List;
 
 /**
- * Implement for common presenters
+ * Implement for common bundle presenters
  * Created by neo on 2/15/2016.
  */
-public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragmentView> implements HomeBoxFragmentPresenter {
-    private static final String TAG = HomeBoxFragmentPresenterImpl.class.getSimpleName();
+public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implements BundlePresenter {
+    private static final String TAG = BundlePresenterImpl.class.getSimpleName();
 
     private RecyclerView.Adapter mAdapter;
+    private Box.Type mType;
 
-    public HomeBoxFragmentPresenterImpl(HomeBoxFragmentView view) {
+    public BundlePresenterImpl(BundleView view) {
         super(view);
     }
 
     @Override
-    public void getData(Bundle args) {
+    public void getData(Box.Type boxType, Bundle args) {
+        mType = boxType;
+
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
@@ -50,20 +54,20 @@ public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragm
         int limit = isSeeAll ? ApiConstants.PAGE_COUNT : 0;
 
         // Send request
-        ServiceBuilder.getService().getHomeBox(scope, path, id, 0 , limit).enqueue(mCallback);
+//        ServiceBuilder.getService().getHomeBox(scope, path, id, 0 , limit).enqueue(mCallback);
     }
 
-    private BaseCallback<List<Box>> mCallback = new BaseCallback<List<Box>>() {
+    private BaseCallback<List<Content>> mCallback = new BaseCallback<List<Content>>() {
         @Override
         public void onError(String errorCode, String errorMessage) {
             mView.onRequestError(errorCode, errorMessage);
         }
 
         @Override
-        public void onResponse(List<Box> data) {
+        public void onResponse(List<Content> data) {
             mView.onRequestSuccess();
             Logger.i(TAG, "SS==== " + data.size());
-            HomeBoxAdapter homeBoxAdapter = new HomeBoxAdapter(mView.getViewContext(), data);
+            BundleVideoAdapter homeBoxAdapter = new BundleVideoAdapter(mView.getViewContext(), data, mType);
             mView.loadBox(homeBoxAdapter);
         }
     };

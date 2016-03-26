@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.DialogUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.screen.login.LoginActivity;
@@ -87,4 +89,30 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      * Return layout resource id for activity
      */
     protected abstract int getLayoutId();
+
+    /**
+     * Add main fragment
+     */
+    public void addFragment(BaseFragment fragment, Bundle args, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+
+        transaction.add(R.id.common_content_frame, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment.getClass().getSimpleName());
+        }
+
+        transaction.commit();
+    }
+
+    /**
+     * Pop last fragment
+     */
+    public void popBackStack() {
+        getSupportFragmentManager().popBackStack();
+    }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 
 import java.util.List;
@@ -42,18 +43,18 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> 
         Content content = mContents.get(position);
 
         // Lazy load cover
-        Picasso.with(mContext)
-                .load(content.getCoverImage())
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .into(holder.mImageView);
+        ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, true);
 
         // Set title
         holder.mTitleTextView.setText(content.getName());
 
         // Set Desc
-        holder.mDescTextView.setText(content.getDescription());
+        holder.mDescTextView.setText(content.getShortDesc());
+
+        // Live status
+        if (!content.isLive()) {
+            holder.mDescTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
     }
 
     @Override

@@ -7,7 +7,9 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Restful Services
@@ -17,4 +19,13 @@ public interface MobitvService {
     @GET("default/get-home")
     Call<ResponseDTO<List<Box>>> getHome();
 
+    @POST("auth/authorize")
+    Call login();
+
+    @GET("{scope}/{path}")
+    Call<ResponseDTO<List<Box>>> getHomeBox(@Path("scope") String scope,
+                                            @Path("path") String path,
+                                            @Query("id") String id,
+                                            @Query("offset") int offset,
+                                            @Query("limit") int limit);
 }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 
 import java.util.List;
@@ -40,11 +41,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     public void onBindViewHolder(ChannelAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
 
-        Picasso.with(mContext)
-                .load(content.getCoverImage())
-                .placeholder(R.drawable.app_logo)
-                .error(R.drawable.app_logo)
-                .into(holder.mImageView);
+        ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, false);
     }
 
     @Override

@@ -9,10 +9,11 @@
 
     <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:id="@+id/item_focus_title_tv"
-        style="@style/Video.Title"/>
+        style="@style/ContentItem.Title"/>
 
     <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:id="@+id/item_focus_desc_tv"
-        style="@style/Video.Desc"
+        style="@style/ContentItem.SubTitle"
+        android:drawablePadding="@dimen/padding_small"
         android:drawableRight="@drawable/ic_live"/>
 </LinearLayout>

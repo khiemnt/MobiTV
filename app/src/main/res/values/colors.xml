@@ -8,4 +8,7 @@
     <color name="grey">#9E9E9E</color>
     <color name="black">#000000</color>
     <color name="common_bg_color">#181818</color>
+    <color name="see_all_text">#EEEEEE</color>
+    <color name="channel_stroke">#383839</color>
+    <color name="image_placeholder">#757575</color>
 </resources>

@@ -61,7 +61,7 @@ public class HomeBoxFragment extends BaseFragment<HomeBoxFragmentPresenter, Home
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        getPresenter().getData();
+        getPresenter().getData(getArguments());
     }
 
     @Override

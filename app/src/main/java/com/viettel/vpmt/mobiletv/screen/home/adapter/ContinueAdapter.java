@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import butterknife.ButterKnife;
  * Created by neo on 3/24/2016.
  */
 public class ContinueAdapter extends RecyclerView.Adapter<ContinueAdapter.ViewHolder> {
+    private static final int MAX_PROGRESS = 100;
     private List<Content> mContents;
     private Context mContext;
 
@@ -43,19 +45,14 @@ public class ContinueAdapter extends RecyclerView.Adapter<ContinueAdapter.ViewHo
         Content content = mContents.get(position);
 
         // Lazy load cover
-        Picasso.with(mContext)
-                .load(content.getCoverImage())
-                .placeholder(R.drawable.app_logo)
-                .error(R.drawable.app_logo)
-                .fit()
-                .into(holder.mImageView);
+        ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, true);
 
         // Set title
         holder.mTitleTextView.setText(content.getName());
 
         // Set progress
-        holder.mProgressBar.setMax(10);
-        holder.mProgressBar.setProgress(5);
+        holder.mProgressBar.setMax(MAX_PROGRESS);
+        holder.mProgressBar.setProgress(content.getProgress());
 
     }
 
