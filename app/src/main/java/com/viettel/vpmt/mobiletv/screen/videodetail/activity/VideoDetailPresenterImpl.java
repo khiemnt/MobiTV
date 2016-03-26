@@ -15,27 +15,4 @@ public class VideoDetailPresenterImpl extends BasePresenterImpl<VideoDetailView>
     {
         super(view);
     }
-
-    @Override
-    public void getDetailVideo()
-    {
-        if (!NetworkUtils.checkNetwork(mView.getViewContext()))
-        {
-            return;
-        }
-        ServiceBuilder.getService().getDetailVideo(776504).enqueue(new BaseCallback<VideoDetail>()
-        {
-            @Override
-            public void onError(String errorCode, String errorMessage)
-            {
-                mView.onRequestError(errorCode, errorMessage);
-            }
-
-            @Override
-            public void onResponse(VideoDetail data)
-            {
-                mView.doLoadToView(data);
-            }
-        });
-    }
 }

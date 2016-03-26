@@ -8,5 +8,4 @@ import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
  */
 public interface VideoDetailView extends BaseView<VideoDetailPresenter>
 {
-    void doLoadToView(VideoDetail videoDetail);
 }
