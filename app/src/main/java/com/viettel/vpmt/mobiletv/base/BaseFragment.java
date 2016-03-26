@@ -6,25 +6,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.viettel.vpmt.mobiletv.R;
 
 /**
- * Created by ThanhTD on 3/25/2016.
+ * Base Fragment
+ * Created by neo on 3/22/2016.
  */
-public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivity> extends Fragment implements BaseView<P>
-{
-    @Bind(R.id.common_progress_bar)
-    ProgressBar mProgressBar;
+public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivity> extends Fragment implements BaseView<P> {
     private P mPresenter;
     protected View mRootView;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayoutId(), container, false);
 
         // Inject views
@@ -46,45 +40,31 @@ public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivi
 
 
     @Override
-    public P getPresenter()
-    {
+    public P getPresenter() {
         return mPresenter;
     }
 
     @Override
-    public BaseActivity getViewContext()
-    {
+    public BaseActivity getViewContext() {
         return getBaseActivity();
     }
 
-    protected A getBaseActivity()
-    {
+    protected A getBaseActivity() {
         return (A) getActivity();
     }
 
     @Override
-    public void onRequestError(String errorCode, String errorMessage)
-    {
-        if (mProgressBar != null)
-        {
-            mProgressBar.setVisibility(View.GONE);
-        }
+    public void onRequestError(String errorCode, String errorMessage) {
         getBaseActivity().onRequestError(errorCode, errorMessage);
     }
 
     @Override
-    public void onRequestSuccess()
-    {
-        if (mProgressBar != null)
-        {
-            mProgressBar.setVisibility(View.GONE);
-        }
+    public void onRequestSuccess() {
         getBaseActivity().onRequestSuccess();
     }
 
     @Override
-    public void showAlertDialog(String message)
-    {
+    public void showAlertDialog(String message) {
         getBaseActivity().showAlertDialog(message);
     }
 }
