@@ -3,14 +3,14 @@ package com.viettel.vpmt.mobiletv.network;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
-
-import java.util.List;
-
+import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import java.util.List;
 
 /**
  * Restful Services
@@ -20,6 +20,8 @@ public interface MobitvService {
     @GET("default/get-home")
     Call<ResponseDTO<List<Box>>> getHome();
 
+    @GET("video/get-detail")
+    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Query("id") float videoId);
     @POST("auth/authorize")
     Call login();
 

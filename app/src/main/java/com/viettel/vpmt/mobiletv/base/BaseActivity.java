@@ -1,7 +1,6 @@
 package com.viettel.vpmt.mobiletv.base;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
@@ -9,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.DialogUtils;
-import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
-import com.viettel.vpmt.mobiletv.screen.login.LoginActivity;
 
 import butterknife.ButterKnife;
 

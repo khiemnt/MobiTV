@@ -8,6 +8,7 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
+import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

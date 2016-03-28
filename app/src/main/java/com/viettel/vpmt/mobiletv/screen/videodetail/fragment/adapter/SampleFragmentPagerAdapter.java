@@ -4,22 +4,30 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.view.ViewGroup;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.CommentFragment;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoRelativeFragment;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoRelativeListFragment;
+
+import java.util.List;
 
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class SampleFragmentPagerAdapter extends FragmentPagerAdapter
+public class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter
 {
     final int PAGE_COUNT = 2;
     private Context context;
+    private List<Content> videos;
 
-    public SampleFragmentPagerAdapter(FragmentManager fm, Context context)
+    public SampleFragmentPagerAdapter(List<Content> videos, FragmentManager fm, Context context)
     {
         super(fm);
         this.context = context;
+        this.videos = videos;
     }
 
     @Override
@@ -34,12 +42,17 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter
         switch (position)
         {
             case 0:
-                return VideoRelativeFragment.newInstance();
+                return VideoRelativeListFragment.newInstance(videos);
             case 1:
                 return CommentFragment.newInstance();
             default:
-                return VideoRelativeFragment.newInstance();
+                return VideoRelativeListFragment.newInstance(videos);
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object){
+        return POSITION_UNCHANGED;
     }
 
     @Override
@@ -55,5 +68,15 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter
             default:
                 return context.getString(R.string.tab_lien_quan);
         }
+    }
+
+    public List<Content> getVideos()
+    {
+        return videos;
+    }
+
+    public void setVideos(List<Content> videos)
+    {
+        this.videos = videos;
     }
 }

@@ -38,6 +38,8 @@
     <!--video detail-->
     <dimen name="video_detail_title_size">18sp</dimen>
     <dimen name="video_detail_full_description_size">12sp</dimen>
+    <dimen name="video_detail_video_height">211dp</dimen>
+
     <dimen name="menu_width">300dp</dimen>
     <dimen name="menu_avatar_size">34dp</dimen>
 </resources>
