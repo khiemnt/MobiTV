@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.common.util;
 
 import android.content.Context;
+import android.os.Build;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -16,6 +17,14 @@ public class ImageUtils {
      * Lazy load by Picasso
      */
     public static void loadImage(Context context, String imageUrl, ImageView imageView, boolean fit) {
+        if (context == null || imageView == null) {
+            return;
+        }
+
+        if (StringUtils.isEmpty(imageUrl)) {
+            imageUrl = null;
+        }
+
         RequestCreator creator = Picasso.with(context)
                 .load(imageUrl)
                 .placeholder(R.color.image_placeholder)

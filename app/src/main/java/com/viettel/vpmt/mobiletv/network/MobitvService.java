@@ -25,8 +25,7 @@ public interface MobitvService {
 
     @GET("{scope}/{path}")
     Call<ResponseDTO<List<Box>>> getHomeBox(@Path("scope") String scope,
-                                            @Path("path") String path,
-                                            @Query("id") String id);
+                                            @Path("path") String path);
 
     @GET("default/get-more-content")
     Call<ResponseDTO<List<Box>>> getMoreContent(@Query("id") String id,

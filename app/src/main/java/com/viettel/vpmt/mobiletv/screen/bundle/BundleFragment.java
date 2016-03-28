@@ -2,6 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.bundle;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -31,13 +32,15 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
     SuperRecyclerView mRecyclerView;
 
     private Box.Type mBoxType;
+    private String mTitle;
 
-    public static BundleFragment newInstance(Box.Type boxType, String id) {
+    public static BundleFragment newInstance(Box.Type boxType, String id, String title) {
         BundleFragment fragment = new BundleFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(Constants.Extras.BOX_TYPE, boxType);
         args.putSerializable(Constants.Extras.ID, id);
+        args.putSerializable(Constants.Extras.TITLE, title);
 
         fragment.setArguments(args);
         return fragment;
@@ -58,8 +61,37 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
             getBaseActivity().popBackStack();
         }
 
-        mRecyclerView.setupMoreListener(this, BundlePresenter.ITEM_LIMIT);
+        mRecyclerView.setupMoreListener(this, 1);
+
+        // Set title
+        mTitle = getArguments().getString(Constants.Extras.TITLE);
+        setTitle();
+
         getPresenter().getData(mBoxType, id);
+    }
+
+    /**
+     * Set title on ActionBar for this screen
+     */
+    private void setTitle() {
+        ActionBar actionBar = getBaseActivity().getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(mTitle);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setTitle();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitle();
     }
 
     @Override

@@ -72,6 +72,7 @@ dependencies {
     compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.malinskiy:superrecyclerview:+'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }
 
 //    Must at bottom of file because of Google shit

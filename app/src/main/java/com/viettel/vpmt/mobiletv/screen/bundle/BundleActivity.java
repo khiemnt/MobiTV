@@ -33,9 +33,10 @@ public class BundleActivity extends BaseActivity<CommonHomeActivityPresenter> im
         // Extra data
         Box.Type boxType = (Box.Type) getIntent().getSerializableExtra(Constants.Extras.BOX_TYPE);
         String id = getIntent().getStringExtra(Constants.Extras.ID);
+        String title = getIntent().getStringExtra(Constants.Extras.TITLE);
 
         // Home Bundle
-        addMainFragment(BundleFragment.newInstance(boxType, id));
+        addMainFragment(BundleFragment.newInstance(boxType, id, title));
     }
 
     /**

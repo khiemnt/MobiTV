@@ -25,26 +25,20 @@ public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragm
     }
 
     @Override
-    public void getData(Bundle args) {
+    public void getData(String scope, String path) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
 
-        buildRequestAndSend(args);
+        buildRequestAndSend(scope, path);
     }
 
     /**
      * Build request from Fragment Args
-     * @param args Arguments of Fragment
      */
-    private void buildRequestAndSend(Bundle args) {
-        // Get path of request & See all mode(Can load more, paging)
-        String path = args.getString(Constants.Extras.PATH, "");
-        String scope = args.getString(Constants.Extras.SCOPE, "");
-        String id = args.getString(Constants.Extras.ID, "");
-
+    private void buildRequestAndSend(String scope, String path) {
         // Send request
-        ServiceBuilder.getService().getHomeBox(scope, path, id).enqueue(mCallback);
+        ServiceBuilder.getService().getHomeBox(scope, path).enqueue(mCallback);
     }
 
     private BaseCallback<List<Box>> mCallback = new BaseCallback<List<Box>>() {

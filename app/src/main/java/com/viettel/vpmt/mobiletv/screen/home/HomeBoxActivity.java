@@ -3,6 +3,9 @@ package com.viettel.vpmt.mobiletv.screen.home;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,21 +24,25 @@ import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.bundle.BundleActivity;
+import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityPresenter;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityView;
 
 import butterknife.Bind;
 
 
-public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> implements CommonHomeActivityView {
+public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> implements
+        CommonHomeActivityView, FragmentManager.OnBackStackChangedListener {
     private static final java.lang.String TAG = HomeBoxActivity.class.getSimpleName();
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-
     private ActionBarDrawerToggle mDrawerToggle;
+
+    @Bind(R.id.nav_view)
+    NavigationView mNavigationView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,28 +50,33 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
 
         setupToolbar();
         setupDrawerLayout();
-        // Home page
-        Bundle args = new Bundle();
-        args.putString(Constants.Extras.PATH, ApiConstants.PATH_HOME);
-        args.putString(Constants.Extras.SCOPE, ApiConstants.SCOPE_DEFAULT);
-        addFragment(new HomeBoxFragment(), args, false);
+
+        handleNavMenuItem(R.id.nav_home);
+
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        mNavigationView.setCheckedItem(R.id.nav_home);
     }
 
+    /**
+     * Setup configurations of Drawer layout
+     */
     private void setupDrawerLayout() {
         // set a custom shadow that overlays the main content when the drawer opens
 //        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout, mToolbar,
-                R.string.drawer_open, R.string.drawer_close){
+                R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                mDrawerToggle.setDrawerIndicatorEnabled(true);
                 invalidateOptionsMenu();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                syncActionBarHomeButtonState();
                 invalidateOptionsMenu();
             }
 
@@ -74,7 +86,77 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
             }
         };
 
+        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Back button click
+                popBackStack();
+            }
+        });
+
+        mNavigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        handleNavMenuItem(menuItem.getItemId());
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    /**
+     * Handle NavigationView menu item clicked
+     */
+    private void handleNavMenuItem(int menuItemId) {
+        String scope = null;
+        String path = null;
+        String title = null;
+
+        switch (menuItemId) {
+            case R.id.nav_home:
+                scope = ApiConstants.SCOPE_DEFAULT;
+                path = ApiConstants.PATH_HOME;
+                title = getString(R.string.title_home_page);
+                break;
+            case R.id.nav_tv_home:
+                scope = ApiConstants.SCOPE_CHANNEL;
+                path = ApiConstants.PATH_HOME_CHANNEL;
+                title = getString(R.string.title_tv_home);
+                break;
+            case R.id.nav_video_home:
+                scope = ApiConstants.SCOPE_VIDEO;
+                path = ApiConstants.PATH_HOME_VIDEO;
+                title = getString(R.string.title_video_home);
+                break;
+            case R.id.nav_film_home:
+                scope = ApiConstants.SCOPE_FILM;
+                path = ApiConstants.PATH_HOME_FILM;
+                title = getString(R.string.title_film_home);
+                break;
+            case R.id.nav_kids_home:
+//                scope = ApiConstants.SCOPE_FILM;
+//                path = ApiConstants.PATH_HOME_FILM;
+                title = getString(R.string.title_kids_home);
+                break;
+            case R.id.nav_game_home:
+//                scope = ApiConstants.SCOPE_FILM;
+//                path = ApiConstants.PATH_HOME_FILM;
+                title = getString(R.string.title_game_home);
+                break;
+        }
+
+        if (scope != null && path != null) {
+            // Home page
+            Bundle args = new Bundle();
+            args.putString(Constants.Extras.SCOPE, scope);
+            args.putString(Constants.Extras.PATH, path);
+            replaceFragment(HomeBoxFragment.newInstance(scope, path, title), null, false);
+        } else {
+            BaseFragment fragment = new HomeFakeFragment();
+            replaceFragment(fragment, null, false);
+        }
     }
 
     // `onPostCreate` called when activity start-up is complete after `onStart()`
@@ -102,8 +184,9 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.title_home_page);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
     }
 
@@ -127,9 +210,17 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.isDrawerIndicatorEnabled() && mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case R.id.action_search:
                 Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                break;
+            case android.R.id.home:
                 break;
             default:
                 break;
@@ -158,6 +249,35 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
     }
 
     /**
+     * Replace main fragment
+     */
+    public void replaceFragment(BaseFragment fragment, Bundle args, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+
+        transaction.replace(R.id.common_content_frame, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment.getClass().getSimpleName());
+        }
+
+        transaction.commit();
+    }
+
+    /**
+     * Add child fragment
+     */
+    public void addChildFragment(BaseFragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.common_content_frame, fragment);
+        transaction.addToBackStack(fragment.getClass().getSimpleName());
+        transaction.commit();
+    }
+
+    /**
      * Pop last fragment
      */
     public void popBackStack() {
@@ -169,7 +289,41 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
      */
     public void openBundleHome(Box.Type type, String id) {
         startActivity(new Intent(this, BundleActivity.class)
-        .putExtra(Constants.Extras.BOX_TYPE, type)
-        .putExtra(Constants.Extras.ID, id));
+                .putExtra(Constants.Extras.BOX_TYPE, type)
+                .putExtra(Constants.Extras.ID, id));
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        syncActionBarHomeButtonState();
+
+        FragmentManager manager = getSupportFragmentManager();
+        if (manager != null) {
+            for (Fragment fragment : manager.getFragments()) {
+                if (fragment instanceof HomeBoxFragment || fragment instanceof BundleFragment) {
+                    fragment.onResume();
+                }
+            }
+        }
+    }
+
+    /**
+     * Sync action bar home button state
+     */
+    private void syncActionBarHomeButtonState() {
+        int backStackEntryCount =
+                getSupportFragmentManager().getBackStackEntryCount();
+        boolean hasChild = backStackEntryCount > 0;
+        mDrawerToggle.setDrawerIndicatorEnabled(!hasChild);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(hasChild);
+        getSupportActionBar().setHomeButtonEnabled(hasChild);
+        mDrawerToggle.syncState();
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getSupportFragmentManager().removeOnBackStackChangedListener(this);
+        super.onDestroy();
     }
 }

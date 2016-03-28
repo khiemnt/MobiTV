@@ -9,5 +9,5 @@ import com.viettel.vpmt.mobiletv.base.BasePresenter;
  * Created by neo on 3/22/2016.
  */
 public interface HomeBoxFragmentPresenter extends BasePresenter {
-    void getData(Bundle args);
+    void getData(String scope, String path);
 }

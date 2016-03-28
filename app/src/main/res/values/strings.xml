@@ -22,4 +22,14 @@
     <string name="tab_binh_luan">BÌNH LUẬN</string>
     <string name="loading">Đang tải…</string>
     <string name="no_data">Không có dữ liệu.</string>
+    <string name="title_tv_home">TV</string>
+    <string name="title_video_home">Video</string>
+    <string name="title_film_home">Phim</string>
+    <string name="title_kids_home">Kids</string>
+    <string name="title_game_home">Game</string>
+    <string name="title_postage_package">Gói cước</string>
+    <string name="title_notification">Thông báo</string>
+    <string name="title_setting">Thiết lập</string>
+    <string name="title_share">Chia sẻ</string>
+    <string name="title_rate_app">Đánh giá ứng dụng</string>
 </resources>

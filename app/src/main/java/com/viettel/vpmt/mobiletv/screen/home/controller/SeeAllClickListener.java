@@ -32,7 +32,9 @@ public class SeeAllClickListener implements View.OnClickListener {
         args.putString(Constants.Extras.PATH, ApiConstants.PATH_GET_MORE_CONTENT);
         args.putString(Constants.Extras.SCOPE, ApiConstants.SCOPE_DEFAULT);
         args.putString(Constants.Extras.ID, mBox.getId());
+        args.putString(Constants.Extras.TITLE, mBox.getName());
 
-        mBaseActivity.openBundleHome(mBox.getType(), mBox.getId());
+//        mBaseActivity.openBundleHome(mBox.getType(), mBox.getId());
+        mBaseActivity.addChildFragment(BundleFragment.newInstance(mBox.getType(), mBox.getId(), mBox.getName()));
     }
 }

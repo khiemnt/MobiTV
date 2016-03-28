@@ -12,5 +12,6 @@ public interface Constants {
         String SCOPE = "scope";
         String ID = "id";
         String BOX_TYPE = "box_type";
+        String TITLE = "title";
     }
 }
