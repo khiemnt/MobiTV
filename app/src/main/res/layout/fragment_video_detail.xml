@@ -81,7 +81,7 @@
                           android:textSize="@dimen/video_detail_full_description_size"
                           android:text="Tag: Antoine Griezman, Ronaldo"/>
 
-                <com.viewpagerindicator.TitlePageIndicator
+                <android.support.design.widget.TabLayout
                         android:id="@+id/sliding_tabs"
                         android:layout_height="45dp"
                         android:layout_gravity="center"

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeView> implements VideoRelativePresenter
 {
-    private List<Content> videos = new ArrayList<>();
+    private List<Content> videos;
 
     public VideoRelativePresenterImpl(VideoRelativeView view)
     {

@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.*;
 import butterknife.Bind;
@@ -37,7 +38,7 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     @Bind(R.id.viewpager)
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
-    TitlePageIndicator tabLayout;
+    TabLayout tabLayout;
     SampleFragmentPagerAdapter adapter;
 
     @Override
@@ -99,8 +100,7 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
             adapter = new SampleFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             viewPager.setAdapter(adapter);
         }
-        adapter.notifyDataSetChanged();
-        tabLayout.setViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
         hideProgress();
     }
 

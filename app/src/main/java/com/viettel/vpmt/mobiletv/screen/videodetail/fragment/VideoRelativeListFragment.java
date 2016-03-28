@@ -65,7 +65,6 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
     public void loadRelativeVideo(RecyclerViewAdapter recyclerViewAdapter)
     {
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     public void setVideos(List<Content> videos)

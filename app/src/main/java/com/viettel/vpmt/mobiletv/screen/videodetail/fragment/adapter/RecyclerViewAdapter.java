@@ -1,9 +1,6 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +11,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailPresenterImpl;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragment;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragmentPresenter;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragmentPresenterImpl;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.item.ImageItem;
 
 import java.util.List;
@@ -81,15 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v)
             {
-                ((VideoDetailActivity)context).getFragment().getPresenter().getDetailVideo(imageItems.get(position).getVideoId());
-//                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-//                Bundle bundle = new Bundle();
-//                bundle.putFloat("videoId", imageItems.get(position).getVideoId());
-//                VideoDetailFragment fragment = new VideoDetailFragment();
-//                fragment.setArguments(bundle);
-//                transaction.add(R.id.video_detail_frame_layout, fragment);
-//                transaction.commit();
-
+                ((VideoDetailActivity) context).getFragment().getPresenter().getDetailVideo(imageItems.get(position).getVideoId());
             }
         });
     }
@@ -105,17 +90,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image = (ImageView) itemView.findViewById(R.id.item_video_iv);
             title = (TextView) itemView.findViewById(R.id.item_video_title_tv);
         }
-    }
-
-    public List<ImageItem> getImageItems()
-    {
-        return imageItems;
-    }
-
-    public void setImageItems(List<ImageItem> imageItems)
-    {
-        this.imageItems.clear();
-        this.imageItems = imageItems;
-        this.notifyDataSetChanged();
     }
 }
