@@ -23,6 +23,7 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
         {
             return;
         }
+        mView.showProgress();
         ServiceBuilder.getService().getDetailVideo(videoId).enqueue(new BaseCallback<VideoDetail>()
         {
             @Override

@@ -1,13 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import butterknife.Bind;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
@@ -23,8 +17,6 @@ import java.util.List;
  */
 public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresenter, VideoDetailActivity> implements VideoRelativeView
 {
-    @Bind(R.id.common_progress_bar)
-    ProgressBar mProgressBar;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
     List<Content> videos = new ArrayList<>();
@@ -46,19 +38,11 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
     @Override
     public void showProgress()
     {
-        if (mProgressBar != null)
-        {
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void hideProgress()
     {
-        if (mProgressBar != null)
-        {
-            mProgressBar.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -82,7 +66,6 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
     {
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
-        recyclerView.invalidate();
     }
 
     public void setVideos(List<Content> videos)

@@ -13,7 +13,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailPresenterImpl;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragment;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragmentPresenter;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragmentPresenterImpl;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.item.ImageItem;
 
 import java.util.List;
@@ -77,13 +81,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v)
             {
-                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                Bundle bundle = new Bundle();
-                bundle.putFloat("videoId", imageItems.get(position).getVideoId());
-                VideoDetailFragment fragment = new VideoDetailFragment();
-                fragment.setArguments(bundle);
-                transaction.add(R.id.video_detail_frame_layout, fragment);
-                transaction.commit();
+                ((VideoDetailActivity)context).getFragment().getPresenter().getDetailVideo(imageItems.get(position).getVideoId());
+//                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+//                Bundle bundle = new Bundle();
+//                bundle.putFloat("videoId", imageItems.get(position).getVideoId());
+//                VideoDetailFragment fragment = new VideoDetailFragment();
+//                fragment.setArguments(bundle);
+//                transaction.add(R.id.video_detail_frame_layout, fragment);
+//                transaction.commit();
+
             }
         });
     }
@@ -101,4 +107,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    public List<ImageItem> getImageItems()
+    {
+        return imageItems;
+    }
+
+    public void setImageItems(List<ImageItem> imageItems)
+    {
+        this.imageItems.clear();
+        this.imageItems = imageItems;
+        this.notifyDataSetChanged();
+    }
 }

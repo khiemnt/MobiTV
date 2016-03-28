@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeView> implements VideoRelativePresenter
 {
-    private List<Content> videos;
+    private List<Content> videos = new ArrayList<>();
 
     public VideoRelativePresenterImpl(VideoRelativeView view)
     {
@@ -32,7 +32,7 @@ public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeV
         List<ImageItem> imageItems = new ArrayList<>();
         for (Content content : videos)
         {
-            imageItems.add(new ImageItem(content.getId(),content.getAvatarImage(), content.getDescription()));
+            imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription()));
         }
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(imageItems, mView.getViewContext());
         mView.loadRelativeVideo(recyclerViewAdapter);

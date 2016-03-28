@@ -11,6 +11,8 @@ import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragment
  */
 public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> implements VideoDetailView
 {
+    VideoDetailFragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,7 +25,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putFloat("videoId", 776504);
-        VideoDetailFragment fragment = new VideoDetailFragment();
+        fragment = new VideoDetailFragment();
         fragment.setArguments(bundle);
         transaction.add(R.id.video_detail_frame_layout, fragment);
         transaction.commit();
@@ -39,5 +41,10 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     public VideoDetailPresenter onCreatePresenter()
     {
         return new VideoDetailPresenterImpl(this);
+    }
+
+    public VideoDetailFragment getFragment()
+    {
+        return fragment;
     }
 }

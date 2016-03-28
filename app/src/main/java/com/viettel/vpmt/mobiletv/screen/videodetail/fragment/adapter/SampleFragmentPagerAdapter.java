@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.view.ViewGroup;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.CommentFragment;
@@ -46,6 +48,11 @@ public class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter
             default:
                 return VideoRelativeListFragment.newInstance(videos);
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object){
+        return POSITION_UNCHANGED;
     }
 
     @Override
