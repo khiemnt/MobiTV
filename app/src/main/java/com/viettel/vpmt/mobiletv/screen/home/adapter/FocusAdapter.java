@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import java.util.List;
 
@@ -58,6 +59,9 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> 
         if (!content.isLive()) {
             holder.mDescTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
+
+        // Click item behavior
+        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class BannerAdapter extends PagerAdapter {
 
         container.addView(view, 0);
 
+        view.setOnClickListener(new ContentItemClickListener(mContext, content));
         return view;
     }
 

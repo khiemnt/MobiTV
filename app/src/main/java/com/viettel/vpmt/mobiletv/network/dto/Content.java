@@ -12,7 +12,7 @@ public class Content {
     @SerializedName("name")
     private String mName;
     @SerializedName("type")
-    private String mType;
+    private Type mType;
     @SerializedName("description")
     private String mDescription;
     @SerializedName("tag")
@@ -48,11 +48,11 @@ public class Content {
         mName = name;
     }
 
-    public String getType() {
+    public Type getType() {
         return mType;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         mType = type;
     }
 
