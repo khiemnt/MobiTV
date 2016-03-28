@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_bg_color">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:id="@+id/llContent"
+                  android:layout_marginLeft="@dimen/app_margin_left"
+                  android:layout_marginRight="@dimen/app_margin_right"
+                  android:orientation="vertical">
+        <VideoView android:layout_width="match_parent"
+                   android:layout_height="@dimen/video_detail_video_height"
+                   android:layout_marginBottom="5dp"
+                   android:layout_gravity="center"
+                   android:id="@+id/film_detail_layout_video"/>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:fillViewport="true"
+                android:layout_below="@id/film_detail_layout_video"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:maxLines="2"
+                          android:ellipsize="end"
+                          android:textColor="@android:color/white"
+                          android:id="@+id/fragment_film_detail_tvTitle"
+                          android:textSize="@dimen/video_detail_title_size"
+                          android:text="Thanh pho toi loiThanh pho toi "/>
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:maxLines="2"
+                              android:ellipsize="end"
+                              android:textSize="@dimen/video_detail_full_description_size"
+                              android:textColor="@android:color/white"
+                              android:id="@+id/fragment_film_detail_tvShortDes"
+                              android:text="Thanh pho toi loiThanh"/>
+                    <RatingBar android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               style = "?android:attr/ratingBarStyleIndicator"
+                               android:layout_below="@id/fragment_film_detail_tvShortDes"
+                               android:numStars="5"
+                               android:stepSize="1.0"
+                               android:rating="2.0"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:padding="@dimen/margin_left_medium"
+                              android:layout_centerInParent="true"
+                              android:text="@string/favorite"
+                              android:textColor="@color/white"
+                              android:gravity="center"
+                              android:textSize="@dimen/video_detail_full_description_size"
+                              android:layout_alignParentRight="true"
+                              android:drawableLeft="@android:drawable/ic_input_add"/>
+                </RelativeLayout>
+
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/fragment_film_detail_tvFullDes"
+                          android:maxLines="3"
+                          android:textSize="@dimen/video_detail_full_description_size"
+                          android:layout_marginBottom="@dimen/padding_small"
+                          android:ellipsize="end"
+                          android:textColor="@android:color/white"
+                          android:text="1chem gio  chem gio chem g45 45 545 io chem gio chem gio chemchem gio chem gio chemchem gio chem gio chemchem gio chem gio chemchem gio chem gio chem chem gio chem gio chem chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio chem gio 132456"/>
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/fragment_film_detail_tvActor"
+                          android:textColor="@color/grey"
+                          android:textSize="@dimen/video_detail_full_description_size"
+                          android:text="Diễn viên: Antoine Griezman, Ronaldo"/>
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/fragment_film_detail_tvCountry"
+                          android:textColor="@color/grey"
+                          android:textSize="@dimen/video_detail_full_description_size"
+                          android:text="Quốc gia: Ozawa"/>
+
+                <android.support.design.widget.TabLayout
+                        android:id="@+id/sliding_tabs"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        style="@style/MyCustomTabLayout"
+                        android:layout_width="match_parent"/>
+                <com.viettel.vpmt.mobiletv.screen.film.utils.WrapContentHeightViewPager
+                        android:id="@+id/viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/padding_medium"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:background="@color/common_bg_color"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/view_transparent"
+          android:visibility="gone"
+          android:background="#739E9E9E"/>
+    <ProgressBar
+            android:id="@+id/common_progress_bar"
+            style="@android:style/Widget.ProgressBar"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+</RelativeLayout>

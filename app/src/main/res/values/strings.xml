@@ -20,4 +20,7 @@
     <string name="favorite">Yêu thích</string>
     <string name="tab_lien_quan">LIÊN QUAN</string>
     <string name="tab_binh_luan">BÌNH LUẬN</string>
+    <string name="tag">Tag:</string>
+    <string name="actor">Diễn viên:\u0020</string>
+    <string name="country">Quốc gia:\u0020</string>
 </resources>

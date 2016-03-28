@@ -31,6 +31,8 @@
         <activity
                 android:name=".screen.videodetail.activity.VideoDetailActivity"
                 android:screenOrientation="portrait"/>
+        <activity android:name=".screen.film.activity.DetailFilmFilmActivity"
+                  android:screenOrientation="portrait"/>
         <!-- Fabric -->
         <meta-data
             android:name="io.fabric.ApiKey"

@@ -15,6 +15,14 @@ public class Content {
     private String mType;
     @SerializedName("description")
     private String mDescription;
+    @SerializedName("shortDescription")
+    private String shortDescription;
+    @SerializedName("duration")
+    private float duration;
+    @SerializedName("actors")
+    private String actors;
+    @SerializedName("country")
+    private String country;
     @SerializedName("tag")
     private String tag;
     @SerializedName("coverImage")
@@ -80,6 +88,46 @@ public class Content {
 
     public void setAvatarImage(String avatarImage) {
         mAvatarImage = avatarImage;
+    }
+
+    public String getShortDescription()
+    {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription)
+    {
+        this.shortDescription = shortDescription;
+    }
+
+    public float getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(float duration)
+    {
+        this.duration = duration;
+    }
+
+    public String getActors()
+    {
+        return actors;
+    }
+
+    public void setActors(String actors)
+    {
+        this.actors = actors;
+    }
+
+    public String getCountry()
+    {
+        return country;
+    }
+
+    public void setCountry(String country)
+    {
+        this.country = country;
     }
 
     public String getTag()

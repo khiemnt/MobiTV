@@ -1,29 +1,26 @@
-package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
+package com.viettel.vpmt.mobiletv.screen.film.fragment.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.ViewGroup;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.CommentFragment;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoRelativeListFragment;
+import com.viettel.vpmt.mobiletv.screen.film.fragment.CommentFragment;
+import com.viettel.vpmt.mobiletv.screen.film.fragment.FilmRelativeListFragment;
 
 import java.util.List;
 
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter
+public class FilmFragmentPagerAdapter extends FragmentStatePagerAdapter
 {
     final int PAGE_COUNT = 2;
     private Context context;
     private List<Content> videos;
 
-    public SampleFragmentPagerAdapter(List<Content> videos, FragmentManager fm, Context context)
+    public FilmFragmentPagerAdapter(List<Content> videos, FragmentManager fm, Context context)
     {
         super(fm);
         this.context = context;
@@ -42,11 +39,11 @@ public class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter
         switch (position)
         {
             case 0:
-                return VideoRelativeListFragment.newInstance(videos);
+                return FilmRelativeListFragment.newInstance(videos);
             case 1:
                 return CommentFragment.newInstance();
             default:
-                return VideoRelativeListFragment.newInstance(videos);
+                return FilmRelativeListFragment.newInstance(videos);
         }
     }
 

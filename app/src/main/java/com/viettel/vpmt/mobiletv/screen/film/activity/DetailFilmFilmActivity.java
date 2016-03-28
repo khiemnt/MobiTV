@@ -1,17 +1,17 @@
-package com.viettel.vpmt.mobiletv.screen.videodetail.activity;
+package com.viettel.vpmt.mobiletv.screen.film.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragment;
+import com.viettel.vpmt.mobiletv.screen.film.fragment.DetailFilmDetailFilmFragment;
 
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> implements VideoDetailView
+public class DetailFilmFilmActivity extends BaseActivity<DetailFilmPresenter> implements DetailFilmView
 {
-    VideoDetailFragment fragment;
+    DetailFilmDetailFilmFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,8 +24,9 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
-        bundle.putFloat("videoId", 776504);
-        fragment = new VideoDetailFragment();
+        bundle.putFloat("filmId", 6707);
+        bundle.putFloat("part", 0);
+        fragment = new DetailFilmDetailFilmFragment();
         fragment.setArguments(bundle);
         transaction.add(R.id.frame_layout, fragment);
         transaction.commit();
@@ -38,12 +39,12 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     }
 
     @Override
-    public VideoDetailPresenter onCreatePresenter()
+    public DetailFilmPresenter onCreatePresenter()
     {
-        return new VideoDetailPresenterImpl(this);
+        return new DetailFilmPresenterImpl(this);
     }
 
-    public VideoDetailFragment getFragment()
+    public DetailFilmDetailFilmFragment getFragment()
     {
         return fragment;
     }

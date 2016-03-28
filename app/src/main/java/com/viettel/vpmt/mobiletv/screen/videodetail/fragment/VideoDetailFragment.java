@@ -12,9 +12,8 @@ import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.SampleFragmentPagerAdapter;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager;
-import com.viewpagerindicator.TitlePageIndicator;
 
 /**
  * Created by ThanhTD on 3/26/2016.
@@ -39,7 +38,7 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
-    SampleFragmentPagerAdapter adapter;
+    VideoFragmentPagerAdapter adapter;
 
     @Override
     protected int getLayoutId()
@@ -97,7 +96,7 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
         if (videoDetail.getVideoRelated() != null)
         {
-            adapter = new SampleFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
+            adapter = new VideoFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
