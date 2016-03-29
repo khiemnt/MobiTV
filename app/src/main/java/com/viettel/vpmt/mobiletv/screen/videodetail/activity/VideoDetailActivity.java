@@ -2,6 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.activity;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
+import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.VideoDetailFragment;
 
 import android.os.Bundle;
@@ -12,17 +13,19 @@ import android.support.v4.app.FragmentTransaction;
  */
 public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> implements VideoDetailView {
     VideoDetailFragment fragment;
+    String videoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment();
+        videoId = getIntent().getStringExtra(Constants.Extras.ID);
+        addFragment(videoId);
     }
 
-    private void addFragment() {
+    private void addFragment(String videoId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
-        bundle.putFloat("videoId", 776504);
+        bundle.putFloat("videoId", Float.valueOf(videoId));
         fragment = new VideoDetailFragment();
         fragment.setArguments(bundle);
         transaction.add(R.id.frame_layout, fragment);

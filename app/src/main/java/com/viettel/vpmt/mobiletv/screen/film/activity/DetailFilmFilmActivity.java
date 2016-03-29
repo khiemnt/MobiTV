@@ -2,6 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.film.activity;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
+import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.DetailFilmDetailFilmFragment;
 
 import android.os.Bundle;
@@ -12,17 +13,19 @@ import android.support.v4.app.FragmentTransaction;
  */
 public class DetailFilmFilmActivity extends BaseActivity<DetailFilmPresenter> implements DetailFilmView {
     DetailFilmDetailFilmFragment fragment;
+    String filmId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment();
+        filmId = getIntent().getStringExtra(Constants.Extras.ID);
+        addFragment(filmId);
     }
 
-    private void addFragment() {
+    private void addFragment(String filmId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
-        bundle.putFloat("filmId", 6707);
+        bundle.putFloat("filmId", Float.valueOf(filmId));
         bundle.putFloat("part", 0);
         fragment = new DetailFilmDetailFilmFragment();
         fragment.setArguments(bundle);
