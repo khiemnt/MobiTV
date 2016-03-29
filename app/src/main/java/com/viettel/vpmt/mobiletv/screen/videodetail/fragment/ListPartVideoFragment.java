@@ -2,6 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerViewPartVideoAdapter;
@@ -22,11 +23,11 @@ public class ListPartVideoFragment extends BaseFragment<ListPartVideoPresenter, 
     @Bind(R.id.list_part_recyclerView)
     RecyclerView mRecyclerView;
 
-    List<PartOfVideo> parts = new ArrayList<>();
+    List<Content> parts = new ArrayList<>();
     int positionActive = 0;
     float filmId = 0;
 
-    public static ListPartVideoFragment newInstance(List<PartOfVideo> parts, float filmId, int positionActive) {
+    public static ListPartVideoFragment newInstance(List<Content> parts, float filmId, int positionActive) {
         ListPartVideoFragment listPartFilmFragment = new ListPartVideoFragment();
         listPartFilmFragment.setParts(parts);
         listPartFilmFragment.setPositionActive(positionActive);
@@ -70,7 +71,7 @@ public class ListPartVideoFragment extends BaseFragment<ListPartVideoPresenter, 
         return new ListPartVideoPresenterImpl(this);
     }
 
-    public void setParts(List<PartOfVideo> parts) {
+    public void setParts(List<Content> parts) {
         this.parts = parts;
     }
 

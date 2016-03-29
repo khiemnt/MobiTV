@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,7 +34,7 @@ public class RecyclerViewPartVideoAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.part_film, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.part_video, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -42,7 +45,21 @@ public class RecyclerViewPartVideoAdapter extends RecyclerView.Adapter<RecyclerV
         if (position == positionActive) {
             holder.title.setBackgroundResource(R.drawable.background_part_selected);
         }
-        holder.title.setOnClickListener(new View.OnClickListener() {
+        Picasso.with(mContext)
+                .load(parts.get(position).getUrlAvatar())
+                .placeholder(R.mipmap.ic_launcher)
+                .fit()
+                .into(holder.mImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
+
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.title.setBackgroundResource(R.drawable.background_part_selected);
@@ -57,11 +74,13 @@ public class RecyclerViewPartVideoAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public ImageView mImageView;
         public TextView title;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tvNumber);
+            mImageView = (ImageView) itemView.findViewById(R.id.item_video_iv);
+            title = (TextView) itemView.findViewById(R.id.item_video_title_tv);
         }
     }
 }

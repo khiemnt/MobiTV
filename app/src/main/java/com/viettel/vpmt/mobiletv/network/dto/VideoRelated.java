@@ -11,6 +11,7 @@ public class VideoRelated {
     private String id;
     private String name;
     private Box.Type type;
+    private int count;
     @SerializedName("content")
     private List<Content> contents;
 
@@ -44,5 +45,13 @@ public class VideoRelated {
 
     public void setContents(List<Content> contents) {
         this.contents = contents;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -7,15 +7,18 @@ import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoFragmentPagerAdapter;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoPartFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
@@ -31,8 +34,6 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
     View transparent;
-    //    @Bind(R.id.video_detail_layout_video)
-//    VideoView videoView;
     @Bind(R.id.fragment_video_detail_tvTitle)
     TextView tvTitle;
     @Bind(R.id.fragment_video_detail_tvFullDes)
@@ -45,7 +46,8 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
-    VideoFragmentPagerAdapter adapter;
+    FragmentStatePagerAdapter adapter;
+    private float videoId = 0;
 
     @Override
     protected int getLayoutId() {
@@ -83,7 +85,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     }
 
     @Override
-    public void doLoadToView(VideoDetail videoDetail) {
+    public void doLoadToView(VideoDetail videoDetail, int positionPartActive) {
         String url = videoDetail.getStreams().getUrlStreaming();
         if (!StringUtils.isEmpty(url)) {
             initPlayer(Uri.parse(url), Util.TYPE_OTHER);
@@ -99,10 +101,13 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         else
             tvTag.setVisibility(View.GONE);
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
-
-        //// TODO: 3/29/2016 check init option adapter for view video or tvShow
         if (videoDetail.getVideoRelated() != null) {
-            adapter = new VideoFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
+            if (videoDetail.getVideoRelated().getType().equals(Box.Type.TVSHOW)) {
+                adapter = new VideoPartFragmentPagerAdapter(videoId, positionPartActive, videoDetail.getVideoRelated().getContents(),
+                        getActivity().getSupportFragmentManager(), getActivity());
+            } else {
+                adapter = new VideoFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
+            }
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);

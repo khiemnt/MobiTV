@@ -9,8 +9,8 @@ import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public class DetailFilmFragmentPresenterImpl extends BasePresenterImpl<DetailFilmFragmentView> implements DetailFilmFragmentPresenter {
-    public DetailFilmFragmentPresenterImpl(DetailFilmFragmentView view) {
+public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<DetailFilmFragmentView> implements FilmDetailFragmentPresenter {
+    public FilmDetailFragmentPresenterImpl(DetailFilmFragmentView view) {
         super(view);
     }
 

@@ -12,11 +12,6 @@
                   android:layout_marginLeft="@dimen/app_margin_left"
                   android:layout_marginRight="@dimen/app_margin_right"
                   android:orientation="vertical">
-        <!--<VideoView android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/video_detail_video_height"-->
-        <!--android:layout_marginBottom="5dp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:id="@+id/video_detail_layout_video"/>-->
         <include
             android:id="@+id/player_root"
             layout="@layout/layout_player"/>

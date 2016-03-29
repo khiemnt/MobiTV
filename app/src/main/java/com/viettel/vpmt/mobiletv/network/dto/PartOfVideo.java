@@ -6,6 +6,13 @@ package com.viettel.vpmt.mobiletv.network.dto;
 public class PartOfVideo {
     private float id;
     private String name;
+    private String urlAvatar;
+
+    public PartOfVideo(Float id, String name, String urlAvatar) {
+        this.id = id;
+        this.name = name;
+        this.urlAvatar = urlAvatar;
+    }
 
     public float getId() {
         return id;
@@ -21,5 +28,13 @@ public class PartOfVideo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrlAvatar() {
+        return urlAvatar;
+    }
+
+    public void setUrlAvatar(String urlAvatar) {
+        this.urlAvatar = urlAvatar;
     }
 }

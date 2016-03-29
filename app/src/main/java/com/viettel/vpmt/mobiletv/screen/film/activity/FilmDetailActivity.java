@@ -3,7 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.film.activity;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.common.Constants;
-import com.viettel.vpmt.mobiletv.screen.film.fragment.DetailFilmDetailFilmFragment;
+import com.viettel.vpmt.mobiletv.screen.film.fragment.FilmDetailFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -11,8 +11,8 @@ import android.support.v4.app.FragmentTransaction;
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class DetailFilmFilmActivity extends BaseActivity<DetailFilmPresenter> implements DetailFilmView {
-    DetailFilmDetailFilmFragment fragment;
+public class FilmDetailActivity extends BaseActivity<FilmDetailPresenter> implements DetailFilmView {
+    FilmDetailFragment fragment;
     String filmId;
 
     @Override
@@ -27,7 +27,7 @@ public class DetailFilmFilmActivity extends BaseActivity<DetailFilmPresenter> im
         Bundle bundle = new Bundle();
         bundle.putFloat("filmId", Float.valueOf(filmId));
         bundle.putFloat("part", 0);
-        fragment = new DetailFilmDetailFilmFragment();
+        fragment = new FilmDetailFragment();
         fragment.setArguments(bundle);
         transaction.add(R.id.frame_layout, fragment);
         transaction.commit();
@@ -39,11 +39,11 @@ public class DetailFilmFilmActivity extends BaseActivity<DetailFilmPresenter> im
     }
 
     @Override
-    public DetailFilmPresenter onCreatePresenter() {
-        return new DetailFilmPresenterImpl(this);
+    public FilmDetailPresenter onCreatePresenter() {
+        return new FilmDetailPresenterImpl(this);
     }
 
-    public DetailFilmDetailFilmFragment getFragment() {
+    public FilmDetailFragment getFragment() {
         return fragment;
     }
 }
