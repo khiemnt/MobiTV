@@ -1,10 +1,13 @@
 package com.viettel.vpmt.mobiletv.base;
 
-import com.viettel.vpmt.mobiletv.common.util.DialogUtils;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.DialogUtils;
 
 import butterknife.ButterKnife;
 

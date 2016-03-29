@@ -1,14 +1,15 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
+import android.os.Bundle;
+
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
-
-import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
@@ -19,31 +20,39 @@ import java.util.List;
 public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragmentView> implements HomeBoxFragmentPresenter {
     private static final String TAG = HomeBoxFragmentPresenterImpl.class.getSimpleName();
 
-    private RecyclerView.Adapter mAdapter;
-
     public HomeBoxFragmentPresenterImpl(HomeBoxFragmentView view) {
         super(view);
     }
 
     @Override
-    public void getData() {
+    public void getData(String scope, String path) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
 
-        ServiceBuilder.getService().getHome().enqueue(new BaseCallback<List<Box>>() {
-            @Override
-            public void onError(String errorCode, String errorMessage) {
-                mView.onRequestError(errorCode, errorMessage);
-            }
-
-            @Override
-            public void onResponse(List<Box> data) {
-                mView.onRequestSuccess();
-                Logger.i(TAG, "SS==== " + data.size());
-                HomeBoxAdapter homeBoxAdapter = new HomeBoxAdapter(mView.getViewContext(), data);
-                mView.loadBox(homeBoxAdapter);
-            }
-        });
+        buildRequestAndSend(scope, path);
     }
+
+    /**
+     * Build request from Fragment Args
+     */
+    private void buildRequestAndSend(String scope, String path) {
+        // Send request
+        ServiceBuilder.getService().getHomeBox(scope, path).enqueue(mCallback);
+    }
+
+    private BaseCallback<List<Box>> mCallback = new BaseCallback<List<Box>>() {
+        @Override
+        public void onError(String errorCode, String errorMessage) {
+            mView.onRequestError(errorCode, errorMessage);
+        }
+
+        @Override
+        public void onResponse(List<Box> data) {
+            mView.onRequestSuccess();
+            Logger.i(TAG, "SS==== " + data.size());
+            HomeBoxAdapter homeBoxAdapter = new HomeBoxAdapter(mView.getViewContext(), data);
+            mView.loadBox(homeBoxAdapter);
+        }
+    };
 }

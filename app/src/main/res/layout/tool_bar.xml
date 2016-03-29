@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.viettel.vpmt.mobiletv.common.view.SquareImage
+            android:id="@+id/toolbar_back_iv"
+            style="@style/ActionBarIcon"
+            android:src="@drawable/ic_back"/>
+
+        <com.viettel.vpmt.mobiletv.common.view.CTextView
+            android:id="@+id/toolbar_title_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_medium"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:typeFaceFont="@string/OpenSans"
+            app:typeFaceStyle="@string/Medium"/>
+
+        <ImageView
+            android:id="@+id/toolbar_share_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:src="@drawable/ic_share"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/toolbar_search_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_medium"
+            android:background="@drawable/bg_toolbar_icon"
+            android:src="@drawable/ic_search"/>
+    </LinearLayout>
+</android.support.v7.widget.Toolbar>

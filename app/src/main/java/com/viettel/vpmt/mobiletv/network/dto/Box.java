@@ -53,10 +53,10 @@ public class Box {
     public enum Type {
         @SerializedName("BANNER")
         BANNER,
-        @SerializedName("VIDEO")
-        VIDEO,
-        @SerializedName("CHANNEL")
-        CHANNEL,
+        @SerializedName("VOD")
+        VOD,
+        @SerializedName("LIVETV")
+        LIVETV,
         @SerializedName("CONTINUE")
         CONTINUE,
         @SerializedName("FOCUS")

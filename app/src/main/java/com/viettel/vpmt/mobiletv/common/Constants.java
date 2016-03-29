@@ -6,4 +6,12 @@ package com.viettel.vpmt.mobiletv.common;
  */
 public interface Constants {
     String CODE_SUCCESS = "200";
+
+    interface Extras {
+        String PATH = "path";
+        String SCOPE = "scope";
+        String ID = "id";
+        String BOX_TYPE = "box_type";
+        String TITLE = "title";
+    }
 }

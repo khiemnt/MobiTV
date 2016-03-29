@@ -12,7 +12,7 @@ public class Content {
     @SerializedName("name")
     private String mName;
     @SerializedName("type")
-    private String mType;
+    private Type mType;
     @SerializedName("description")
     private String mDescription;
     @SerializedName("shortDescription")
@@ -33,6 +33,12 @@ public class Content {
     private String mItemId;
     @SerializedName("avatarImage")
     private String mAvatarImage;
+    @SerializedName("progress")
+    private int mProgress;
+    @SerializedName("shortDescription")
+    private String mShortDesc;
+    @SerializedName("isLive")
+    private boolean mIsLive;
 
     public String getId() {
         return mId;
@@ -50,11 +56,11 @@ public class Content {
         mName = name;
     }
 
-    public String getType() {
+    public Type getType() {
         return mType;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         mType = type;
     }
 
@@ -138,9 +144,36 @@ public class Content {
         this.isFavourite = isFavourite;
     }
 
-    public interface Type {
-        String FILM = "FILM";
-        String CHANNEL = "CHANNEL";
-        String VIDEO = "VIDEO";
+    public int getProgress() {
+        return mProgress;
+    }
+
+    public void setProgress(int progress) {
+        mProgress = progress;
+    }
+
+    public String getShortDesc() {
+        return mShortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        mShortDesc = shortDesc;
+    }
+
+    public boolean isLive() {
+        return mIsLive;
+    }
+
+    public void setIsLive(boolean isLive) {
+        mIsLive = isLive;
+    }
+
+    public enum  Type {
+        @SerializedName("FILM")
+        FILM,
+        @SerializedName("LIVETV")
+        LIVETV,
+        @SerializedName("VOD")
+        VOD,
     }
 }

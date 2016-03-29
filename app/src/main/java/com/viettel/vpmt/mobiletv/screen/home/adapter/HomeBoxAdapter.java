@@ -1,12 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.network.dto.Box;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.home.animation.DepthPageTransformer;
-import com.viettel.vpmt.mobiletv.screen.home.animation.PagerRunner;
-import com.viewpagerindicator.CirclePageIndicator;
-
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.BaseActivity;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
+import com.viettel.vpmt.mobiletv.screen.home.animation.DepthPageTransformer;
+import com.viettel.vpmt.mobiletv.screen.home.animation.PagerRunner;
+import com.viettel.vpmt.mobiletv.screen.home.controller.SeeAllClickListener;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
@@ -29,11 +32,16 @@ import butterknife.ButterKnife;
 public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHolder> {
     private Context mContext;
     private List<Box> mBoxes;
+    private HorizontalItemDecoration mItemDecoration;
 
     public HomeBoxAdapter(Context context, List<Box> boxes) {
         mBoxes = boxes;
         mContext = context;
+
+        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_item_common);
+        mItemDecoration = new HorizontalItemDecoration(spacingInPixels);
     }
+
 
     @Override
     public HomeBoxAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,33 +61,41 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
             case BANNER:
                 bindBannerBox(holder, box);
                 break;
-            case CHANNEL:
-                bindChannelBox(holder, box);
+            case LIVETV:
+                bindBoxSection(holder, box,
+                        new ChannelAdapter(mContext, box.getContents()));
                 break;
-            case VIDEO:
-                bindVideoBox(holder, box);
+            case VOD:
+                bindBoxSection(holder, box,
+                        new VideoAdapter(mContext, box.getContents()));
                 break;
             case TVSHOW:
-                bindVideoBox(holder, box);
+                bindBoxSection(holder, box,
+                        new VideoAdapter(mContext, box.getContents()));
                 break;
             case CONTINUE:
-                bindContinueBox(holder, box);
+                bindBoxSection(holder, box,
+                        new ContinueAdapter(mContext, box.getContents()));
                 break;
             case FOCUS:
-                bindContinueBox(holder, box);
+                bindBoxSection(holder, box,
+                        new FocusAdapter(mContext, box.getContents()));
                 break;
             case FILM:
-                bindFilmBox(holder, box);
+                bindBoxSection(holder, box,
+                        new FilmAdapter(mContext, box.getContents()));
                 break;
             default:
+                bindBoxSection(holder, box,
+                        new VideoAdapter(mContext, box.getContents()));
                 break;
         }
     }
 
     /**
-     * Bind content for box Film
+     * Bind all horizontal sections in home box
      */
-    private void bindFilmBox(ViewHolder holder, Box box) {
+    private void bindBoxSection(ViewHolder holder, Box box, RecyclerView.Adapter adapter) {
         holder.mViewPagerLayout.setVisibility(View.GONE);
         holder.mRecyclerView.setVisibility(View.VISIBLE);
         holder.mTitleTv.setVisibility(View.VISIBLE);
@@ -88,12 +104,7 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
         holder.mTitleTv.setText(box.getName());
 
         // See all content clicked
-        holder.mSeeAllTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.mSeeAllTv.setOnClickListener(new SeeAllClickListener((HomeBoxActivity) mContext, box));
 
         // Bind content of channels
         RecyclerView.LayoutManager layoutManager
@@ -101,151 +112,17 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
         layoutManager.setAutoMeasureEnabled(true);
         holder.mRecyclerView.setLayoutManager(layoutManager);
 
-        FilmAdapter adapter = new FilmAdapter(mContext, box.getContents());
         holder.mRecyclerView.setAdapter(adapter);
 
         // Items decoration
-        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_small);
-        holder.mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
-    }
-
-    /**
-     * Bind content for box Focus
-     */
-    private void bindFocusBox(ViewHolder holder, Box box) {
-        holder.mViewPagerLayout.setVisibility(View.GONE);
-        holder.mRecyclerView.setVisibility(View.VISIBLE);
-        holder.mTitleTv.setVisibility(View.VISIBLE);
-        holder.mSeeAllTv.setVisibility(View.VISIBLE);
-
-        holder.mTitleTv.setText(box.getName());
-
-        // See all content clicked
-        holder.mSeeAllTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        // Bind content of channels
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        holder.mRecyclerView.setLayoutManager(layoutManager);
-
-        FocusAdapter adapter = new FocusAdapter(mContext, box.getContents());
-        holder.mRecyclerView.setAdapter(adapter);
-
-        // Items decoration
-        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_small);
-        holder.mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
-    }
-
-    /**
-     * Bind content for box Continue
-     */
-    private void bindContinueBox(ViewHolder holder, Box box) {
-        holder.mViewPagerLayout.setVisibility(View.GONE);
-        holder.mRecyclerView.setVisibility(View.VISIBLE);
-        holder.mTitleTv.setVisibility(View.VISIBLE);
-        holder.mSeeAllTv.setVisibility(View.VISIBLE);
-
-        holder.mTitleTv.setText(box.getName());
-
-        // See all content clicked
-        holder.mSeeAllTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        // Bind content of channels
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        holder.mRecyclerView.setLayoutManager(layoutManager);
-
-        ContinueAdapter adapter = new ContinueAdapter(mContext, box.getContents());
-        holder.mRecyclerView.setAdapter(adapter);
-
-        // Items decoration
-        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_small);
-        holder.mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
-    }
-
-    /**
-     * Bind content for box Video
-     */
-    private void bindVideoBox(ViewHolder holder, Box box) {
-        holder.mViewPagerLayout.setVisibility(View.GONE);
-        holder.mRecyclerView.setVisibility(View.VISIBLE);
-        holder.mTitleTv.setVisibility(View.VISIBLE);
-        holder.mSeeAllTv.setVisibility(View.VISIBLE);
-
-        holder.mTitleTv.setText(box.getName());
-
-        // See all content clicked
-        holder.mSeeAllTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        // Bind content of channels
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        holder.mRecyclerView.setLayoutManager(layoutManager);
-
-        VideoAdapter adapter = new VideoAdapter(mContext, box.getContents());
-        holder.mRecyclerView.setAdapter(adapter);
-
-        // Items decoration
-        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_small);
-        holder.mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
-    }
-
-    /**
-     * Bind content for box Channel
-     */
-    private void bindChannelBox(ViewHolder holder, Box box) {
-        holder.mViewPagerLayout.setVisibility(View.GONE);
-        holder.mRecyclerView.setVisibility(View.VISIBLE);
-        holder.mTitleTv.setVisibility(View.VISIBLE);
-        holder.mSeeAllTv.setVisibility(View.VISIBLE);
-
-        holder.mTitleTv.setText(box.getName());
-
-        // See all content clicked
-        holder.mSeeAllTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        // Bind content of channels
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        holder.mRecyclerView.setLayoutManager(layoutManager);
-
-        ChannelAdapter adapter = new ChannelAdapter(mContext, box.getContents());
-        holder.mRecyclerView.setAdapter(adapter);
-
-        // Items decoration
-        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_small);
-        holder.mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
+        holder.mRecyclerView.removeItemDecoration(mItemDecoration);
+        holder.mRecyclerView.addItemDecoration(mItemDecoration);
     }
 
     /**
      * Bind view for Banner
      */
     private void bindBannerBox(ViewHolder holder, Box box) {
-//        holder.mRoot.setPadding(0,0,0,0);
         holder.mViewPagerLayout.setVisibility(View.VISIBLE);
         holder.mRecyclerView.setVisibility(View.GONE);
         holder.mTitleTv.setVisibility(View.GONE);

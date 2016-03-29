@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/first" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:title="@string/title_home_page"/>
+        <item
+            android:id="@+id/nav_tv_home"
+            android:title="@string/title_tv_home"/>
+        <item
+            android:id="@+id/nav_video_home"
+            android:title="@string/title_video_home"/>
+        <item
+            android:id="@+id/nav_film_home"
+            android:title="@string/title_film_home"/>
+        <item
+            android:id="@+id/nav_kids_home"
+            android:title="@string/title_kids_home"/>
+        <item
+            android:id="@+id/nav_game_home"
+            android:title="@string/title_game_home"/>
+    </group>
+    <group android:id="@+id/second" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_postage_package"
+            android:title="@string/title_postage_package"/>
+        <item
+            android:id="@+id/nav_notification"
+            android:title="@string/title_notification"
+            app:actionLayout="@layout/menu_notification_badge"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:title="@string/title_setting"/>
+        <item
+            android:id="@+id/nav_share"
+            android:title="@string/title_share"/>
+        <item
+            android:id="@+id/nav_rate_app"
+            android:title="@string/title_rate_app"/>
+    </group>
+</menu>

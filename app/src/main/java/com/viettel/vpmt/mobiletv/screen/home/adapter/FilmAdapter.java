@@ -12,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -40,17 +46,18 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(FilmAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
+        if (content == null) {
+            return;
+        }
 
         // Lazy load cover
-        Picasso.with(mContext)
-                .load(content.getCoverImage())
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .into(holder.mImageView);
+        ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, true);
 
         // Set title
         holder.mTitleTextView.setText(content.getName());
+
+        // Click item behavior
+        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
     }
 
     @Override

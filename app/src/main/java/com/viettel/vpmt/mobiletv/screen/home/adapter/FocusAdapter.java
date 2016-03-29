@@ -1,9 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
-import com.squareup.picasso.Picasso;
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import java.util.List;
 
@@ -40,20 +42,26 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(FocusAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
+        if (content == null) {
+            return;
+        }
 
         // Lazy load cover
-        Picasso.with(mContext)
-                .load(content.getCoverImage())
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .fit()
-                .into(holder.mImageView);
+        ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, true);
 
         // Set title
         holder.mTitleTextView.setText(content.getName());
 
         // Set Desc
-        holder.mDescTextView.setText(content.getDescription());
+        holder.mDescTextView.setText(content.getShortDesc());
+
+        // Live status
+        if (!content.isLive()) {
+            holder.mDescTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
+
+        // Click item behavior
+        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
     }
 
     @Override

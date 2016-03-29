@@ -1,15 +1,17 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
-import com.squareup.picasso.Picasso;
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
-
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import java.util.List;
 
@@ -29,19 +31,19 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public View instantiateItem(ViewGroup container, int position) {
         Content content = getItem(position);
+        if (content == null) {
+            return new View(mContext);
+        }
+
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.item_banner, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_banner_image_view);
 
-        Picasso.with(mContext)
-                .load(content.getCoverImage())
-                .placeholder(R.drawable.app_logo)
-                .fit()
-                .error(R.drawable.app_logo)
-                .into(imageView);
+        ImageUtils.loadImage(mContext, content.getCoverImage(), imageView, true);
 
         container.addView(view, 0);
 
+        view.setOnClickListener(new ContentItemClickListener(mContext, content));
         return view;
     }
 
