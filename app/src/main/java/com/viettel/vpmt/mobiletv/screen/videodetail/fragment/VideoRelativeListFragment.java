@@ -4,7 +4,7 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerViewAdapter;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerViewVideoAdapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -57,8 +57,8 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
     }
 
     @Override
-    public void loadRelativeVideo(RecyclerViewAdapter recyclerViewAdapter) {
-        recyclerView.setAdapter(recyclerViewAdapter);
+    public void loadRelativeVideo(RecyclerViewVideoAdapter recyclerViewVideoAdapter) {
+        recyclerView.setAdapter(recyclerViewVideoAdapter);
     }
 
     public void setVideos(List<Content> videos) {

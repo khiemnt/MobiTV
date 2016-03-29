@@ -18,6 +18,7 @@
     <string name="splash_desc">Hoàn toàn miễn phí data 3G</string>
     <string name="view_more">thêm</string>
     <string name="favorite">Yêu thích</string>
+    <string name="tab_danh_sach">DANH SÁCH</string>
     <string name="tab_lien_quan">LIÊN QUAN</string>
     <string name="tab_binh_luan">BÌNH LUẬN</string>
     <string name="loading">Đang tải…</string>
@@ -32,7 +33,8 @@
     <string name="title_setting">Thiết lập</string>
     <string name="title_share">Chia sẻ</string>
     <string name="title_rate_app">Đánh giá ứng dụng</string>
-    <string name="tag">Tag:</string>
+    <string name="tag">Tags:\u0020</string>
+    <string name="team">Giải đấu:\u0020</string>
     <string name="actor">Diễn viên:\u0020</string>
     <string name="country">Quốc gia:\u0020</string>
 </resources>

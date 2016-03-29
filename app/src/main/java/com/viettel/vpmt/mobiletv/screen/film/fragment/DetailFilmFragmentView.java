@@ -7,5 +7,5 @@ import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
  * Created by ThanhTD on 3/26/2016.
  */
 public interface DetailFilmFragmentView extends BaseView<DetailFilmFragmentPresenter> {
-    void doLoadToView(FilmDetail filmDetail);
+    void doLoadToView(FilmDetail filmDetail, int positionPartActive);
 }

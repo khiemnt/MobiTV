@@ -70,7 +70,8 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
         float videoId = bundle.getFloat("videoId");
-        getPresenter().getDetailVideo(videoId);
+        float partOfVideo = bundle.getFloat("part");
+        getPresenter().getDetailVideo(0, videoId, partOfVideo);
         CustomTextViewExpandable.makeTextViewResizable(tvFullDes, 3, getString(R.string.view_more), false);
     }
 
@@ -89,8 +90,13 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
         videoView.start();
         tvTitle.setText(videoDetail.getVideoDetail().getName());
         tvFullDes.setText(videoDetail.getVideoDetail().getDescription());
-        tvTag.setText("Tags: " + videoDetail.getVideoDetail().getTag());
+        if (videoDetail.getVideoDetail().getTag() != null)
+            tvTag.setText(getString(R.string.tag) + videoDetail.getVideoDetail().getTag());
+        else
+            tvTag.setVisibility(View.GONE);
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
+
+        //// TODO: 3/29/2016 check init option adapter for view video or tvShow
         if (videoDetail.getVideoRelated() != null) {
             adapter = new VideoFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             viewPager.setAdapter(adapter);

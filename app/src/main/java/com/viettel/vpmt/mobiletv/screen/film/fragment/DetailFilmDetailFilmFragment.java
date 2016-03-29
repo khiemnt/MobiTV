@@ -6,12 +6,14 @@ import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.screen.film.activity.DetailFilmFilmActivity;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmFragmentPagerAdapter;
+import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmPartFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.film.utils.WrapContentHeightViewPager;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -44,7 +46,8 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
-    FilmFragmentPagerAdapter adapter;
+    FragmentStatePagerAdapter adapter;
+    private float filmId = 0;
 
     @Override
     protected int getLayoutId() {
@@ -70,9 +73,9 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
     @Override
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
-        float videoId = bundle.getFloat("filmId");
+        filmId = bundle.getFloat("filmId");
         float partOfFilm = bundle.getFloat("part");
-        getPresenter().getDetailVideo(videoId, partOfFilm);
+        getPresenter().getDetailVideo(0, filmId, partOfFilm);
         CustomTextViewExpandable.makeTextViewResizable(tvFullDes, 3, getString(R.string.view_more), false);
     }
 
@@ -82,7 +85,7 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
     }
 
     @Override
-    public void doLoadToView(FilmDetail filmDetail) {
+    public void doLoadToView(FilmDetail filmDetail, int positionPartActive) {
         videoView.setVideoURI(Uri.parse(filmDetail.getStreams().getUrlStreaming()));
         MediaController mediaController = new MediaController(getActivity());
         mediaController.setAnchorView(videoView);
@@ -90,7 +93,7 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
         videoView.setVideoURI(Uri.parse("https://ia700401.us.archive.org/19/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4"));
         videoView.start();
         tvTitle.setText(filmDetail.getFilmDetail().getName());
-        tvShortDes.setText(filmDetail.getFilmDetail().getShortDescription());
+        tvShortDes.setText(filmDetail.getFilmDetail().getShortDesc());
         if (filmDetail.getFilmDetail().getDescription() != null) {
             tvFullDes.setText(filmDetail.getFilmDetail().getDescription());
         } else {
@@ -107,7 +110,12 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
             tvCountry.setVisibility(View.GONE);
         }
         if (filmDetail.getFilmRelated() != null) {
-            adapter = new FilmFragmentPagerAdapter(filmDetail.getFilmRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
+            if (filmDetail.getParts().size() > 0) {
+                adapter = new FilmPartFragmentPagerAdapter(filmId, positionPartActive, filmDetail.getParts(), filmDetail.getFilmRelated().getContents(),
+                        getActivity().getSupportFragmentManager(), getActivity());
+            } else {
+                adapter = new FilmFragmentPagerAdapter(filmDetail.getFilmRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
+            }
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);

@@ -19,12 +19,12 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/24/2016.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewVideoAdapter extends RecyclerView.Adapter<RecyclerViewVideoAdapter.MyViewHolder> {
 
     List<ImageItem> imageItems;
     Context context;
 
-    public RecyclerViewAdapter(List<ImageItem> imageItems, Context context) {
+    public RecyclerViewVideoAdapter(List<ImageItem> imageItems, Context context) {
         this.imageItems = imageItems;
         this.context = context;
     }
@@ -64,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((VideoDetailActivity) context).getFragment().getPresenter().getDetailVideo(imageItems.get(position).getVideoId());
+                ((VideoDetailActivity) context).getFragment().getPresenter().getDetailVideo(0, imageItems.get(position).getVideoId(), null);
             }
         });
     }

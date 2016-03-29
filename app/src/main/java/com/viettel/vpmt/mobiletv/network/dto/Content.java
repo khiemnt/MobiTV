@@ -15,8 +15,6 @@ public class Content {
     private Type mType;
     @SerializedName("description")
     private String mDescription;
-    @SerializedName("shortDescription")
-    private String shortDescription;
     @SerializedName("duration")
     private float duration;
     @SerializedName("actors")
@@ -94,14 +92,6 @@ public class Content {
 
     public void setAvatarImage(String avatarImage) {
         mAvatarImage = avatarImage;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
     }
 
     public float getDuration() {

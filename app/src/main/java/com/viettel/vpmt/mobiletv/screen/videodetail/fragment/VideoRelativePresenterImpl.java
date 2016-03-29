@@ -2,7 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerViewAdapter;
+import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerViewVideoAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.item.ImageItem;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeV
         for (Content content : videos) {
             imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription()));
         }
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(imageItems, mView.getViewContext());
-        mView.loadRelativeVideo(recyclerViewAdapter);
+        RecyclerViewVideoAdapter recyclerViewVideoAdapter = new RecyclerViewVideoAdapter(imageItems, mView.getViewContext());
+        mView.loadRelativeVideo(recyclerViewVideoAdapter);
     }
 }

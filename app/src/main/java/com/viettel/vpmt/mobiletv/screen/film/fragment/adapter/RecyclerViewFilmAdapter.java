@@ -64,7 +64,7 @@ public class RecyclerViewFilmAdapter extends RecyclerView.Adapter<RecyclerViewFi
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((DetailFilmFilmActivity) context).getFragment().getPresenter().getDetailVideo(imageItems.get(position).getVideoId(), null);
+                ((DetailFilmFilmActivity) context).getFragment().getPresenter().getDetailVideo(0, imageItems.get(position).getVideoId(), null);
             }
         });
     }
