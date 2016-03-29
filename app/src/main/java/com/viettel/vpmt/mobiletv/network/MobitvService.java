@@ -2,6 +2,7 @@ package com.viettel.vpmt.mobiletv.network;
 
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import retrofit2.Call;
@@ -19,6 +20,9 @@ import java.util.List;
 public interface MobitvService {
     @GET("default/get-home")
     Call<ResponseDTO<List<Box>>> getHome();
+
+    @GET("film/get-detail")
+    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") float filmId, @Query("part_id") Float partOfFilm);
 
     @GET("video/get-detail")
     Call<ResponseDTO<VideoDetail>> getDetailVideo(@Query("id") float videoId);
