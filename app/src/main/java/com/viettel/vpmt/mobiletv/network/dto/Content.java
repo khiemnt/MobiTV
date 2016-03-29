@@ -33,10 +33,10 @@ public class Content {
     private String mAvatarImage;
     @SerializedName("progress")
     private int mProgress;
-    @SerializedName("shortDescription")
-    private String mShortDesc;
     @SerializedName("isLive")
     private boolean mIsLive;
+    @SerializedName("shortDescription")
+    private String mShortDesc;
 
     public String getId() {
         return mId;
@@ -142,14 +142,6 @@ public class Content {
         mProgress = progress;
     }
 
-    public String getShortDesc() {
-        return mShortDesc;
-    }
-
-    public void setShortDesc(String shortDesc) {
-        mShortDesc = shortDesc;
-    }
-
     public boolean isLive() {
         return mIsLive;
     }
@@ -158,7 +150,15 @@ public class Content {
         mIsLive = isLive;
     }
 
-    public enum  Type {
+    public String getShortDesc() {
+        return mShortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        mShortDesc = shortDesc;
+    }
+
+    public enum Type {
         @SerializedName("FILM")
         FILM,
         @SerializedName("LIVETV")

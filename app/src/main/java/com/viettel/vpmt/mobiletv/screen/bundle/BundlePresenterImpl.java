@@ -1,7 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.bundle;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
@@ -14,6 +12,8 @@ import com.viettel.vpmt.mobiletv.screen.home.adapter.ContinueAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.FilmAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.FocusAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
+
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;

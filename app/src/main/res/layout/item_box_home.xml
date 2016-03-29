@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <include
-            android:id="@+id/box_common_pager_rl"
-            layout="@layout/item_box_banner"/>
+        android:id="@+id/box_common_pager_rl"
+        layout="@layout/item_box_banner"/>
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_large">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_large">
 
         <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/padding_medium">
+
+            <com.viettel.vpmt.mobiletv.common.view.CTextView
+                android:id="@+id/box_common_title_tv"
+                style="@style/Box.Title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/padding_medium">
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxLines="1"/>
 
             <com.viettel.vpmt.mobiletv.common.view.CTextView
-                    android:id="@+id/box_common_title_tv"
-                    style="@style/Box.Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:maxLines="1"/>
-
-            <com.viettel.vpmt.mobiletv.common.view.CTextView
-                    android:id="@+id/box_common_see_all_tv"
-                    style="@style/Box.SeeAll"/>
+                android:id="@+id/box_common_see_all_tv"
+                style="@style/Box.SeeAll"/>
         </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/box_common_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/box_common_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </RelativeLayout>

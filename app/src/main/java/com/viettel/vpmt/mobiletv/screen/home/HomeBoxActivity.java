@@ -1,5 +1,16 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.BaseActivity;
+import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.common.Constants;
+import com.viettel.vpmt.mobiletv.network.ApiConstants;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.screen.bundle.BundleActivity;
+import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
+import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityPresenter;
+import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityView;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,18 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.BaseActivity;
-import com.viettel.vpmt.mobiletv.base.BaseFragment;
-import com.viettel.vpmt.mobiletv.base.log.Logger;
-import com.viettel.vpmt.mobiletv.common.Constants;
-import com.viettel.vpmt.mobiletv.network.ApiConstants;
-import com.viettel.vpmt.mobiletv.network.dto.Box;
-import com.viettel.vpmt.mobiletv.screen.bundle.BundleActivity;
-import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
-import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityPresenter;
-import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityView;
 
 import butterknife.Bind;
 
@@ -136,13 +135,13 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
                 title = getString(R.string.title_film_home);
                 break;
             case R.id.nav_kids_home:
-//                scope = ApiConstants.SCOPE_FILM;
-//                path = ApiConstants.PATH_HOME_FILM;
+                scope = ApiConstants.SCOPE_DEFAULT;
+                path = ApiConstants.PATH_HOME_KIDS;
                 title = getString(R.string.title_kids_home);
                 break;
             case R.id.nav_game_home:
-//                scope = ApiConstants.SCOPE_FILM;
-//                path = ApiConstants.PATH_HOME_FILM;
+                scope = ApiConstants.SCOPE_DEFAULT;
+                path = ApiConstants.PATH_HOME_GAME;
                 title = getString(R.string.title_game_home);
                 break;
         }

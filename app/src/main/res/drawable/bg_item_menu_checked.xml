@@ -8,7 +8,7 @@
             <solid android:color="@android:color/transparent"/>
         </shape>
     </item>
-    <!-- Reference from menu_width value in dimens.xml-->
+    <!-- Reference from menu_width value (300dp) in dimens.xml-->
     <item android:right="298dp">
         <shape
             android:shape="rectangle">

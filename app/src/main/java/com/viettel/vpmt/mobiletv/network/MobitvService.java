@@ -1,17 +1,19 @@
 package com.viettel.vpmt.mobiletv.network;
 
+import com.viettel.vpmt.mobiletv.network.dto.AuthenData;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
-import java.util.List;
 
 /**
  * Restful Services
@@ -25,9 +27,10 @@ public interface MobitvService {
     Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") float filmId, @Query("part_id") Float partOfFilm);
 
     @GET("video/get-detail")
-    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Query("id") float videoId);
+    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Header("Authorization") String authorization, @Query("id") float videoId);
+
     @POST("auth/authorize")
-    Call login();
+    Call<ResponseDTO<AuthenData>> authorize(@Query("grant_type") String grantType, @Query("msisdn") String msisdn);
 
     @GET("{scope}/{path}")
     Call<ResponseDTO<List<Box>>> getHomeBox(@Path("scope") String scope,
@@ -35,6 +38,6 @@ public interface MobitvService {
 
     @GET("default/get-more-content")
     Call<ResponseDTO<List<Box>>> getMoreContent(@Query("id") String id,
-                                                    @Query("offset") int offset,
-                                                    @Query("limit") int limit);
+                                                @Query("offset") int offset,
+                                                @Query("limit") int limit);
 }

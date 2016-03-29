@@ -16,6 +16,8 @@ public interface ApiConstants {
     String PATH_HOME_VIDEO = "get-home-video";
     String PATH_HOME_FILM = "get-home-film";
     String PATH_HOME_CHANNEL = "get-home-channel";
+    String PATH_HOME_GAME = "get-home-game";
+    String PATH_HOME_KIDS = "get-home-kids";
 
     // Constants
     int PAGE_COUNT = 10;

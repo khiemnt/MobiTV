@@ -1,7 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
-import android.os.Bundle;
-
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 
 /**

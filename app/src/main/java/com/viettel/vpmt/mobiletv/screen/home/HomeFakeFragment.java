@@ -1,15 +1,15 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
-import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import butterknife.Bind;
 

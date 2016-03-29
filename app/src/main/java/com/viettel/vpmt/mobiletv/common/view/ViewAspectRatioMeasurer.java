@@ -2,8 +2,6 @@ package com.viettel.vpmt.mobiletv.common.view;
 
 import android.view.View;
 
-import com.viettel.vpmt.mobiletv.base.log.Logger;
-
 /**
  * This class is a helper to measure views that require a specific aspect ratio.<br />
  * <br />
@@ -39,8 +37,6 @@ public class ViewAspectRatioMeasurer {
      * is called.<br />
      * Instead, create one instance when your <tt>View</tt> is constructed, and
      * use this instance's <tt>measure()</tt> methods in the <tt>onMeasure()</tt> method.
-     *
-     * @param aspectRatio
      */
     public ViewAspectRatioMeasurer(double aspectRatio) {
         this.aspectRatio = aspectRatio;
@@ -52,8 +48,10 @@ public class ViewAspectRatioMeasurer {
      * After measuring, get the width and height with the {@link #getMeasuredWidth()}
      * and {@link #getMeasuredHeight()} methods, respectively.
      *
-     * @param widthMeasureSpec  The width <tt>MeasureSpec</tt> passed in your <tt>View.onMeasure()</tt> method
-     * @param heightMeasureSpec The height <tt>MeasureSpec</tt> passed in your <tt>View.onMeasure()</tt> method
+     * @param widthMeasureSpec  The width <tt>MeasureSpec</tt> passed in your <tt>View.onMeasure()</tt>
+     *                          method
+     * @param heightMeasureSpec The height <tt>MeasureSpec</tt> passed in your
+     *                          <tt>View.onMeasure()</tt> method
      */
     public void measure(int widthMeasureSpec, int heightMeasureSpec) {
         measure(widthMeasureSpec, heightMeasureSpec, this.aspectRatio);
@@ -65,8 +63,10 @@ public class ViewAspectRatioMeasurer {
      * After measuring, get the width and height with the {@link #getMeasuredWidth()}
      * and {@link #getMeasuredHeight()} methods, respectively.
      *
-     * @param widthMeasureSpec  The width <tt>MeasureSpec</tt> passed in your <tt>View.onMeasure()</tt> method
-     * @param heightMeasureSpec The height <tt>MeasureSpec</tt> passed in your <tt>View.onMeasure()</tt> method
+     * @param widthMeasureSpec  The width <tt>MeasureSpec</tt> passed in your <tt>View.onMeasure()</tt>
+     *                          method
+     * @param heightMeasureSpec The height <tt>MeasureSpec</tt> passed in your
+     *                          <tt>View.onMeasure()</tt> method
      * @param aspectRatio       The aspect ratio to calculate measurements in respect to
      */
     public void measure(int widthMeasureSpec, int heightMeasureSpec, double aspectRatio) {

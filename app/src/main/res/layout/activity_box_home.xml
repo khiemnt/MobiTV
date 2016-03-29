@@ -34,6 +34,7 @@
         android:layout_width="@dimen/menu_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/common_bg_color"
         app:headerLayout="@layout/nav_header"
         app:itemTextColor="@color/white"
         app:menu="@menu/nav_menu"

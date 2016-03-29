@@ -37,4 +37,9 @@
     <string name="team">Giải đấu:\u0020</string>
     <string name="actor">Diễn viên:\u0020</string>
     <string name="country">Quốc gia:\u0020</string>
+    <string name="video">Video</string>
+    <string name="audio">Audio</string>
+    <string name="retry">Retry</string>
+    <string name="logging">Logging</string>
+    <string name="link_stream_not_found">Không tìm thấy link xem.</string>
 </resources>

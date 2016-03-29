@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
+import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
@@ -20,7 +21,8 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
             return;
         }
         mView.showProgress();
-        ServiceBuilder.getService().getDetailVideo(videoId).enqueue(new BaseCallback<VideoDetail>() {
+        String header = "Bearer " + PrefManager.getAccessToken(mView.getViewContext());
+        ServiceBuilder.getService().getDetailVideo(header, videoId).enqueue(new BaseCallback<VideoDetail>() {
             @Override
             public void onError(String errorCode, String errorMessage) {
                 mView.onRequestError(errorCode, errorMessage);

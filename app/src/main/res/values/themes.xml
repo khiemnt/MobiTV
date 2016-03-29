@@ -12,7 +12,7 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="selectableItemBackground">@drawable/navigation_item_bg</item>
         <item name="android:selectableItemBackground">@drawable/navigation_item_bg</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/navigation_item_bg</item>
+        <!--<item name="android:activatedBackgroundIndicator">@drawable/navigation_item_bg</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">

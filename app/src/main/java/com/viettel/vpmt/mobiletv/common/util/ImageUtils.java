@@ -1,12 +1,11 @@
 package com.viettel.vpmt.mobiletv.common.util;
 
-import android.content.Context;
-import android.os.Build;
-import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.viettel.vpmt.mobiletv.R;
+
+import android.content.Context;
+import android.widget.ImageView;
 
 /**
  * Image Utils

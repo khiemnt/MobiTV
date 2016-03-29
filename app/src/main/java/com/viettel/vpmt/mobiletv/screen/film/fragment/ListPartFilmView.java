@@ -6,6 +6,6 @@ import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.RecyclerViewPartFi
 /**
  * Created by ThanhTD on 3/29/2016.
  */
-public interface ListPartFilmView extends BaseView<ListPartFilmPresenter>{
+public interface ListPartFilmView extends BaseView<ListPartFilmPresenter> {
     void loadDataToView(RecyclerViewPartFilmAdapter viewPartFilmAdapter);
 }

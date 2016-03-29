@@ -1,10 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
-import android.os.Bundle;
-
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
-import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;

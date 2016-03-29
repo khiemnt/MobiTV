@@ -8,8 +8,10 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/29/2016.
  */
-public interface ListPartVideoPresenter extends BasePresenter{
+public interface ListPartVideoPresenter extends BasePresenter {
     void getData();
+
     void setData(List<PartOfVideo> parts, Float videoId);
+
     void setPositionActive(int positionActive);
 }

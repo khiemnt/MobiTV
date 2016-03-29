@@ -1,8 +1,8 @@
 package com.viettel.vpmt.mobiletv.screen.bundle;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.viettel.vpmt.mobiletv.base.BaseView;
+
+import android.support.v7.widget.RecyclerView;
 
 /**
  * Common views
@@ -10,6 +10,8 @@ import com.viettel.vpmt.mobiletv.base.BaseView;
  */
 public interface BundleView extends BaseView<BundlePresenter> {
     void loadBox(RecyclerView.Adapter bundleVideoAdapter);
+
     void onDataEmpty();
+
     void stopLoadMore();
 }

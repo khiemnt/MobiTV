@@ -1,13 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.bundle;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
@@ -15,6 +7,14 @@ import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityPresenter;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityView;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import butterknife.Bind;
 

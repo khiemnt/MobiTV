@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.common.pref;
 
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -19,12 +21,17 @@ public class PrefManager {
     }
 
     public static void saveUserInfo(Context context, String accessToken, String refreshToken, String msisdn, Long expiredTime) {
+        if (context == null) {
+            return;
+        }
         SharedPreferences.Editor editor = getPreference(context).edit();
         editor.putString(ACCESS_TOKEN, accessToken);
         editor.putString(REFRESS_TOKEN, refreshToken);
         editor.putString(MSISDN, msisdn);
         editor.putLong(EXPIRED_TIME, expiredTime);
         editor.apply();
+        Logger.i("Saved user infor " + msisdn);
+        Logger.i("Saved user token " + accessToken);
     }
 
     /**

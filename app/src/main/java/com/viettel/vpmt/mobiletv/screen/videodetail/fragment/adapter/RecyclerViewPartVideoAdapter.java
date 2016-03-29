@@ -1,7 +1,6 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/29/2016.
  */
-public class RecyclerViewPartVideoAdapter extends RecyclerView.Adapter<RecyclerViewPartVideoAdapter.MyViewHolder>{
+public class RecyclerViewPartVideoAdapter extends RecyclerView.Adapter<RecyclerViewPartVideoAdapter.MyViewHolder> {
     List<PartOfVideo> parts;
     Context mContext;
     private float videoId;

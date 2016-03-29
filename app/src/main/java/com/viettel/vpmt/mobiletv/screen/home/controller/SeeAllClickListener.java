@@ -1,16 +1,14 @@
 package com.viettel.vpmt.mobiletv.screen.home.controller;
 
-import android.os.Bundle;
-import android.view.View;
-
-import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
-import com.viettel.vpmt.mobiletv.screen.home.HomeBoxFragment;
+
+import android.os.Bundle;
+import android.view.View;
 
 /**
  * See all button click listener

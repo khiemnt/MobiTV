@@ -35,6 +35,7 @@
     <dimen name="app_margin_right">5dp</dimen>
     <dimen name="margin_left_medium">10dp</dimen>
     <dimen name="margin_left_large">15dp</dimen>
+    <dimen name="player_height">188dp</dimen>
     <!--video detail-->
     <dimen name="video_detail_title_size">18sp</dimen>
     <dimen name="video_detail_full_description_size">12sp</dimen>

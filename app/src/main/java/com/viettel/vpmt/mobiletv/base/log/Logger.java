@@ -52,6 +52,11 @@ public class Logger {
             Log.e(tag, msg);
     }
 
+    public static void e(String tag, String msg, Exception e) {
+        if (DEBUG_MODE)
+            Log.e(tag, msg, e);
+    }
+
     public static void d(String tag, String msg) {
         if (DEBUG_MODE)
             Log.d(tag, msg);

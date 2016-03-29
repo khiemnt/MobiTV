@@ -1,5 +1,14 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
+import com.viettel.vpmt.mobiletv.screen.home.animation.DepthPageTransformer;
+import com.viettel.vpmt.mobiletv.screen.home.animation.PagerRunner;
+import com.viettel.vpmt.mobiletv.screen.home.controller.SeeAllClickListener;
+import com.viewpagerindicator.CirclePageIndicator;
+
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,16 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.BaseActivity;
-import com.viettel.vpmt.mobiletv.network.dto.Box;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
-import com.viettel.vpmt.mobiletv.screen.home.animation.DepthPageTransformer;
-import com.viettel.vpmt.mobiletv.screen.home.animation.PagerRunner;
-import com.viettel.vpmt.mobiletv.screen.home.controller.SeeAllClickListener;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 

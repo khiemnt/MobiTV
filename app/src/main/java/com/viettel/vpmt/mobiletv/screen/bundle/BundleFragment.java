@@ -1,12 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.bundle;
 
-import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
-
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
@@ -17,6 +10,13 @@ import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.GridItemDecoration;
+
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 
