@@ -1,14 +1,14 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.BaseListFragment;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
-
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.BaseListFragment;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
 
 import butterknife.Bind;
 

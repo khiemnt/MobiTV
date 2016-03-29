@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/25/2016.
  */
-public interface VideoRelativePresenter extends BasePresenter
-{
+public interface VideoRelativePresenter extends BasePresenter {
     void setData(List<Content> videos);
+
     void getData();
 }

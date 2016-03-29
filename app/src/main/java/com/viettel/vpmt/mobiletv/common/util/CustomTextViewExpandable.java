@@ -11,45 +11,35 @@ import android.widget.TextView;
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class CustomTextViewExpandable
-{
-    public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore)
-    {
-        if (tv.getTag() == null)
-        {
+public class CustomTextViewExpandable {
+    public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {
+        if (tv.getTag() == null) {
             tv.setTag(tv.getText());
         }
         ViewTreeObserver vto = tv.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
-        {
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @SuppressWarnings("deprecation")
             @Override
-            public void onGlobalLayout()
-            {
+            public void onGlobalLayout() {
 
                 ViewTreeObserver obs = tv.getViewTreeObserver();
                 obs.removeGlobalOnLayoutListener(this);
-                if (maxLine == 0)
-                {
+                if (maxLine == 0) {
                     int lineEndIndex = tv.getLayout().getLineEnd(0);
                     String text = tv.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + "..." + expandText;
                     tv.setText(text);
                     tv.setMovementMethod(LinkMovementMethod.getInstance());
                     tv.setText(addClickablePartTextViewResizable(Html.fromHtml(tv.getText().toString()), tv, maxLine, expandText,
                             viewMore), TextView.BufferType.SPANNABLE);
-                }
-                else if (maxLine > 0 && tv.getLineCount() >= maxLine)
-                {
+                } else if (maxLine > 0 && tv.getLineCount() >= maxLine) {
                     int lineEndIndex = tv.getLayout().getLineEnd(maxLine - 1);
                     String text = tv.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + "..." + expandText;
                     tv.setText(text);
                     tv.setMovementMethod(LinkMovementMethod.getInstance());
                     tv.setText(addClickablePartTextViewResizable(Html.fromHtml(tv.getText().toString()), tv, maxLine, expandText,
                             viewMore), TextView.BufferType.SPANNABLE);
-                }
-                else
-                {
+                } else {
                     int lineEndIndex = tv.getLayout().getLineEnd(tv.getLayout().getLineCount() - 1);
                     String text = tv.getText().subSequence(0, lineEndIndex) + "..." + expandText;
                     tv.setText(text);
@@ -62,18 +52,14 @@ public class CustomTextViewExpandable
     }
 
     private static SpannableStringBuilder addClickablePartTextViewResizable(final Spanned strSpanned, final TextView tv,
-                                                                            final int maxLine, final String spanableText, final boolean viewMore)
-    {
+                                                                            final int maxLine, final String spanableText, final boolean viewMore) {
         String str = strSpanned.toString();
         SpannableStringBuilder ssb = new SpannableStringBuilder(strSpanned);
 
-        if (str.contains(spanableText))
-        {
-            ssb.setSpan(new MySpannable(false)
-            {
+        if (str.contains(spanableText)) {
+            ssb.setSpan(new MySpannable(false) {
                 @Override
-                public void onClick(View widget)
-                {
+                public void onClick(View widget) {
 //                    if (viewMore) {
 //                        tv.setLayoutParams(tv.getLayoutParams());
 //                        tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);

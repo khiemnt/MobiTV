@@ -6,7 +6,6 @@ import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.RecyclerViewFilmAd
 /**
  * Created by ThanhTD on 3/25/2016.
  */
-public interface FilmRelativeView extends BaseView<FilmRelativePresenter>
-{
+public interface FilmRelativeView extends BaseView<FilmRelativePresenter> {
     void loadRelativeVideo(RecyclerViewFilmAdapter recyclerViewFilmAdapter);
 }

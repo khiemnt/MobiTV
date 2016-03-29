@@ -1,10 +1,5 @@
 package com.viettel.vpmt.mobiletv.common.util;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * String Utils
  * Created by neo on 2/16/2016.

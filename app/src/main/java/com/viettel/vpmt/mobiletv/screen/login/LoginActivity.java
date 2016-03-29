@@ -1,11 +1,10 @@
 package com.viettel.vpmt.mobiletv.screen.login;
 
-import android.content.Intent;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
+
+import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -58,6 +57,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @OnClick(R.id.sign_up_btn)
-    void goTosignUp(){
+    void goTosignUp() {
     }
 }

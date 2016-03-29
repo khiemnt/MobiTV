@@ -7,8 +7,7 @@ import android.view.View;
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class MySpannable extends ClickableSpan
-{
+public class MySpannable extends ClickableSpan {
 
     private boolean isUnderline = true;
 

@@ -26,6 +26,6 @@ public class DeviceUtils {
 
     public static int getDpi(Context context) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return (int)(metrics.density * 160f);
+        return (int) (metrics.density * 160f);
     }
 }

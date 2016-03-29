@@ -4,18 +4,18 @@ import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-
-import java.util.List;
 
 /**
  * Restful Services
  * Created by neo on 2/15/2016.
  */
-public interface MobitvService
-{
+public interface MobitvService {
     @GET("default/get-home")
     Call<ResponseDTO<List<Box>>> getHome();
 

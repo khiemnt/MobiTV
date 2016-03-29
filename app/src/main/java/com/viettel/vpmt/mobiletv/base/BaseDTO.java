@@ -7,7 +7,7 @@ import java.util.UUID;
  * Base DTO
  * Created by neo on 2/5/2016.
  */
-public class BaseDTO implements Serializable{
+public class BaseDTO implements Serializable {
     protected UUID uuid;
 
     public BaseDTO() {

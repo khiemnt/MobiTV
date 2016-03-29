@@ -90,63 +90,51 @@ public class Content {
         mAvatarImage = avatarImage;
     }
 
-    public String getShortDescription()
-    {
+    public String getShortDescription() {
         return shortDescription;
     }
 
-    public void setShortDescription(String shortDescription)
-    {
+    public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
 
-    public float getDuration()
-    {
+    public float getDuration() {
         return duration;
     }
 
-    public void setDuration(float duration)
-    {
+    public void setDuration(float duration) {
         this.duration = duration;
     }
 
-    public String getActors()
-    {
+    public String getActors() {
         return actors;
     }
 
-    public void setActors(String actors)
-    {
+    public void setActors(String actors) {
         this.actors = actors;
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country)
-    {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public String getTag()
-    {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(String tag)
-    {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 
-    public boolean isFavourite()
-    {
+    public boolean isFavourite() {
         return isFavourite;
     }
 
-    public void setIsFavourite(boolean isFavourite)
-    {
+    public void setIsFavourite(boolean isFavourite) {
         this.isFavourite = isFavourite;
     }
 

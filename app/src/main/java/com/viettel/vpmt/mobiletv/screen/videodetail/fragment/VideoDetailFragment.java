@@ -1,12 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.view.View;
-import android.widget.*;
-import butterknife.Bind;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
@@ -15,11 +8,23 @@ import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager;
 
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.MediaController;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.VideoView;
+
+import butterknife.Bind;
+
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresenter, VideoDetailActivity> implements VideoDetailFragmentView
-{
+public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresenter, VideoDetailActivity> implements VideoDetailFragmentView {
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
@@ -41,34 +46,28 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     VideoFragmentPagerAdapter adapter;
 
     @Override
-    protected int getLayoutId()
-    {
+    protected int getLayoutId() {
         return R.layout.fragment_video_detail;
     }
 
     @Override
-    public void showProgress()
-    {
-        if (mProgressBar != null)
-        {
+    public void showProgress() {
+        if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
             transparent.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public void hideProgress()
-    {
-        if (mProgressBar != null)
-        {
+    public void hideProgress() {
+        if (mProgressBar != null) {
             mProgressBar.setVisibility(View.GONE);
             transparent.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onPrepareLayout()
-    {
+    public void onPrepareLayout() {
         Bundle bundle = getArguments();
         float videoId = bundle.getFloat("videoId");
         getPresenter().getDetailVideo(videoId);
@@ -76,16 +75,14 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     }
 
     @Override
-    public VideoDetailFragmentPresenter onCreatePresenter()
-    {
+    public VideoDetailFragmentPresenter onCreatePresenter() {
         return new VideoDetailFragmentPresenterImpl(this);
     }
 
     @Override
-    public void doLoadToView(VideoDetail videoDetail)
-    {
+    public void doLoadToView(VideoDetail videoDetail) {
         videoView.setVideoURI(Uri.parse(videoDetail.getStreams().getUrlStreaming()));
-        MediaController mediaController= new MediaController(getActivity());
+        MediaController mediaController = new MediaController(getActivity());
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         videoView.setVideoURI(Uri.parse("https://ia700401.us.archive.org/19/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4"));
@@ -94,8 +91,7 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
         tvFullDes.setText(videoDetail.getVideoDetail().getDescription());
         tvTag.setText("Tags: " + videoDetail.getVideoDetail().getTag());
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
-        if (videoDetail.getVideoRelated() != null)
-        {
+        if (videoDetail.getVideoRelated() != null) {
             adapter = new VideoFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             viewPager.setAdapter(adapter);
         }
@@ -104,26 +100,22 @@ public class VideoDetailFragment extends BaseFragment<VideoDetailFragmentPresent
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
     }
 }

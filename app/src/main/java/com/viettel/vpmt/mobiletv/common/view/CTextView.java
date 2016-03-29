@@ -1,14 +1,13 @@
 package com.viettel.vpmt.mobiletv.common.view;
 
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.StringUtils;
+import com.viettel.vpmt.mobiletv.common.util.Typefaces;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
-
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.log.Logger;
-import com.viettel.vpmt.mobiletv.common.util.StringUtils;
-import com.viettel.vpmt.mobiletv.common.util.Typefaces;
 
 /**
  * Custom Text view
@@ -33,7 +32,7 @@ public class CTextView extends TextView {
     /**
      * init font text view
      */
-    public void initFont(AttributeSet attrs){
+    public void initFont(AttributeSet attrs) {
         if (attrs == null) {
             return;
         }

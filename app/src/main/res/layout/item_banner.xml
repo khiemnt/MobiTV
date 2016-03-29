@@ -4,8 +4,8 @@
               android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/item_banner_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/banner_height"/>
+            android:id="@+id/item_banner_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/banner_height"/>
 
 </LinearLayout>

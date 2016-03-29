@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.common.util;
 
+import com.viettel.vpmt.mobiletv.R;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -9,8 +11,6 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.view.Gravity;
 import android.widget.TextView;
-
-import com.viettel.vpmt.mobiletv.R;
 
 
 /**

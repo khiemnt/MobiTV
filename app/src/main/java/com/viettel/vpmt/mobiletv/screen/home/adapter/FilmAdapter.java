@@ -1,5 +1,9 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
+import com.squareup.picasso.Picasso;
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,10 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
 
 import java.util.List;
 

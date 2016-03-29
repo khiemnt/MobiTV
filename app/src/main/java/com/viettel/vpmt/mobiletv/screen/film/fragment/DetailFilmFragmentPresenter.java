@@ -5,7 +5,6 @@ import com.viettel.vpmt.mobiletv.base.BasePresenter;
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public interface DetailFilmFragmentPresenter extends BasePresenter
-{
+public interface DetailFilmFragmentPresenter extends BasePresenter {
     void getDetailVideo(float videoId, Float partOfFilm);
 }

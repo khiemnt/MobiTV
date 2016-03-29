@@ -8,6 +8,8 @@ import com.viettel.vpmt.mobiletv.base.BaseView;
  */
 public interface LoginView extends BaseView<LoginPresenter> {
     void onEmailError();
+
     void onPasswordError();
+
     void onLoginSuccess();
 }

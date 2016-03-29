@@ -50,7 +50,7 @@
                               android:text="Thanh pho toi loiThanh"/>
                     <RatingBar android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
-                               style = "?android:attr/ratingBarStyleIndicator"
+                               style="?android:attr/ratingBarStyleIndicator"
                                android:layout_below="@id/fragment_film_detail_tvShortDes"
                                android:numStars="5"
                                android:stepSize="1.0"

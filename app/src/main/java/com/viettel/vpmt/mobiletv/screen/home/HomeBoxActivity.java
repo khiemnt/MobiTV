@@ -1,5 +1,8 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.BaseActivity;
+
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -12,9 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.BaseActivity;
 
 import butterknife.Bind;
 

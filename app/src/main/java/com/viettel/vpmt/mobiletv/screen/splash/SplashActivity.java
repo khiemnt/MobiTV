@@ -1,15 +1,13 @@
 package com.viettel.vpmt.mobiletv.screen.splash;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.screen.film.activity.DetailFilmFilmActivity;
-import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

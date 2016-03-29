@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="@dimen/basic_margin"
-    style="@style/Video.ItemLayout">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginTop="@dimen/basic_margin"
+        style="@style/Video.ItemLayout">
 
     <ImageView
-        android:id="@+id/item_video_iv"
-        style="@style/Video.CoverImage"/>
+            android:id="@+id/item_video_iv"
+            style="@style/Video.CoverImage"/>
 
     <com.viettel.vpmt.mobiletv.common.view.CTextView
-        android:id="@+id/item_video_title_tv"
-        style="@style/Video.Title"/>
+            android:id="@+id/item_video_title_tv"
+            style="@style/Video.Title"/>
 </LinearLayout>

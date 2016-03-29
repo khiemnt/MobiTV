@@ -1,7 +1,6 @@
 package com.viettel.vpmt.mobiletv.screen.login;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
-import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 
 /**
  * Implement for Login presenter

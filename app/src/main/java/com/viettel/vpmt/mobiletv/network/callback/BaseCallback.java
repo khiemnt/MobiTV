@@ -2,9 +2,6 @@ package com.viettel.vpmt.mobiletv.network.callback;
 
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
-import com.google.gson.Gson;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +48,7 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
     }
 
     public abstract void onError(String errorCode, String errorMessage);
+
     public abstract void onResponse(T data);
 
 //    public static <T> BaseCallback<T> newInstance(final BaseView view) {

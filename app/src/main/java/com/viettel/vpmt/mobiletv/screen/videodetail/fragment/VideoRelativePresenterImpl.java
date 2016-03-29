@@ -11,27 +11,22 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/25/2016.
  */
-public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeView> implements VideoRelativePresenter
-{
+public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeView> implements VideoRelativePresenter {
     private List<Content> videos;
 
-    public VideoRelativePresenterImpl(VideoRelativeView view)
-    {
+    public VideoRelativePresenterImpl(VideoRelativeView view) {
         super(view);
     }
 
     @Override
-    public void setData(List<Content> videos)
-    {
+    public void setData(List<Content> videos) {
         this.videos = videos;
     }
 
     @Override
-    public void getData()
-    {
+    public void getData() {
         List<ImageItem> imageItems = new ArrayList<>();
-        for (Content content : videos)
-        {
+        for (Content content : videos) {
             imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription()));
         }
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(imageItems, mView.getViewContext());

@@ -11,27 +11,22 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/25/2016.
  */
-public class FilmRelativePresenterImpl extends BasePresenterImpl<FilmRelativeView> implements FilmRelativePresenter
-{
+public class FilmRelativePresenterImpl extends BasePresenterImpl<FilmRelativeView> implements FilmRelativePresenter {
     private List<Content> videos;
 
-    public FilmRelativePresenterImpl(FilmRelativeView view)
-    {
+    public FilmRelativePresenterImpl(FilmRelativeView view) {
         super(view);
     }
 
     @Override
-    public void setData(List<Content> videos)
-    {
+    public void setData(List<Content> videos) {
         this.videos = videos;
     }
 
     @Override
-    public void getData()
-    {
+    public void getData() {
         List<ImageItem> imageItems = new ArrayList<>();
-        for (Content content : videos)
-        {
+        for (Content content : videos) {
             imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription()));
         }
         RecyclerViewFilmAdapter recyclerViewFilmAdapter = new RecyclerViewFilmAdapter(imageItems, mView.getViewContext());

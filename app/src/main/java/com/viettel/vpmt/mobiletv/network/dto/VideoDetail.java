@@ -2,13 +2,10 @@ package com.viettel.vpmt.mobiletv.network.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 /**
  * Created by ThanhTD on 3/25/2016.
  */
-public class VideoDetail
-{
+public class VideoDetail {
     @SerializedName("video_detail")
     private Content videoDetail;
     @SerializedName("streams")
@@ -16,33 +13,27 @@ public class VideoDetail
     @SerializedName("video_related")
     private VideoRelated videoRelated;
 
-    public Content getVideoDetail()
-    {
+    public Content getVideoDetail() {
         return videoDetail;
     }
 
-    public void setVideoDetail(Content videoDetail)
-    {
+    public void setVideoDetail(Content videoDetail) {
         this.videoDetail = videoDetail;
     }
 
-    public Streams getStreams()
-    {
+    public Streams getStreams() {
         return streams;
     }
 
-    public void setStreams(Streams streams)
-    {
+    public void setStreams(Streams streams) {
         this.streams = streams;
     }
 
-    public VideoRelated getVideoRelated()
-    {
+    public VideoRelated getVideoRelated() {
         return videoRelated;
     }
 
-    public void setVideoRelated(VideoRelated videoRelated)
-    {
+    public void setVideoRelated(VideoRelated videoRelated) {
         this.videoRelated = videoRelated;
     }
 }

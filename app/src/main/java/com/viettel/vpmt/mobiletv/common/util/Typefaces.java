@@ -1,9 +1,9 @@
 package com.viettel.vpmt.mobiletv.common.util;
 
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+
 import android.content.Context;
 import android.graphics.Typeface;
-
-import com.viettel.vpmt.mobiletv.base.log.Logger;
 
 import java.util.Hashtable;
 
@@ -14,7 +14,7 @@ import java.util.Hashtable;
 public class Typefaces {
     private static final String TAG = "Typefaces";
 
-    private static final Hashtable<String, Typeface> CACHE = new Hashtable< >();
+    private static final Hashtable<String, Typeface> CACHE = new Hashtable<>();
 
     public static Typeface get(Context c, String font, String type) {
         synchronized (CACHE) {

@@ -1,10 +1,10 @@
 package com.viettel.vpmt.mobiletv.base.log;
 
+import com.viettel.vpmt.mobiletv.BuildConfig;
+
 import android.annotation.SuppressLint;
 import android.os.Debug;
 import android.util.Log;
-
-import com.viettel.vpmt.mobiletv.BuildConfig;
 
 import java.text.DecimalFormat;
 

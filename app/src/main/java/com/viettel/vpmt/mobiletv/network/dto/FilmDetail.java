@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * Created by ThanhTD on 3/28/2016.
  */
-public class FilmDetail
-{
+public class FilmDetail {
     @SerializedName("film_detail")
     private Content filmDetail;
     @SerializedName("streams")
@@ -18,43 +17,35 @@ public class FilmDetail
     @SerializedName("film_related")
     FilmRelated filmRelated;
 
-    public Content getFilmDetail()
-    {
+    public Content getFilmDetail() {
         return filmDetail;
     }
 
-    public void setFilmDetail(Content filmDetail)
-    {
+    public void setFilmDetail(Content filmDetail) {
         this.filmDetail = filmDetail;
     }
 
-    public Streams getStreams()
-    {
+    public Streams getStreams() {
         return streams;
     }
 
-    public void setStreams(Streams streams)
-    {
+    public void setStreams(Streams streams) {
         this.streams = streams;
     }
 
-    public List<PartOfFilm> getParts()
-    {
+    public List<PartOfFilm> getParts() {
         return parts;
     }
 
-    public void setParts(List<PartOfFilm> parts)
-    {
+    public void setParts(List<PartOfFilm> parts) {
         this.parts = parts;
     }
 
-    public FilmRelated getFilmRelated()
-    {
+    public FilmRelated getFilmRelated() {
         return filmRelated;
     }
 
-    public void setFilmRelated(FilmRelated filmRelated)
-    {
+    public void setFilmRelated(FilmRelated filmRelated) {
         this.filmRelated = filmRelated;
     }
 }

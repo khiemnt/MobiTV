@@ -1,8 +1,8 @@
 package com.viettel.vpmt.mobiletv;
 
-import android.app.Application;
-
 import com.crashlytics.android.Crashlytics;
+
+import android.app.Application;
 
 import io.fabric.sdk.android.Fabric;
 

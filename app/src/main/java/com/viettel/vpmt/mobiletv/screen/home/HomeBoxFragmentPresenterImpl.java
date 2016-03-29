@@ -1,7 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
@@ -9,6 +7,8 @@ import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+
+import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 

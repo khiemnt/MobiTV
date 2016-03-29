@@ -50,7 +50,7 @@ public class Box {
         mContents = contents;
     }
 
-    public enum  Type {
+    public enum Type {
         @SerializedName("BANNER")
         BANNER,
         @SerializedName("VIDEO")

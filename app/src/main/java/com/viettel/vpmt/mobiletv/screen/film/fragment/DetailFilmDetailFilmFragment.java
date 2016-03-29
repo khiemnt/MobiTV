@@ -1,5 +1,13 @@
 package com.viettel.vpmt.mobiletv.screen.film.fragment;
 
+import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
+import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
+import com.viettel.vpmt.mobiletv.screen.film.activity.DetailFilmFilmActivity;
+import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmFragmentPagerAdapter;
+import com.viettel.vpmt.mobiletv.screen.film.utils.WrapContentHeightViewPager;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,20 +17,13 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
+
 import butterknife.Bind;
-import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.BaseFragment;
-import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
-import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
-import com.viettel.vpmt.mobiletv.screen.film.activity.DetailFilmFilmActivity;
-import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmFragmentPagerAdapter;
-import com.viettel.vpmt.mobiletv.screen.film.utils.WrapContentHeightViewPager;
 
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmentPresenter, DetailFilmFilmActivity> implements DetailFilmFragmentView
-{
+public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmentPresenter, DetailFilmFilmActivity> implements DetailFilmFragmentView {
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
@@ -46,34 +47,28 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
     FilmFragmentPagerAdapter adapter;
 
     @Override
-    protected int getLayoutId()
-    {
+    protected int getLayoutId() {
         return R.layout.fragment_film_detail;
     }
 
     @Override
-    public void showProgress()
-    {
-        if (mProgressBar != null)
-        {
+    public void showProgress() {
+        if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
             transparent.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public void hideProgress()
-    {
-        if (mProgressBar != null)
-        {
+    public void hideProgress() {
+        if (mProgressBar != null) {
             mProgressBar.setVisibility(View.GONE);
             transparent.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onPrepareLayout()
-    {
+    public void onPrepareLayout() {
         Bundle bundle = getArguments();
         float videoId = bundle.getFloat("filmId");
         float partOfFilm = bundle.getFloat("part");
@@ -82,14 +77,12 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
     }
 
     @Override
-    public DetailFilmFragmentPresenter onCreatePresenter()
-    {
+    public DetailFilmFragmentPresenter onCreatePresenter() {
         return new DetailFilmFragmentPresenterImpl(this);
     }
 
     @Override
-    public void doLoadToView(FilmDetail filmDetail)
-    {
+    public void doLoadToView(FilmDetail filmDetail) {
         videoView.setVideoURI(Uri.parse(filmDetail.getStreams().getUrlStreaming()));
         MediaController mediaController = new MediaController(getActivity());
         mediaController.setAnchorView(videoView);
@@ -98,32 +91,22 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
         videoView.start();
         tvTitle.setText(filmDetail.getFilmDetail().getName());
         tvShortDes.setText(filmDetail.getFilmDetail().getShortDescription());
-        if (filmDetail.getFilmDetail().getDescription() != null)
-        {
+        if (filmDetail.getFilmDetail().getDescription() != null) {
             tvFullDes.setText(filmDetail.getFilmDetail().getDescription());
-        }
-        else
-        {
+        } else {
             tvFullDes.setVisibility(View.GONE);
         }
-        if (filmDetail.getFilmDetail().getActors() != null)
-        {
+        if (filmDetail.getFilmDetail().getActors() != null) {
             tvActor.setText(getString(R.string.actor) + filmDetail.getFilmDetail().getActors());
-        }
-        else
-        {
+        } else {
             tvActor.setVisibility(View.GONE);
         }
-        if (filmDetail.getFilmDetail().getCountry() != null)
-        {
-            tvCountry.setText(getString(R.string.country)+filmDetail.getFilmDetail().getCountry());
-        }
-        else
-        {
+        if (filmDetail.getFilmDetail().getCountry() != null) {
+            tvCountry.setText(getString(R.string.country) + filmDetail.getFilmDetail().getCountry());
+        } else {
             tvCountry.setVisibility(View.GONE);
         }
-        if (filmDetail.getFilmRelated() != null)
-        {
+        if (filmDetail.getFilmRelated() != null) {
             adapter = new FilmFragmentPagerAdapter(filmDetail.getFilmRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             viewPager.setAdapter(adapter);
         }
@@ -132,26 +115,22 @@ public class DetailFilmDetailFilmFragment extends BaseFragment<DetailFilmFragmen
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
     }
 }
