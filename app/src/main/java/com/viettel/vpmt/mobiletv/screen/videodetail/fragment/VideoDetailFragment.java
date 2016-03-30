@@ -3,12 +3,12 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import com.google.android.exoplayer.util.Util;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
+import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoPartFragmentPagerAdapter;
@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -48,6 +49,8 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
+    @Bind(R.id.mainScroll)
+    ScrollView mScrollView;
     FragmentStatePagerAdapter adapter;
     private float videoId = 0;
 
@@ -91,7 +94,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         if (!StringUtils.isEmpty(url)) {
             initPlayer(Uri.parse(url), Util.TYPE_OTHER);
         } else {
-            Logger.e("Cannot get url streaming...");
+            getPresenter().getVideoStream(videoId);
         }
         tvTitle.setText(videoDetail.getVideoDetail().getName());
         if (!StringUtils.isEmpty(videoDetail.getVideoDetail().getDescription())) {
@@ -117,7 +120,13 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
+        mScrollView.fullScroll(ScrollView.FOCUS_UP);
         hideProgress();
+    }
+
+    @Override
+    public void doLoadVideoStream(VideoStream videoStream) {
+        initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_OTHER);
     }
 
     @Override

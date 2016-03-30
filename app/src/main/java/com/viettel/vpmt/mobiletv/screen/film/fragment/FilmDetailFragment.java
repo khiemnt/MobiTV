@@ -3,11 +3,11 @@ package com.viettel.vpmt.mobiletv.screen.film.fragment;
 import com.google.android.exoplayer.util.Util;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
+import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 import com.viettel.vpmt.mobiletv.screen.film.activity.FilmDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmPartFragmentPagerAdapter;
@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -50,6 +51,8 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     CheckBox cbLike;
     @Bind(R.id.film_detail_number_of_view)
     CheckBox cbPlay;
+    @Bind(R.id.mainScroll)
+    ScrollView mScrollView;
 
     FragmentStatePagerAdapter adapter;
     private float filmId = 0;
@@ -94,7 +97,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         if (!StringUtils.isEmpty(url)) {
             initPlayer(Uri.parse(url), Util.TYPE_OTHER);
         } else {
-            Logger.e("Cannot get url streaming...");
+            getPresenter().getVideoStream(filmId);
         }
 
         tvTitle.setText(filmDetail.getFilmDetail().getName());
@@ -128,6 +131,12 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
+        mScrollView.fullScroll(ScrollView.FOCUS_UP);
         hideProgress();
+    }
+
+    @Override
+    public void doLoadVideoStream(VideoStream videoStream) {
+        initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_OTHER);
     }
 }

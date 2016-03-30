@@ -18,6 +18,7 @@
         <ScrollView
                 android:layout_width="match_parent"
                 android:scrollbars="vertical"
+                android:id="@+id/mainScroll"
                 android:fillViewport="true"
                 android:layout_below="@id/player_root"
                 android:layout_height="0dp"

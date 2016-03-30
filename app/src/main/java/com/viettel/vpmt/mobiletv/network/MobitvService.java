@@ -5,6 +5,7 @@ import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
+import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
 import java.util.List;
 
@@ -26,8 +27,14 @@ public interface MobitvService {
     @GET("film/get-detail")
     Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") float filmId, @Query("part_id") Float partOfFilm);
 
+    @GET("film/get-video-stream")
+    Call<ResponseDTO<VideoStream>> getFilmStream(@Header("Authorization") String authorization, @Query("id") float filmId);
+
     @GET("video/get-detail")
     Call<ResponseDTO<VideoDetail>> getDetailVideo(@Header("Authorization") String authorization, @Query("id") float videoId);
+
+    @GET("video/get-video-stream")
+    Call<ResponseDTO<VideoStream>> getVideoStream(@Header("Authorization") String authorization, @Query("id") float videoId);
 
     @POST("auth/authorize")
     Call<ResponseDTO<AuthenData>> authorize(@Query("grant_type") String grantType, @Query("msisdn") String msisdn);
