@@ -96,7 +96,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         tvTitle.setText(videoDetail.getVideoDetail().getName());
         if (videoDetail.getVideoDetail().getDescription() != null) {
             tvFullDes.setTrim(true);
-            tvFullDes.setText(videoDetail.getVideoDetail().getDescription());
+            tvFullDes.setText(videoDetail.getVideoDetail().getDescription(), TextView.BufferType.SPANNABLE);
         } else {
             tvFullDes.setVisibility(View.GONE);
         }

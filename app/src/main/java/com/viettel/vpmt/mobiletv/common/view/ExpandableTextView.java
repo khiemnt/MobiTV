@@ -4,6 +4,7 @@ import com.viettel.vpmt.mobiletv.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.TextView;
  */
 public class ExpandableTextView extends TextView {
     private static final int DEFAULT_TRIM_LENGTH = 150;
-    private static final String ELLIPSIS = "...thêm";
+    private static final String ELLIPSIS = "...<font color='#1E90FF'>thêm</font>";
 
     private CharSequence originalText;
     private CharSequence trimmedText;
@@ -44,7 +45,7 @@ public class ExpandableTextView extends TextView {
     }
 
     private void setText() {
-        super.setText(getDisplayableText(), bufferType);
+        super.setText(Html.fromHtml(getDisplayableText().toString()), bufferType);
     }
 
     private CharSequence getDisplayableText() {

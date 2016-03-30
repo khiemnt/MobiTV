@@ -101,7 +101,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         tvShortDes.setText(filmDetail.getFilmDetail().getShortDesc());
         if (filmDetail.getFilmDetail().getDescription() != null) {
             tvFullDes.setTrim(true);
-            tvFullDes.setText(filmDetail.getFilmDetail().getDescription());
+            tvFullDes.setText(filmDetail.getFilmDetail().getDescription(), TextView.BufferType.SPANNABLE);
         } else {
             tvFullDes.setVisibility(View.GONE);
         }
