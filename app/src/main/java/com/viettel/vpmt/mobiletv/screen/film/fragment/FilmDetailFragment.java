@@ -99,7 +99,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
 
         tvTitle.setText(filmDetail.getFilmDetail().getName());
         tvShortDes.setText(filmDetail.getFilmDetail().getShortDesc());
-        if (filmDetail.getFilmDetail().getDescription() != null) {
+        if (!StringUtils.isEmpty(filmDetail.getFilmDetail().getDescription())) {
             tvFullDes.setTrim(true);
             tvFullDes.setText(filmDetail.getFilmDetail().getDescription(), TextView.BufferType.SPANNABLE);
         } else {
@@ -108,12 +108,12 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         cbLike.setChecked(filmDetail.getFilmDetail().isFavourite());
         cbLike.setText(filmDetail.getFilmDetail().getLikeCount() != null ? filmDetail.getFilmDetail().getLikeCount().toString() : "0");
         cbPlay.setText(filmDetail.getFilmDetail().getPlayCount() != null ? filmDetail.getFilmDetail().getPlayCount().toString() : "0");
-        if (filmDetail.getFilmDetail().getActors() != null) {
+        if (!StringUtils.isEmpty(filmDetail.getFilmDetail().getActors())) {
             tvActor.setText(getString(R.string.actor) + filmDetail.getFilmDetail().getActors());
         } else {
             tvActor.setVisibility(View.GONE);
         }
-        if (filmDetail.getFilmDetail().getCountry() != null) {
+        if (!StringUtils.isEmpty(filmDetail.getFilmDetail().getCountry())) {
             tvCountry.setText(getString(R.string.country) + filmDetail.getFilmDetail().getCountry());
         } else {
             tvCountry.setVisibility(View.GONE);

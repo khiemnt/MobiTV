@@ -94,13 +94,13 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
             Logger.e("Cannot get url streaming...");
         }
         tvTitle.setText(videoDetail.getVideoDetail().getName());
-        if (videoDetail.getVideoDetail().getDescription() != null) {
+        if (!StringUtils.isEmpty(videoDetail.getVideoDetail().getDescription())) {
             tvFullDes.setTrim(true);
             tvFullDes.setText(videoDetail.getVideoDetail().getDescription(), TextView.BufferType.SPANNABLE);
         } else {
             tvFullDes.setVisibility(View.GONE);
         }
-        if (videoDetail.getVideoDetail().getTag() != null)
+        if (!StringUtils.isEmpty(videoDetail.getVideoDetail().getTag()))
             tvTag.setText(getString(R.string.tag) + videoDetail.getVideoDetail().getTag());
         else
             tvTag.setVisibility(View.GONE);
