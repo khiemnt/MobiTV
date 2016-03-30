@@ -37,6 +37,10 @@ public class Content {
     private boolean mIsLive;
     @SerializedName("shortDescription")
     private String mShortDesc;
+    @SerializedName("likeCount")
+    private Integer likeCount;
+    @SerializedName("playCount")
+    private Integer playCount;
 
     public String getId() {
         return mId;
@@ -158,6 +162,22 @@ public class Content {
         mShortDesc = shortDesc;
     }
 
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Integer getPlayCount() {
+        return playCount;
+    }
+
+    public void setPlayCount(Integer playCount) {
+        this.playCount = playCount;
+    }
+
     public enum Type {
         @SerializedName("FILM")
         FILM,
@@ -165,5 +185,7 @@ public class Content {
         LIVETV,
         @SerializedName("VOD")
         VOD,
+        @SerializedName("TVSHOW")
+        TVSHOW,
     }
 }

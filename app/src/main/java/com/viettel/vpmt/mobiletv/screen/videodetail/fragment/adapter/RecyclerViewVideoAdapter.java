@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.item.ImageItem;
 
@@ -48,19 +49,21 @@ public class RecyclerViewVideoAdapter extends RecyclerView.Adapter<RecyclerViewV
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.title.setText(imageItems.get(position).getDes());
-        Picasso.with(context)
-                .load(imageItems.get(position).getUri())
-                .placeholder(R.mipmap.ic_launcher)
-                .fit()
-                .into(holder.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                });
+//        Picasso.with(context)
+//                .load(imageItems.get(position).getUri())
+//                .placeholder(R.mipmap.ic_launcher)
+//                .fit()
+//                .into(holder.image, new Callback() {
+//                    @Override
+//                    public void onSuccess() {
+//                    }
+//
+//                    @Override
+//                    public void onError() {
+//                    }
+//                });
+        // Lazy load cover
+        ImageUtils.loadImage(context, imageItems.get(position).getUri(), holder.image, true);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

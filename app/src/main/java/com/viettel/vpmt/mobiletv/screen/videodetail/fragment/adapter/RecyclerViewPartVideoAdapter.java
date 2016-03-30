@@ -1,8 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
@@ -34,35 +33,25 @@ public class RecyclerViewPartVideoAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.part_video, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_video, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.title.setText(parts.get(position).getName());
-        holder.title.setBackgroundResource(R.drawable.background_part_unselect);
+        holder.mImageView.setBackgroundResource(R.drawable.background_part_unselect);
+        holder.mImageView.setPadding(0, 0, 0, 0);
         if (position == positionActive) {
-            holder.title.setBackgroundResource(R.drawable.background_part_selected);
+            holder.mImageView.setBackgroundResource(R.drawable.background_part_selected);
+            holder.mImageView.setPadding(2, 2, 2, 2);
         }
-        Picasso.with(mContext)
-                .load(parts.get(position).getUrlAvatar())
-                .placeholder(R.mipmap.ic_launcher)
-                .fit()
-                .into(holder.mImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                });
-
+        ImageUtils.loadImage(mContext, parts.get(position).getUrlAvatar(), holder.mImageView, true);
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.title.setBackgroundResource(R.drawable.background_part_selected);
+                holder.mImageView.setBackgroundResource(R.drawable.background_part_selected);
+                holder.mImageView.setPadding(2, 2, 2, 2);
                 ((VideoDetailActivity) mContext).getFragment().getPresenter().getDetailVideo(position, videoId, parts.get(position).getId());
             }
         });

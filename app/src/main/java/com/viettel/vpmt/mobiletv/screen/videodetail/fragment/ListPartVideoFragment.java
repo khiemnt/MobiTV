@@ -9,6 +9,7 @@ import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerVie
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,7 @@ public class ListPartVideoFragment extends BaseFragment<ListPartVideoPresenter, 
     public void onPrepareLayout() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
-        GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 4);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         getPresenter().setData(parts, filmId);
         getPresenter().setPositionActive(positionActive);
         getPresenter().getData();

@@ -4,8 +4,8 @@ import com.google.android.exoplayer.util.Util;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
-import com.viettel.vpmt.mobiletv.common.util.CustomTextViewExpandable;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
+import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
@@ -37,11 +37,13 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     @Bind(R.id.fragment_video_detail_tvTitle)
     TextView tvTitle;
     @Bind(R.id.fragment_video_detail_tvFullDes)
-    TextView tvFullDes;
+    ExpandableTextView tvFullDes;
     @Bind(R.id.fragment_video_detail_tvTag)
     TextView tvTag;
     @Bind(R.id.video_detail_thumb_up_down)
     CheckBox tvFavorite;
+    @Bind(R.id.video_detail_number_of_view)
+    CheckBox playCount;
     @Bind(R.id.viewpager)
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
@@ -73,10 +75,9 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     @Override
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
-        float videoId = bundle.getFloat("videoId");
+        videoId = bundle.getFloat("videoId");
         float partOfVideo = bundle.getFloat("part");
         getPresenter().getDetailVideo(0, videoId, partOfVideo);
-        CustomTextViewExpandable.makeTextViewResizable(tvFullDes, 3, getString(R.string.view_more), false);
     }
 
     @Override
@@ -92,17 +93,22 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         } else {
             Logger.e("Cannot get url streaming...");
         }
-
-
         tvTitle.setText(videoDetail.getVideoDetail().getName());
-        tvFullDes.setText(videoDetail.getVideoDetail().getDescription());
+        if (videoDetail.getVideoDetail().getDescription() != null) {
+            tvFullDes.setTrim(true);
+            tvFullDes.setText(videoDetail.getVideoDetail().getDescription());
+        } else {
+            tvFullDes.setVisibility(View.GONE);
+        }
         if (videoDetail.getVideoDetail().getTag() != null)
             tvTag.setText(getString(R.string.tag) + videoDetail.getVideoDetail().getTag());
         else
             tvTag.setVisibility(View.GONE);
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
+        tvFavorite.setText(videoDetail.getVideoDetail().getLikeCount() != null ? videoDetail.getVideoDetail().getLikeCount().toString() : "0");
+        playCount.setText(videoDetail.getVideoDetail().getPlayCount() != null ? videoDetail.getVideoDetail().getPlayCount().toString() : "0");
         if (videoDetail.getVideoRelated() != null) {
-            if (videoDetail.getVideoRelated().getType().equals(Box.Type.TVSHOW)) {
+            if (videoDetail.getVideoDetail().getType().name().equalsIgnoreCase(Box.Type.TVSHOW.name())) {
                 adapter = new VideoPartFragmentPagerAdapter(videoId, positionPartActive, videoDetail.getVideoRelated().getContents(),
                         getActivity().getSupportFragmentManager(), getActivity());
             } else {

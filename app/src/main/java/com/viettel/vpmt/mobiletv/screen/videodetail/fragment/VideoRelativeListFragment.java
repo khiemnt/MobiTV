@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.HorizontalItemDecoration;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.RecyclerViewVideoAdapter;
 
