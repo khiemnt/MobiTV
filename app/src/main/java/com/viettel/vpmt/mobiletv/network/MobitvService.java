@@ -39,6 +39,10 @@ public interface MobitvService {
     @POST("auth/authorize")
     Call<ResponseDTO<AuthenData>> authorize(@Query("grant_type") String grantType, @Query("msisdn") String msisdn);
 
+    @POST("auth/authorize")
+    Call<ResponseDTO<AuthenData>> autoLogin(@Query("grant_type") String grantType);
+
+
     @GET("{scope}/{path}")
     Call<ResponseDTO<List<Box>>> getHomeBox(@Path("scope") String scope,
                                             @Path("path") String path);

@@ -69,9 +69,8 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void autoLogin() {
         if (PrefManager.getMsisdn(this) == null) {
-            TelephonyManager telemamanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            String simSerialNumber = telemamanger.getSimSerialNumber();
-            ServiceBuilder.getService().authorize("auto_login", simSerialNumber).enqueue(mCallback);
+            ServiceBuilder.getService().authorize("auto_login", "84985124699").enqueue(mCallback);
+//            ServiceBuilder.getService().autoLogin("auto_login").enqueue(mCallback);
         } else {
             // Already logged in, just wait for 3 seconds
             waitForSeconds();
