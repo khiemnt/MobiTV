@@ -92,7 +92,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     public void doLoadToView(VideoDetail videoDetail, int positionPartActive) {
         String url = videoDetail.getStreams().getUrlStreaming();
         if (!StringUtils.isEmpty(url)) {
-            initPlayer(Uri.parse(url), Util.TYPE_OTHER);
+            initPlayer(Uri.parse(url), Util.TYPE_HLS);
         } else {
             //todo request login later
             getPresenter().getVideoStream(videoId);
@@ -123,6 +123,10 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         tabLayout.setupWithViewPager(viewPager);
         mScrollView.fullScroll(ScrollView.FOCUS_UP);
         hideProgress();
+    }
+
+    private void getUrlStream() {
+
     }
 
     @Override
