@@ -94,6 +94,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         if (!StringUtils.isEmpty(url)) {
             initPlayer(Uri.parse(url), Util.TYPE_OTHER);
         } else {
+            //todo request login later
             getPresenter().getVideoStream(videoId);
         }
         tvTitle.setText(videoDetail.getVideoDetail().getName());

@@ -97,6 +97,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         if (!StringUtils.isEmpty(url)) {
             initPlayer(Uri.parse(url), Util.TYPE_OTHER);
         } else {
+            //todo request login later
             getPresenter().getVideoStream(filmId);
         }
 

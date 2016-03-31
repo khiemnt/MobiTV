@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -68,7 +69,9 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void autoLogin() {
         if (PrefManager.getMsisdn(this) == null) {
-            ServiceBuilder.getService().authorize("auto_login", "841687551243").enqueue(mCallback);
+            TelephonyManager telemamanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            String simSerialNumber = telemamanger.getSimSerialNumber();
+            ServiceBuilder.getService().authorize("auto_login", simSerialNumber).enqueue(mCallback);
         } else {
             // Already logged in, just wait for 3 seconds
             waitForSeconds();
