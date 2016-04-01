@@ -43,5 +43,5 @@
     <dimen name="menu_width">300dp</dimen>
     <dimen name="menu_avatar_size">34dp</dimen>
     <dimen name="item_tivi_show_height">90dp</dimen>
-    <dimen name="text_tab_title">13sp</dimen>
+    <dimen name="text_tab_title">10sp</dimen>
 </resources>

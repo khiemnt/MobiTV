@@ -134,7 +134,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
-        mScrollView.fullScroll(ScrollView.FOCUS_UP);
+//        mScrollView.fullScroll(ScrollView.FOCUS_UP);
         hideProgress();
     }
 

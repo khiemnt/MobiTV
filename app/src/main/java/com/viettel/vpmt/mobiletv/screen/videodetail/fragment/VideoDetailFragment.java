@@ -49,8 +49,6 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
-    @Bind(R.id.mainScroll)
-    ScrollView mScrollView;
     FragmentStatePagerAdapter adapter;
     private float videoId = 0;
 
@@ -121,7 +119,6 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
-        mScrollView.fullScroll(ScrollView.FOCUS_UP);
         hideProgress();
     }
 

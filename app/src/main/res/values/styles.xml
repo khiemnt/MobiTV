@@ -129,27 +129,8 @@
         <item name="tabSelectedTextColor">@color/white</item>
     </style>
     <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">@dimen/text_tab_title</item>
         <item name="android:textColor">@color/grey</item>
         <item name="textAllCaps">true</item>
-    </style>
-
-    <style name="MyCustomTabPageIndicator" parent="Widget">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="tabBackground">?attr/selectableItemBackground</item>
-        <item name="android:background">@drawable/vpi__tab_indicator</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:textAppearance">@style/MyCustomTabTextAppearance</item>
-        <item name="android:textSize">12sp</item>
-        <item name="footerColor">@color/red</item>
-    </style>
-    <style name="Widget.MyTitlepageIndicator">
-        <item name="footerColor">@color/red</item>
-        <item name="footerIndicatorStyle">underline</item>
-        <item name="footerIndicatorHeight">3dp</item>
-        <item name="footerLineHeight">1.5dp</item>
-        <item name="footerPadding">6dp</item>
-        <item name="selectedColor">#ffffffff</item>
     </style>
 </resources>
