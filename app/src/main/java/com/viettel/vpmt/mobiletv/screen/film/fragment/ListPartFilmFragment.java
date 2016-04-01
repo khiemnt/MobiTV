@@ -53,7 +53,7 @@ public class ListPartFilmFragment extends BaseFragment<ListPartFilmPresenter, Fi
     public void onPrepareLayout() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
-        GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.part_film_column));
         mRecyclerView.setLayoutManager(linearLayoutManager);
         getPresenter().setData(parts, filmId);
         getPresenter().setPositionActive(positionActive);
