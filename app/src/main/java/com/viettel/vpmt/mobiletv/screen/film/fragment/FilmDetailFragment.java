@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.film.fragment;
 import com.google.android.exoplayer.util.Util;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
@@ -94,8 +95,9 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     @Override
     public void doLoadToView(FilmDetail filmDetail, int positionPartActive) {
         String url = filmDetail.getStreams().getUrlStreaming();
+        Logger.e("URL=\n" + url);
         if (!StringUtils.isEmpty(url)) {
-            initPlayer(Uri.parse(url), Util.TYPE_OTHER);
+            initPlayer(Uri.parse(url), Util.TYPE_HLS);
         } else {
             //todo request login later
             getPresenter().getVideoStream(filmId);
