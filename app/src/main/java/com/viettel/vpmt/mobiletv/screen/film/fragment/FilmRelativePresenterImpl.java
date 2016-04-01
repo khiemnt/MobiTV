@@ -27,7 +27,7 @@ public class FilmRelativePresenterImpl extends BasePresenterImpl<FilmRelativeVie
     public void getData() {
         List<ImageItem> imageItems = new ArrayList<>();
         for (Content content : videos) {
-            imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription()));
+            imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription(), content.getName()));
         }
         RecyclerViewFilmAdapter recyclerViewFilmAdapter = new RecyclerViewFilmAdapter(imageItems, mView.getViewContext());
         mView.loadRelativeVideo(recyclerViewFilmAdapter);

@@ -8,11 +8,13 @@ public class ImageItem {
     Float partOfVideo;
     String uri;
     String des;
+    String name;
 
-    public ImageItem(String videoId, String uri, String des) {
+    public ImageItem(String videoId, String uri, String des, String name) {
         this.videoId = Float.valueOf(videoId);
         this.uri = uri;
         this.des = des;
+        this.name = name;
     }
 
     public ImageItem(Float videoId, Float partOfVideo, String uri, String des) {
@@ -52,5 +54,13 @@ public class ImageItem {
 
     public void setPartOfVideo(Float partOfVideo) {
         this.partOfVideo = partOfVideo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -47,7 +47,7 @@ public class RecyclerViewFilmAdapter extends RecyclerView.Adapter<RecyclerViewFi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.title.setText(imageItems.get(position).getDes());
+        holder.title.setText(imageItems.get(position).getName());
         Picasso.with(context)
                 .load(imageItems.get(position).getUri())
                 .placeholder(R.mipmap.ic_launcher)
