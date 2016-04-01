@@ -44,7 +44,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
             return;
         }
 
-        ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, false);
+        ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, false);
 
         // Click item behavior
         holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));

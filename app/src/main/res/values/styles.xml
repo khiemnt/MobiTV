@@ -22,6 +22,7 @@
     <style name="Box.Title">
         <item name="android:textSize">@dimen/box_title_text_size</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginBottom">@dimen/padding_small</item>
         <item name="typeFaceStyle">@string/Medium</item>
     </style>
 
@@ -82,7 +83,6 @@
     <style name="ContentItem.Title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:lines">2</item>
         <item name="android:maxLines">2</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:ellipsize">end</item>
@@ -95,7 +95,6 @@
     <style name="ContentItem.SubTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:lines">2</item>
         <item name="android:maxLines">2</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:gravity">center</item>
