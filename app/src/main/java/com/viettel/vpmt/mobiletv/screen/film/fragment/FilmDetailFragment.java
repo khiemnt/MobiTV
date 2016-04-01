@@ -82,7 +82,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
         filmId = bundle.getFloat("filmId");
-        float partOfFilm = bundle.getFloat("part");
+        Integer partOfFilm = bundle.getInt("part");
         getPresenter().getDetailVideo(0, filmId, partOfFilm);
     }
 

@@ -26,7 +26,7 @@ public class FilmDetailActivity extends BaseActivity<FilmDetailPresenter> implem
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putFloat("filmId", Float.valueOf(filmId));
-        bundle.putFloat("part", 0);
+        bundle.putInt("part", 0);
         fragment = new FilmDetailFragment();
         fragment.setArguments(bundle);
         transaction.add(R.id.frame_layout, fragment);

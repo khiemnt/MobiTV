@@ -25,7 +25,7 @@ public interface MobitvService {
     Call<ResponseDTO<List<Box>>> getHome();
 
     @GET("film/get-detail")
-    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") float filmId, @Query("part_id") Float partOfFilm);
+    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") float filmId, @Query("part_id") Integer partOfFilm);
 
     @GET("film/get-video-stream")
     Call<ResponseDTO<VideoStream>> getFilmStream(@Header("Authorization") String authorization, @Query("id") float filmId);

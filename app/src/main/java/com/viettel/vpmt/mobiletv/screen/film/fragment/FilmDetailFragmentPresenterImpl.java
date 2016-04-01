@@ -17,7 +17,7 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<DetailFil
     }
 
     @Override
-    public void getDetailVideo(final int position, float videoId, Float partOfFilm) {
+    public void getDetailVideo(final int position, float videoId, Integer partOfFilm) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
