@@ -17,7 +17,7 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<DetailFil
     }
 
     @Override
-    public void getDetailVideo(final int position, float videoId, Integer partOfFilm) {
+    public void getDetailVideo(final int position, float videoId, Integer partOfFilm, final int tabIndex) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
@@ -30,7 +30,7 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<DetailFil
 
             @Override
             public void onResponse(FilmDetail data) {
-                mView.doLoadToView(data, position);
+                mView.doLoadToView(data, position, tabIndex);
             }
         });
     }

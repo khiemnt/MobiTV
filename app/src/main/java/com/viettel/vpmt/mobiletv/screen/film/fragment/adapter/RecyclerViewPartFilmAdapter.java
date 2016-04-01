@@ -47,7 +47,7 @@ public class RecyclerViewPartFilmAdapter extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View v) {
                 holder.title.setBackgroundResource(R.drawable.background_part_selected);
-                ((FilmDetailActivity) mContext).getFragment().getPresenter().getDetailVideo(position, filmId, parts.get(position).getId());
+                ((FilmDetailActivity) mContext).getFragment().getPresenter().getDetailVideo(position, filmId, parts.get(position).getId(), 0);
             }
         });
     }

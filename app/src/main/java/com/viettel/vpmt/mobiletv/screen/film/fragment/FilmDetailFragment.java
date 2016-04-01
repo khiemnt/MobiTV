@@ -84,7 +84,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         Bundle bundle = getArguments();
         filmId = bundle.getFloat("filmId");
         Integer partOfFilm = bundle.getInt("part");
-        getPresenter().getDetailVideo(0, filmId, partOfFilm);
+        getPresenter().getDetailVideo(0, filmId, partOfFilm,0);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     }
 
     @Override
-    public void doLoadToView(FilmDetail filmDetail, int positionPartActive) {
+    public void doLoadToView(FilmDetail filmDetail, int positionPartActive, int tabIndex) {
         String url = filmDetail.getStreams().getUrlStreaming();
         Logger.e("URL=\n" + url);
         if (!StringUtils.isEmpty(url)) {
@@ -134,7 +134,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
-//        mScrollView.fullScroll(ScrollView.FOCUS_UP);
+        tabLayout.getTabAt(tabIndex).select();
         hideProgress();
     }
 

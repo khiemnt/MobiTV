@@ -49,19 +49,6 @@ public class RecyclerViewVideoAdapter extends RecyclerView.Adapter<RecyclerViewV
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.title.setText(imageItems.get(position).getName());
-//        Picasso.with(context)
-//                .load(imageItems.get(position).getUri())
-//                .placeholder(R.mipmap.ic_launcher)
-//                .fit()
-//                .into(holder.image, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//                    }
-//                });
         // Lazy load cover
         ImageUtils.loadImage(context, imageItems.get(position).getUri(), holder.image, true);
         holder.image.setOnClickListener(new View.OnClickListener() {
