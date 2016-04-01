@@ -52,8 +52,6 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     CheckBox cbLike;
     @Bind(R.id.film_detail_number_of_view)
     CheckBox cbPlay;
-    @Bind(R.id.mainScroll)
-    ScrollView mScrollView;
 
     FragmentStatePagerAdapter adapter;
     private float filmId = 0;
@@ -140,6 +138,6 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
 
     @Override
     public void doLoadVideoStream(VideoStream videoStream) {
-        initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_OTHER);
+        initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_HLS);
     }
 }

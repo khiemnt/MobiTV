@@ -156,6 +156,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
     public void init(Uri uri, int contentType, String fileExtension) {
         contentUri = uri;
+        releasePlayer();
         if (contentType < 0 || contentType > 3) {
             this.contentType = inferContentType(contentUri, fileExtension);
         } else {
