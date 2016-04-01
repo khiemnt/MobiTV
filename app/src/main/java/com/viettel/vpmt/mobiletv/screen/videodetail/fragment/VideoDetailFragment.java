@@ -122,10 +122,6 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         hideProgress();
     }
 
-    private void getUrlStream() {
-
-    }
-
     @Override
     public void doLoadVideoStream(VideoStream videoStream) {
         initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_OTHER);
