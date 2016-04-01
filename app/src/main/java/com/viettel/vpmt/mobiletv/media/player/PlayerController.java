@@ -547,7 +547,11 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
     private void showControls() {
         if (mediaController != null) {
-            mediaController.show(0);
+            try {
+                mediaController.show(0);
+            }catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

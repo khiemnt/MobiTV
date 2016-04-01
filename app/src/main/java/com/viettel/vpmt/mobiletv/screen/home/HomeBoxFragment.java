@@ -4,6 +4,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.common.Constants;
+import com.viettel.vpmt.mobiletv.common.view.SmoothScrollListener;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
 
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class HomeBoxFragment extends BaseFragment<HomeBoxFragmentPresenter, Home
         mRecyclerView.setRefreshListener(this);
         mRecyclerView.setRefreshingColorResources(android.R.color.holo_orange_light, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_red_light);
 
+        mRecyclerView.setOnScrollListener(new SmoothScrollListener(getActivity()));
         // Set title
         mTitle = getArguments().getString(Constants.Extras.TITLE);
         setTitle();

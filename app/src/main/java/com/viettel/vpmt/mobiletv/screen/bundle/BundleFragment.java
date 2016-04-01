@@ -7,6 +7,7 @@ import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
+import com.viettel.vpmt.mobiletv.common.view.SmoothScrollListener;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.GridItemDecoration;
@@ -62,7 +63,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
         }
 
         mRecyclerView.setupMoreListener(this, 1);
-
+        mRecyclerView.setOnScrollListener(new SmoothScrollListener(getActivity()));
         // Set title
         mTitle = getArguments().getString(Constants.Extras.TITLE);
         setTitle();
