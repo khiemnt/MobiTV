@@ -8,4 +8,5 @@ import com.viettel.vpmt.mobiletv.base.BasePresenter;
 public interface FilmDetailFragmentPresenter extends BasePresenter {
     void getDetailVideo(int position, float videoId, Integer partOfFilm, int tabIndex);
     void getVideoStream(float videoId);
+    void postLikeFilm(boolean isLike, float filmId);
 }

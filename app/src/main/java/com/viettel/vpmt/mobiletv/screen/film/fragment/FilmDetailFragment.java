@@ -21,10 +21,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by ThanhTD on 3/26/2016.
@@ -82,7 +82,12 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         Bundle bundle = getArguments();
         filmId = bundle.getFloat("filmId");
         Integer partOfFilm = bundle.getInt("part");
-        getPresenter().getDetailVideo(0, filmId, partOfFilm,0);
+        getPresenter().getDetailVideo(0, filmId, partOfFilm, 0);
+    }
+
+    @OnClick(R.id.film_detail_thumb_up_down)
+    void doClick() {
+        getPresenter().postLikeFilm(cbLike.isChecked(), filmId);
     }
 
     @Override
@@ -139,5 +144,10 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     @Override
     public void doLoadVideoStream(VideoStream videoStream) {
         initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_HLS);
+    }
+
+    @Override
+    public void doRefreshLike(boolean isLike) {
+        cbLike.setChecked(isLike);
     }
 }

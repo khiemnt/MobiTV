@@ -5,6 +5,7 @@ import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
+import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
@@ -55,5 +56,22 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
         });
     }
 
+    @Override
+    public void postLikeVideo(boolean isLike, float videoId) {
+        if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
+            return;
+        }
+        String header = "Bearer " + PrefManager.getAccessToken(mView.getViewContext());
+        ServiceBuilder.getService().postLikeVideo(header, videoId).enqueue(new BaseCallback<ResponseLikeUnlike>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+                mView.onRequestError(errorCode, errorMessage);
+            }
 
+            @Override
+            public void onResponse(ResponseLikeUnlike data) {
+                mView.doRefreshLike(data.getData().isLike());
+            }
+        });
+    }
 }

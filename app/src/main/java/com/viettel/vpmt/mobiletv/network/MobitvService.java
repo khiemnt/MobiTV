@@ -4,6 +4,7 @@ import com.viettel.vpmt.mobiletv.network.dto.AuthenData;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
+import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
@@ -51,4 +52,10 @@ public interface MobitvService {
     Call<ResponseDTO<List<Box>>> getMoreContent(@Query("id") String id,
                                                 @Query("offset") int offset,
                                                 @Query("limit") int limit);
+
+    @POST("film/toggle-like-film")
+    Call<ResponseDTO<ResponseLikeUnlike>> postLikeFilm(@Header("Authorization") String authorization, @Query("id") float filmId);
+
+    @POST("video/toggle-like-video")
+    Call<ResponseDTO<ResponseLikeUnlike>> postLikeVideo(@Header("Authorization") String authorization, @Query("id") float filmId);
 }

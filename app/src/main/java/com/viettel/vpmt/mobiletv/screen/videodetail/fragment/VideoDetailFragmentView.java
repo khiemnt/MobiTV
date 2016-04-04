@@ -10,4 +10,5 @@ import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 public interface VideoDetailFragmentView extends BaseView<VideoDetailFragmentPresenter> {
     void doLoadToView(VideoDetail videoDetail, int positionActive);
     void doLoadVideoStream(VideoStream videoStream);
+    void doRefreshLike(boolean isLike);
 }

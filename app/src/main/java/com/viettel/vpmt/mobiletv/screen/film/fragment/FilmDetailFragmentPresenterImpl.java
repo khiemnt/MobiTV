@@ -6,6 +6,7 @@ import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
+import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
 import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
 /**
@@ -50,6 +51,25 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<DetailFil
             @Override
             public void onResponse(VideoStream data) {
                 mView.doLoadVideoStream(data);
+            }
+        });
+    }
+
+    @Override
+    public void postLikeFilm(boolean isLike, float filmId) {
+        if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
+            return;
+        }
+        String header = "Bearer " + PrefManager.getAccessToken(mView.getViewContext());
+        ServiceBuilder.getService().postLikeFilm(header, filmId).enqueue(new BaseCallback<ResponseLikeUnlike>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+                mView.onRequestError(errorCode, errorMessage);
+            }
+
+            @Override
+            public void onResponse(ResponseLikeUnlike data) {
+                mView.doRefreshLike(data.getData().isLike());
             }
         });
     }

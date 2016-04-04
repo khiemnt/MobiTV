@@ -22,10 +22,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by ThanhTD on 3/26/2016.
@@ -81,6 +81,11 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         getPresenter().getDetailVideo(0, videoId, partOfVideo);
     }
 
+    @OnClick(R.id.video_detail_thumb_up_down)
+    void doFavorite() {
+        getPresenter().postLikeVideo(tvFavorite.isChecked(), videoId);
+    }
+
     @Override
     public VideoDetailFragmentPresenter onCreatePresenter() {
         return new VideoDetailFragmentPresenterImpl(this);
@@ -125,6 +130,11 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     @Override
     public void doLoadVideoStream(VideoStream videoStream) {
         initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_OTHER);
+    }
+
+    @Override
+    public void doRefreshLike(boolean isLike) {
+        tvFavorite.setChecked(isLike);
     }
 
     @Override
