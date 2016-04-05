@@ -31,7 +31,7 @@
         <activity
             android:name=".screen.videodetail.activity.VideoDetailActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".screen.film.activity.FilmDetailActivity"
+        <activity android:name=".screen.film.activity.FilmActivityDetail"
                   android:screenOrientation="portrait"/>
         <activity android:name=".media.PlayerActivity"
                   android:screenOrientation="portrait"/>
