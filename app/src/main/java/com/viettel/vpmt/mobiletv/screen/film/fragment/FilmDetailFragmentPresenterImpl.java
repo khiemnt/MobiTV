@@ -12,8 +12,8 @@ import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<DetailFilmFragmentView> implements FilmDetailFragmentPresenter {
-    public FilmDetailFragmentPresenterImpl(DetailFilmFragmentView view) {
+public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetailFragmentView> implements FilmDetailFragmentPresenter {
+    public FilmDetailFragmentPresenterImpl(FilmDetailFragmentView view) {
         super(view);
     }
 

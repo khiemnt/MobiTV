@@ -29,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmActivityDetail> implements DetailFilmFragmentView {
+public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmActivityDetail> implements FilmDetailFragmentView {
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
