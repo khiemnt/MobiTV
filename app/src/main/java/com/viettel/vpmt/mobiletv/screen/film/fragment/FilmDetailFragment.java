@@ -9,7 +9,7 @@ import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
-import com.viettel.vpmt.mobiletv.screen.film.activity.FilmDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.film.activity.FilmActivityDetail;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.FilmPartFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.film.utils.WrapContentHeightViewPager;
@@ -29,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by ThanhTD on 3/26/2016.
  */
-public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmDetailActivity> implements DetailFilmFragmentView {
+public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmActivityDetail> implements DetailFilmFragmentView {
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)

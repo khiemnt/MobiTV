@@ -2,7 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.home.controller;
 
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.film.activity.FilmDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.film.activity.FilmActivityDetail;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.content.Context;
@@ -27,7 +27,7 @@ public class ContentItemClickListener implements View.OnClickListener {
     public void onClick(View v) {
         switch (mContent.getType()) {
             case FILM:
-                mContext.startActivity(new Intent(mContext, FilmDetailActivity.class)
+                mContext.startActivity(new Intent(mContext, FilmActivityDetail.class)
                         .putExtra(Constants.Extras.ID, mContent.getId()));
                 break;
             case VOD:

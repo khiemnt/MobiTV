@@ -3,7 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.film.fragment;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
-import com.viettel.vpmt.mobiletv.screen.film.activity.FilmDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.film.activity.FilmActivityDetail;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.RecyclerViewPartFilmAdapter;
 
 import android.support.v7.widget.GridLayoutManager;
@@ -17,7 +17,7 @@ import butterknife.Bind;
 /**
  * Created by ThanhTD on 3/29/2016.
  */
-public class ListPartFilmFragment extends BaseFragment<ListPartFilmPresenter, FilmDetailActivity> implements ListPartFilmView {
+public class ListPartFilmFragment extends BaseFragment<ListPartFilmPresenter, FilmActivityDetail> implements ListPartFilmView {
 
     @Bind(R.id.list_part_recyclerView)
     RecyclerView mRecyclerView;

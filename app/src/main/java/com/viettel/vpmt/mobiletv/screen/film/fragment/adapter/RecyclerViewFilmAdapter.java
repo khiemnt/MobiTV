@@ -3,7 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.film.fragment.adapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.screen.film.activity.FilmDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.film.activity.FilmActivityDetail;
 import com.viettel.vpmt.mobiletv.screen.film.fragment.adapter.item.ImageItem;
 
 import android.content.Context;
@@ -64,7 +64,7 @@ public class RecyclerViewFilmAdapter extends RecyclerView.Adapter<RecyclerViewFi
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FilmDetailActivity) context).getFragment().getPresenter().getDetailVideo(0, imageItems.get(position).getVideoId(), null, 1);
+                ((FilmActivityDetail) context).getFragment().getPresenter().getDetailVideo(0, imageItems.get(position).getVideoId(), null, 1);
             }
         });
     }

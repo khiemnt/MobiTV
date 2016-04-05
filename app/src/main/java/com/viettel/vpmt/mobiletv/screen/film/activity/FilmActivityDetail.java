@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 /**
  * Created by ThanhTD on 3/22/2016.
  */
-public class FilmDetailActivity extends BaseActivity<FilmDetailPresenter> implements DetailFilmView {
+public class FilmActivityDetail extends BaseActivity<FilmDetailPresenter> implements FilmDetailView {
     FilmDetailFragment fragment;
     String filmId;
 
