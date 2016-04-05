@@ -35,6 +35,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".media.PlayerActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".playercustom.PlayerCustomActivity"
+                  android:screenOrientation="portrait"/>
         <!-- Fabric -->
         <meta-data
             android:name="io.fabric.ApiKey"

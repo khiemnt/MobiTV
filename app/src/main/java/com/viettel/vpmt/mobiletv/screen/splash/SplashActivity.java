@@ -7,6 +7,7 @@ import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.AuthenData;
+import com.viettel.vpmt.mobiletv.playercustom.PlayerCustomActivity;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 
 import android.content.Context;
@@ -60,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
      * Go to home page
      */
     private void goHome() {
-        startActivity(new Intent(SplashActivity.this, HomeBoxActivity.class));
+        startActivity(new Intent(SplashActivity.this, PlayerCustomActivity.class));
         SplashActivity.this.finish();
     }
 
