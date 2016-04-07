@@ -50,8 +50,6 @@ public abstract class PlayerActivity extends BaseActivity {
     SubtitleLayout subtitleLayout;
     @Bind(R.id.player_root)
     View root;
-//    @Bind(R.id.rlRootControl)
-//    RelativeLayout rlRootControl;
 
     private PlayerController mPlayerController;
 
@@ -85,23 +83,6 @@ public abstract class PlayerActivity extends BaseActivity {
         super.onDestroy();
         mPlayerController.onDestroy();
     }
-
-    // OnClickListener methods
-
-//    @OnClick(R.id.control_retry)
-//    public void retry(View view) {
-//        mPlayerController.retry();
-//    }
-//
-//    @OnClick(R.id.control_quantity)
-//    public void showPopupQuantity(View view) {
-//        mPlayerController.showPopupQuantity(view);
-//    }
-//
-//    @OnClick(R.id.control_report)
-//    public void showPopupReport(View view) {
-//        mPlayerController.showTextPopup(view);
-//    }
 
 
     // Permission request listener method

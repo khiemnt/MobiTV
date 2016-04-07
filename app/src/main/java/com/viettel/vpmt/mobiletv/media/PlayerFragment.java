@@ -54,8 +54,6 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     SubtitleLayout mSubtitleLayout;
     @Bind(R.id.player_root)
     View mRoot;
-//    @Bind(R.id.rlRootControl)
-//    RelativeLayout rlRootControl;
 
     protected PlayerController mPlayerController;
 
@@ -106,23 +104,6 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
         super.onDestroy();
         mPlayerController.onDestroy();
     }
-
-    // OnClickListener methods
-
-//    @OnClick(R.id.control_quantity)
-//    public void doQuantity(View view) {
-//        mPlayerController.showQualityPopup(view);
-//    }
-//
-//    @OnClick(R.id.control_report)
-//    public void showPopupReport(View view) {
-//        mPlayerController.showTextPopup(view);
-//    }
-//
-//    @OnClick(R.id.control_retry)
-//    public void retry(View view) {
-//        mPlayerController.retry();
-//    }
 
     // Permission request listener method
     @Override
