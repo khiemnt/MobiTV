@@ -27,9 +27,14 @@ import com.viettel.vpmt.mobiletv.media.player.PlayerController;
 
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -49,9 +54,22 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     SubtitleLayout mSubtitleLayout;
     @Bind(R.id.player_root)
     View mRoot;
+//    @Bind(R.id.rlRootControl)
+//    RelativeLayout rlRootControl;
 
     protected PlayerController mPlayerController;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        if (mPlayerController == null) {
+            mPlayerController = new PlayerController(getActivity(), mRoot, mVideoFrame
+                    , mSurfaceView, mSubtitleLayout, mShutterView);
+        }
+        return view;
+    }
 
     @Override
     public void onResume() {
@@ -91,10 +109,20 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
 
     // OnClickListener methods
 
-    @OnClick(R.id.retry_button)
-    public void retry(View view) {
-        mPlayerController.retry();
-    }
+//    @OnClick(R.id.control_quantity)
+//    public void doQuantity(View view) {
+//        mPlayerController.showQualityPopup(view);
+//    }
+//
+//    @OnClick(R.id.control_report)
+//    public void showPopupReport(View view) {
+//        mPlayerController.showTextPopup(view);
+//    }
+//
+//    @OnClick(R.id.control_retry)
+//    public void retry(View view) {
+//        mPlayerController.retry();
+//    }
 
     // Permission request listener method
     @Override

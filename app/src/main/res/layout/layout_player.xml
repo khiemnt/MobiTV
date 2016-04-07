@@ -14,109 +14,89 @@
      limitations under the License.
 -->
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:focusable="true"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/player_height"
-    android:keepScreenOn="true">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/player_height"
+        android:keepScreenOn="true">
 
     <com.google.android.exoplayer.AspectRatioFrameLayout
-        android:id="@+id/video_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+            android:id="@+id/video_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
         <SurfaceView
-            android:id="@+id/surface_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"/>
+                android:id="@+id/surface_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"/>
 
         <View
-            android:id="@+id/shutter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/black"/>
+                android:id="@+id/shutter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/black"/>
+        <RelativeLayout android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-        <com.google.android.exoplayer.text.SubtitleLayout
-            android:id="@+id/subtitles"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            <com.google.android.exoplayer.text.SubtitleLayout
+                    android:id="@+id/subtitles"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </RelativeLayout>
 
     </com.google.android.exoplayer.AspectRatioFrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#88000000"
-        android:visibility="gone"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/player_state_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textSize="10sp"
-            tools:ignore="SmallSp"/>
-
-        <TextView
-            android:id="@+id/debug_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textSize="10sp"
-            tools:ignore="SmallSp"/>
-
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/rlRootControl">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/item_more_action"
+                  android:layout_marginTop="@dimen/margin_left_medium"
+                  android:paddingLeft="@dimen/margin_left_medium"
+                  android:paddingRight="@dimen/margin_left_medium"
+                  android:visibility="visible"
+                  android:layout_marginRight="@dimen/margin_left_medium"
+                  android:layout_alignParentRight="true"
+                  android:background="@drawable/ic_overflow"/>
         <LinearLayout
-            android:id="@+id/controls_root"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+                android:id="@+id/controls_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/item_more_action"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone">
+            <ImageView
+                    android:id="@+id/control_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_left_large"
+                    android:background="@drawable/ic_quality"/>
 
-            <Button
-                android:id="@+id/video_controls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/video"
-                android:visibility="gone"
-                android:onClick="showVideoPopup"/>
+            <ImageView
+                    android:id="@+id/control_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_left_large"
+                    android:background="@drawable/ic_speed"
+                    android:visibility="gone"/>
 
-            <Button
-                android:id="@+id/audio_controls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/audio"
-                android:visibility="gone"
-                android:onClick="showAudioPopup"/>
-
-            <Button
-                android:id="@+id/text_controls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:onClick="showTextPopup"/>
-
-            <Button
-                android:id="@+id/verbose_log_controls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/logging"
-                android:onClick="showVerboseLogPopup"/>
-
-            <Button
-                android:id="@+id/retry_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/retry"
-                android:visibility="gone"/>
-
+            <ImageView
+                    android:id="@+id/control_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_left_large"
+                    android:background="@drawable/ic_report"/>
+            <ImageView
+                    android:id="@+id/control_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_retry"/>
         </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

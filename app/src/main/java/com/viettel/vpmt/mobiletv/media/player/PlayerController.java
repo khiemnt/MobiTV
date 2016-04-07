@@ -31,6 +31,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,8 +43,14 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.accessibility.CaptioningManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.CookieHandler;
@@ -78,6 +85,13 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     private View rootView;
+    private RelativeLayout rlRootControl;
+    private LinearLayout llAction;
+    private TextView tvMoreAction;
+    private ImageView ivQuality;
+    private ImageView ivSpeed;
+    private ImageView ivReport;
+    private ImageView ivRetry;
 
     private EventLogger eventLogger;
     private MediaController mediaController;
@@ -100,12 +114,37 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private AudioCapabilitiesReceiver audioCapabilitiesReceiver;
     private Activity mActivity;
 
-    public PlayerController(Activity activity, View rootView,
+    public PlayerController(Activity activity, final View rootView,
                             AspectRatioFrameLayout videoFrame, SurfaceView surfaceView,
                             SubtitleLayout subtitleLayout, View shutterView) {
         this.rootView = rootView;
         mActivity = activity;
         this.shutterView = shutterView;
+        this.rlRootControl = (RelativeLayout) rootView.findViewById(R.id.rlRootControl);
+        this.llAction = (LinearLayout) rootView.findViewById(R.id.controls_root);
+        this.ivQuality = (ImageView) rootView.findViewById(R.id.control_quantity);
+        this.ivSpeed = (ImageView) rootView.findViewById(R.id.control_speed);
+        this.ivReport = (ImageView) rootView.findViewById(R.id.control_report);
+        this.ivRetry = (ImageView) rootView.findViewById(R.id.control_retry);
+        ivQuality.setOnClickListener(qualityListener);
+        ivSpeed.setOnClickListener(speedListener);
+        ivReport.setOnClickListener(reportListener);
+        llAction.setVisibility(View.GONE);
+        ivRetry.setOnClickListener(retryListener);
+        tvMoreAction = (TextView) rootView.findViewById(R.id.item_more_action);
+        tvMoreAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaController.hide();
+                tvMoreAction.setVisibility(View.GONE);
+                llAction.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.anim);
+                animation.setDuration(500);
+                llAction.setAnimation(animation);
+                llAction.animate();
+                animation.start();
+            }
+        });
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -146,6 +185,34 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         audioCapabilitiesReceiver.register();
     }
 
+    private View.OnClickListener qualityListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showQualityPopup(v);
+        }
+    };
+
+    private View.OnClickListener speedListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //// TODO: 4/6/2016
+        }
+    };
+
+    private View.OnClickListener reportListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showAudioPopup(v);
+        }
+    };
+
+    private View.OnClickListener retryListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            retry();
+        }
+    };
+
     public void onNewIntent(Intent intent) {
         releasePlayer();
         playerPosition = 0;
@@ -157,6 +224,8 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     public void init(Uri uri, int contentType, String fileExtension) {
         contentUri = uri;
         releasePlayer();
+        llAction.setVisibility(View.GONE);
+        tvMoreAction.setVisibility(View.GONE);
         if (contentType < 0 || contentType > 3) {
             this.contentType = inferContentType(contentUri, fileExtension);
         } else {
@@ -206,6 +275,12 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     // Retry
     public void retry() {
         preparePlayer(true);
+    }
+
+    public void showQualityPopup(View v) {
+        PopupMenu popup = new PopupMenu(mActivity, v);
+        configurePopupWithTracks(popup, null, MobiPlayer.TYPE_VIDEO);
+        popup.show();
     }
 
     // AudioCapabilitiesReceiver.Listener methods
@@ -540,6 +615,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private void toggleControlsVisibility() {
         if (mediaController.isShowing()) {
             mediaController.hide();
+            tvMoreAction.setVisibility(View.GONE);
         } else {
             showControls();
         }
@@ -548,8 +624,11 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private void showControls() {
         if (mediaController != null) {
             try {
+                rlRootControl.setVerticalGravity(View.VISIBLE);
+                tvMoreAction.setVisibility(View.VISIBLE);
+                llAction.setVisibility(View.GONE);
                 mediaController.show(0);
-            }catch (NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 ex.printStackTrace();
             }
         }
