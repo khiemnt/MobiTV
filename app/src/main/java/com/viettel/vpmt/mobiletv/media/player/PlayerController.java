@@ -28,14 +28,16 @@ import com.viettel.vpmt.mobiletv.media.WidevineTestMediaDrmCallback;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -188,27 +190,31 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private View.OnClickListener qualityListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            showQualityPopup(v);
+            llAction.setVisibility(View.GONE);
+            showQualityPopup();
         }
     };
 
     private View.OnClickListener speedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //// TODO: 4/6/2016
+            llAction.setVisibility(View.GONE);
+            showSpeedPopup();
         }
     };
 
     private View.OnClickListener reportListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            showAudioPopup(v);
+            llAction.setVisibility(View.GONE);
+            showReportPopup();
         }
     };
 
     private View.OnClickListener retryListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            llAction.setVisibility(View.GONE);
             retry();
         }
     };
@@ -277,11 +283,57 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         preparePlayer(true);
     }
 
-    public void showQualityPopup(View v) {
-        PopupMenu popup = new PopupMenu(mActivity, v);
-        configurePopupWithTracks(popup, null, MobiPlayer.TYPE_VIDEO);
-        popup.show();
+    public void showQualityPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        builder.setTitle(R.string.title_quality);
+        builder.setView(inflater.inflate(R.layout.quality_dialog, null))
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
     }
+
+    public void showSpeedPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        builder.setTitle(R.string.title_speed);
+        builder.setView(inflater.inflate(R.layout.speed_dialog, null))
+                .setNegativeButton(R.string.send, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
+    }
+
+    public void showReportPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        builder.setTitle(R.string.title_report);
+        builder.setView(inflater.inflate(R.layout.report_dialog, null))
+                .setNegativeButton(R.string.send, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
+    }
+
 
     // AudioCapabilitiesReceiver.Listener methods
 
