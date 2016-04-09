@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ import android.view.View;
 import android.view.accessibility.CaptioningManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -89,7 +91,11 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private View rootView;
     private RelativeLayout rlRootControl;
     private LinearLayout llAction;
+    private LinearLayout llMoreAction;
     private TextView tvMoreAction;
+    private TextView tvShare;
+    private CheckBox tvLike;
+    private TextView tvPlayList;
     private ImageView ivQuality;
     private ImageView ivSpeed;
     private ImageView ivReport;
@@ -134,17 +140,49 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         llAction.setVisibility(View.GONE);
         ivRetry.setOnClickListener(retryListener);
         tvMoreAction = (TextView) rootView.findViewById(R.id.item_more_action);
+        tvShare = (TextView) rootView.findViewById(R.id.item_share);
+        llMoreAction = (LinearLayout)rootView.findViewById(R.id.llMoreAction);
+        tvLike = (CheckBox) rootView.findViewById(R.id.like_unlike_video);
+        tvPlayList = (TextView) rootView.findViewById(R.id.item_playlist);
         tvMoreAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaController.hide();
-                tvMoreAction.setVisibility(View.GONE);
+                llMoreAction.setVisibility(View.GONE);
                 llAction.setVisibility(View.VISIBLE);
                 Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.anim);
                 animation.setDuration(500);
                 llAction.setAnimation(animation);
                 llAction.animate();
                 animation.start();
+//                toggleFullScreen();
+            }
+        });
+
+        tvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //// TODO: 4/8/2016 call service like unlike video
+            }
+        });
+
+        tvShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Subject Share");
+                intent.putExtra(Intent.EXTRA_TEXT, "Link video...");
+                mActivity.startActivity(Intent.createChooser(intent, "How do you want to share?"));
+            }
+        });
+
+        tvPlayList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogPlayList();
             }
         });
 
@@ -185,6 +223,18 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
         audioCapabilitiesReceiver = new AudioCapabilitiesReceiver(mActivity, this);
         audioCapabilitiesReceiver.register();
+    }
+
+
+    public void toggleFullScreen() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) rootView.getLayoutParams();
+        params.width = metrics.widthPixels;
+        params.height = metrics.heightPixels;
+        params.leftMargin = 0;
+        rootView.requestFocus();
+        rootView.setLayoutParams(params);
     }
 
     private View.OnClickListener qualityListener = new View.OnClickListener() {
@@ -231,7 +281,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         contentUri = uri;
         releasePlayer();
         llAction.setVisibility(View.GONE);
-        tvMoreAction.setVisibility(View.GONE);
+        llMoreAction.setVisibility(View.GONE);
         if (contentType < 0 || contentType > 3) {
             this.contentType = inferContentType(contentUri, fileExtension);
         } else {
@@ -282,6 +332,20 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     public void retry() {
         preparePlayer(true);
     }
+
+    public void showDialogPlayList() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        builder.setTitle(R.string.title_playlist);
+        builder.setView(inflater.inflate(R.layout.playlist_dialog, null))
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
+    }
+
 
     public void showQualityPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
@@ -667,7 +731,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private void toggleControlsVisibility() {
         if (mediaController.isShowing()) {
             mediaController.hide();
-            tvMoreAction.setVisibility(View.GONE);
+            llMoreAction.setVisibility(View.GONE);
         } else {
             showControls();
         }
@@ -677,7 +741,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         if (mediaController != null) {
             try {
                 rlRootControl.setVerticalGravity(View.VISIBLE);
-                tvMoreAction.setVisibility(View.VISIBLE);
+                llMoreAction.setVisibility(View.VISIBLE);
                 llAction.setVisibility(View.GONE);
                 mediaController.show(0);
             } catch (NullPointerException ex) {
@@ -812,4 +876,21 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
             return super.dispatchKeyEvent(event);
         }
     }
+
+
+    public interface MediaPlayerControl {
+        void    start();
+        void    pause();
+        int     getDuration();
+        int     getCurrentPosition();
+        void    seekTo(int pos);
+        boolean isPlaying();
+        int     getBufferPercentage();
+        boolean canPause();
+        boolean canSeekBackward();
+        boolean canSeekForward();
+        boolean isFullScreen();
+        void    toggleFullScreen();
+    }
+
 }
