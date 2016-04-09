@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#CC000000"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <ImageButton android:id="@+id/prev"
+                     style="@android:style/MediaButton.Previous"/>
+
+        <ImageButton android:id="@+id/pause"
+                     style="@android:style/MediaButton.Play"/>
+
+
+        <ImageButton android:id="@+id/next"
+                     style="@android:style/MediaButton.Next"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/time_current"
+                  android:textSize="14sp"
+                  android:text="10:02"
+                  android:textColor="@color/white"
+                  android:layout_centerVertical="true"
+                  android:paddingLeft="4dip"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/btFullScreen"
+                  android:gravity="center_horizontal"
+                  android:layout_gravity="center_horizontal"
+                  android:background="@drawable/ic_smallscreen"
+                  android:layout_centerVertical="true"
+                  android:layout_width="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_height="wrap_content"/>
+
+        <SeekBar
+                android:id="@+id/mediacontroller_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@id/time_current"
+                android:layout_toLeftOf="@id/btFullScreen"
+                android:layout_centerVertical="true"
+                android:layout_height="30dip"/>
+    </RelativeLayout>
+
+</LinearLayout>

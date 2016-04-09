@@ -18,7 +18,7 @@
         android:focusable="true"
         android:id="@+id/videoSurfaceContainer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/player_height"
+        android:layout_height="match_parent"
         android:keepScreenOn="true">
 
     <com.google.android.exoplayer.AspectRatioFrameLayout
@@ -62,7 +62,7 @@
                       android:layout_height="wrap_content"
                       android:id="@+id/item_playlist"
                       android:layout_marginTop="@dimen/app_margin_left"
-                      android:visibility="gone"
+                      android:visibility="visible"
                       android:layout_marginRight="@dimen/margin_left_medium"
                       android:background="@drawable/ic_player_playlist"/>
             <CheckBox android:layout_width="wrap_content"

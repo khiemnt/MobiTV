@@ -44,6 +44,7 @@
     <string name="link_stream_not_found">Không tìm thấy link xem.</string>
     <string name="send">Send</string>
     <string name="title_quality">Chọn chất lượng</string>
+    <string name="title_playlist">Chọn tập</string>
     <string name="title_speed">Chọn tốc độ</string>
     <string name="title_report">Báo cáo</string>
 </resources>
