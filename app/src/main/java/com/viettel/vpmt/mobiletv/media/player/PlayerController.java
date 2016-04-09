@@ -17,6 +17,7 @@ import com.google.android.exoplayer.text.CaptionStyleCompat;
 import com.google.android.exoplayer.text.Cue;
 import com.google.android.exoplayer.text.SubtitleLayout;
 import com.google.android.exoplayer.util.MimeTypes;
+import com.google.android.exoplayer.util.PlayerControl;
 import com.google.android.exoplayer.util.Util;
 import com.google.android.exoplayer.util.VerboseLogUtil;
 
@@ -45,13 +46,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.accessibility.CaptioningManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -102,7 +103,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private ImageView ivRetry;
 
     private EventLogger eventLogger;
-    private MediaController mediaController;
+    private CustomMediaController mediaController;
     private AspectRatioFrameLayout videoFrame;
     private SurfaceView surfaceView;
     private View shutterView;
@@ -122,7 +123,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private AudioCapabilitiesReceiver audioCapabilitiesReceiver;
     private Activity mActivity;
 
-    public PlayerController(Activity activity, final View rootView,
+    public PlayerController(Activity activity, final ViewGroup rootView,
                             AspectRatioFrameLayout videoFrame, SurfaceView surfaceView,
                             SubtitleLayout subtitleLayout, View shutterView) {
         this.rootView = rootView;
@@ -141,7 +142,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         ivRetry.setOnClickListener(retryListener);
         tvMoreAction = (TextView) rootView.findViewById(R.id.item_more_action);
         tvShare = (TextView) rootView.findViewById(R.id.item_share);
-        llMoreAction = (LinearLayout)rootView.findViewById(R.id.llMoreAction);
+        llMoreAction = (LinearLayout) rootView.findViewById(R.id.llMoreAction);
         tvLike = (CheckBox) rootView.findViewById(R.id.like_unlike_video);
         tvPlayList = (TextView) rootView.findViewById(R.id.item_playlist);
         tvMoreAction.setOnClickListener(new View.OnClickListener() {
@@ -843,16 +844,16 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         return Util.inferContentType(lastPathSegment);
     }
 
-    private static final class KeyCompatibleMediaController extends MediaController {
+    private static final class KeyCompatibleMediaController extends CustomMediaController {
 
-        private MediaPlayerControl playerControl;
+        private PlayerControl playerControl;
 
         public KeyCompatibleMediaController(Context context) {
             super(context);
         }
 
         @Override
-        public void setMediaPlayer(MediaPlayerControl playerControl) {
+        public void setMediaPlayer(PlayerControl playerControl) {
             super.setMediaPlayer(playerControl);
             this.playerControl = playerControl;
         }
@@ -876,21 +877,4 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
             return super.dispatchKeyEvent(event);
         }
     }
-
-
-    public interface MediaPlayerControl {
-        void    start();
-        void    pause();
-        int     getDuration();
-        int     getCurrentPosition();
-        void    seekTo(int pos);
-        boolean isPlaying();
-        int     getBufferPercentage();
-        boolean canPause();
-        boolean canSeekBackward();
-        boolean canSeekForward();
-        boolean isFullScreen();
-        void    toggleFullScreen();
-    }
-
 }

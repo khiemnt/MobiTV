@@ -29,11 +29,10 @@
                 android:name=".screen.home.HomeBoxActivity"
                 android:screenOrientation="portrait"/>
         <activity
-                android:name=".screen.videodetail.activity.VideoDetailActivity"
-                android:screenOrientation="portrait"/>
+                android:name=".screen.videodetail.activity.VideoDetailActivity"/>
         <activity android:name=".screen.film.activity.FilmActivityDetail"/>
         <activity android:name=".media.PlayerActivity"
-                  android:screenOrientation="portrait"/>
+                  />
         <!-- Fabric -->
         <meta-data
                 android:name="io.fabric.ApiKey"

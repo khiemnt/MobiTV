@@ -36,21 +36,29 @@
                   android:layout_gravity="center_horizontal"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
-        <TextView android:id="@+id/btFullScreen"
-                  android:gravity="center_horizontal"
-                  android:layout_gravity="center_horizontal"
-                  android:background="@drawable/ic_smallscreen"
-                  android:layout_centerVertical="true"
-                  android:layout_width="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:layout_height="wrap_content"/>
 
+
+        <ImageView android:id="@+id/fullscreen"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerVertical="true"
+                     android:layout_alignParentRight="true"
+                     android:background="@drawable/ic_smallscreen"/>
+        <TextView android:id="@+id/endTime"
+                  android:textSize="14sp"
+                  android:layout_centerVertical="true"
+                  android:layout_marginRight="@dimen/basic_margin"
+                  android:text="10:78"
+                  android:layout_toLeftOf="@id/fullscreen"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
         <SeekBar
                 android:id="@+id/mediacontroller_progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_toRightOf="@id/time_current"
-                android:layout_toLeftOf="@id/btFullScreen"
+                android:layout_toLeftOf="@id/endTime"
                 android:layout_centerVertical="true"
                 android:layout_height="30dip"/>
     </RelativeLayout>

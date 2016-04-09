@@ -53,7 +53,7 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     @Bind(R.id.subtitles)
     SubtitleLayout mSubtitleLayout;
     @Bind(R.id.player_root)
-    View mRoot;
+    ViewGroup mRoot;
 
     protected PlayerController mPlayerController;
 

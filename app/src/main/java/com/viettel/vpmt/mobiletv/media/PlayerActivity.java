@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -49,7 +50,7 @@ public abstract class PlayerActivity extends BaseActivity {
     @Bind(R.id.subtitles)
     SubtitleLayout subtitleLayout;
     @Bind(R.id.player_root)
-    View root;
+    ViewGroup root;
 
     private PlayerController mPlayerController;
 
