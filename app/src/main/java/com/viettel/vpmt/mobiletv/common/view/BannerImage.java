@@ -49,6 +49,6 @@ public class BannerImage extends ImageView implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Logger.e("BannerImage", "Touch");
-        return true;
+        return false;
     }
 }

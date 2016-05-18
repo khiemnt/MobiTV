@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -54,6 +55,10 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     SubtitleLayout mSubtitleLayout;
     @Bind(R.id.player_root)
     ViewGroup mRoot;
+    @Bind(R.id.common_progress_bar)
+    ProgressBar mProgressBar;
+    @Bind(R.id.view_transparent)
+    View transparent;
 
     protected PlayerController mPlayerController;
 
@@ -115,6 +120,22 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
             Toast.makeText(getActivity().getApplicationContext(), R.string.storage_permission_denied,
                     Toast.LENGTH_LONG).show();
             getActivity().finish();
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            transparent.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+            transparent.setVisibility(View.GONE);
         }
     }
 }

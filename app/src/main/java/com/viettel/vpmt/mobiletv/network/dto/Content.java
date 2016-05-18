@@ -25,6 +25,8 @@ public class Content {
     private String tag;
     @SerializedName("coverImage")
     private String mCoverImage;
+    @SerializedName("logoImage")
+    private String mLogoImage;
     @SerializedName("isFavourite")
     private boolean isFavourite;
     @SerializedName("item_id")
@@ -176,6 +178,14 @@ public class Content {
 
     public void setPlayCount(Integer playCount) {
         this.playCount = playCount;
+    }
+
+    public String getLogoImage() {
+        return mLogoImage;
+    }
+
+    public void setLogoImage(String logoImage) {
+        mLogoImage = logoImage;
     }
 
     public enum Type {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 /**
+ * Video detail activity
  * Created by ThanhTD on 3/22/2016.
  */
 public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> implements VideoDetailView {
@@ -25,7 +26,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     private void addFragment(String videoId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
-        bundle.putFloat("videoId", Float.valueOf(videoId));
+        bundle.putString(Constants.Extras.ID, videoId);
         fragment = new VideoDetailFragment();
         fragment.setArguments(bundle);
         transaction.add(R.id.frame_layout, fragment);
@@ -34,7 +35,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_video_or_film_detail;
+        return R.layout.activity_common_detail;
     }
 
     @Override

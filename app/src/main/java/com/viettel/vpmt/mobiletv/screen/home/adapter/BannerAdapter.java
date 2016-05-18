@@ -42,7 +42,7 @@ public class BannerAdapter extends PagerAdapter {
 
         container.addView(view, 0);
 
-        view.setOnClickListener(new ContentItemClickListener(mContext, content));
+        imageView.setOnClickListener(new ContentItemClickListener(mContext, content));
         return view;
     }
 

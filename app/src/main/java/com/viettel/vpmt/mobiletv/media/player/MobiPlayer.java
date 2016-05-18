@@ -24,6 +24,7 @@ import com.google.android.exoplayer.MediaCodecTrackRenderer;
 import com.google.android.exoplayer.MediaCodecTrackRenderer.DecoderInitializationException;
 import com.google.android.exoplayer.MediaCodecVideoTrackRenderer;
 import com.google.android.exoplayer.MediaFormat;
+import com.google.android.exoplayer.SingleSampleSource;
 import com.google.android.exoplayer.TimeRange;
 import com.google.android.exoplayer.TrackRenderer;
 import com.google.android.exoplayer.audio.AudioTrack;
@@ -31,6 +32,7 @@ import com.google.android.exoplayer.chunk.ChunkSampleSource;
 import com.google.android.exoplayer.chunk.Format;
 import com.google.android.exoplayer.dash.DashChunkSource;
 import com.google.android.exoplayer.drm.StreamingDrmSessionManager;
+import com.google.android.exoplayer.extractor.ExtractorSampleSource;
 import com.google.android.exoplayer.hls.HlsSampleSource;
 import com.google.android.exoplayer.metadata.MetadataTrackRenderer.MetadataRenderer;
 import com.google.android.exoplayer.metadata.id3.Id3Frame;
@@ -57,25 +59,24 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * SmoothStreaming and so on).
  */
 public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventListener,
-        HlsSampleSource.EventListener, DefaultBandwidthMeter.EventListener,
+        HlsSampleSource.EventListener, ExtractorSampleSource.EventListener,
+        SingleSampleSource.EventListener, DefaultBandwidthMeter.EventListener,
         MediaCodecVideoTrackRenderer.EventListener, MediaCodecAudioTrackRenderer.EventListener,
         StreamingDrmSessionManager.EventListener, DashChunkSource.EventListener, TextRenderer,
         MetadataRenderer<List<Id3Frame>>, DebugTextViewHelper.Provider {
 
     /**
-     * Builds Renderers for the player.
+     * Builds renderers for the player.
      */
     public interface RendererBuilder {
         /**
          * Builds renderers for playback.
          *
-         * @param player The player for which renderers are being built. {@link
-         *               MobiPlayer#onRenderers}
-         *               should be invoked once the renderers have been built. If building fails,
-         *               {@link MobiPlayer#onRenderersError} should be invoked.
+         * @param player The player for which renderers are being built. {@link MobiPlayer#onRenderers}
+         *     should be invoked once the renderers have been built. If building fails,
+         *     {@link MobiPlayer#onRenderersError} should be invoked.
          */
         void buildRenderers(MobiPlayer player);
-
         /**
          * Cancels the current build operation, if there is one. Else does nothing.
          * <p>
@@ -90,9 +91,7 @@ public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
      */
     public interface Listener {
         void onStateChanged(boolean playWhenReady, int playbackState);
-
         void onError(Exception e);
-
         void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
                                 float pixelWidthHeightRatio);
     }
@@ -107,19 +106,12 @@ public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
      */
     public interface InternalErrorListener {
         void onRendererInitializationError(Exception e);
-
         void onAudioTrackInitializationError(AudioTrack.InitializationException e);
-
         void onAudioTrackWriteError(AudioTrack.WriteException e);
-
         void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs);
-
         void onDecoderInitializationError(DecoderInitializationException e);
-
         void onCryptoError(CryptoException e);
-
         void onLoadError(int sourceId, IOException e);
-
         void onDrmSessionManagerError(Exception e);
     }
 
@@ -128,22 +120,15 @@ public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
      */
     public interface InfoListener {
         void onVideoFormatEnabled(Format format, int trigger, long mediaTimeMs);
-
         void onAudioFormatEnabled(Format format, int trigger, long mediaTimeMs);
-
         void onDroppedFrames(int count, long elapsed);
-
         void onBandwidthSample(int elapsedMs, long bytes, long bitrateEstimate);
-
         void onLoadStarted(int sourceId, long length, int type, int trigger, Format format,
                            long mediaStartTimeMs, long mediaEndTimeMs);
-
         void onLoadCompleted(int sourceId, long bytesLoaded, int type, int trigger, Format format,
                              long mediaStartTimeMs, long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs);
-
         void onDecoderInitialized(String decoderName, long elapsedRealtimeMs,
                                   long initializationDurationMs);
-
         void onAvailableRangeChanged(int sourceId, TimeRange availableRange);
     }
 
@@ -311,12 +296,9 @@ public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
     /**
      * Invoked with the results from a {@link RendererBuilder}.
      *
-     * @param renderers      Renderers indexed by {@link MobiPlayer} TYPE_* constants. An
-     *                       individual
-     *                       element may be null if there do not exist tracks of the corresponding
-     *                       type.
-     * @param bandwidthMeter Provides an estimate of the currently available bandwidth. May be
-     *                       null.
+     * @param renderers Renderers indexed by {@link MobiPlayer} TYPE_* constants. An individual
+     *     element may be null if there do not exist tracks of the corresponding type.
+     * @param bandwidthMeter Provides an estimate of the currently available bandwidth. May be null.
      */
   /* package */ void onRenderers(TrackRenderer[] renderers, BandwidthMeter bandwidthMeter) {
         for (int i = 0; i < RENDERER_COUNT; i++) {

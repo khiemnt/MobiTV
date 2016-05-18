@@ -3,10 +3,11 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 
 /**
+ * Presenter for video detail fragment
  * Created by ThanhTD on 3/26/2016.
  */
 public interface VideoDetailFragmentPresenter extends BasePresenter {
-    void getDetailVideo(int position, float videoId, Float partOfVideo);
-    void getVideoStream(float videoId);
-    void postLikeVideo(boolean isLike, float videoId);
+    void getDetailVideo(int position, String videoId, String partOfVideo);
+    void getVideoStream(String videoId);
+    void postLikeVideo(boolean isLike, String videoId);
 }

@@ -20,7 +20,7 @@ public class Logger {
     // Change to false when release
     public static final boolean DEBUG_MODE = BuildConfig.DEBUG;
 
-    private static final String TAG = "WATAV";
+    private static final String TAG = "MobiTV";
 
     public static void e(String msg) {
         if (DEBUG_MODE)

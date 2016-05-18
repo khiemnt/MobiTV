@@ -2,7 +2,8 @@ package com.viettel.vpmt.mobiletv.screen.home.controller;
 
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.film.activity.FilmActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmActivityDetail;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.content.Context;
@@ -35,7 +36,8 @@ public class ContentItemClickListener implements View.OnClickListener {
                         .putExtra(Constants.Extras.ID, mContent.getId()));
                 break;
             case LIVETV:
-                Toast.makeText(mContext, "Coming soon...", Toast.LENGTH_SHORT).show();
+                mContext.startActivity(new Intent(mContext, ChannelActivityDetail.class)
+                        .putExtra(Constants.Extras.ID, mContent.getId()));
                 break;
         }
     }

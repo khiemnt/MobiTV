@@ -164,8 +164,7 @@ public class HlsChunkSource implements HlsTrackSelector.Output {
    *     playback must have exactly one master source, which should be the source providing video
    *     chunks (or audio chunks for audio only playbacks).
    * @param dataSource A {@link DataSource} suitable for loading the media data.
-   * @param playlistUrl The playlist URL.
-   * @param playlist The hls playlist.
+   * @param playlist The HLS playlist.
    * @param trackSelector Selects tracks to be exposed by this source.
    * @param bandwidthMeter Provides an estimate of the currently available bandwidth.
    * @param timestampAdjusterProvider A provider of {@link PtsTimestampAdjuster} instances. If
@@ -175,10 +174,10 @@ public class HlsChunkSource implements HlsTrackSelector.Output {
    *     {@link #ADAPTIVE_MODE_NONE}, {@link #ADAPTIVE_MODE_ABRUPT} and
    *     {@link #ADAPTIVE_MODE_SPLICE}.
    */
-  public HlsChunkSource(boolean isMaster, DataSource dataSource, String playlistUrl,
-      HlsPlaylist playlist, HlsTrackSelector trackSelector, BandwidthMeter bandwidthMeter,
+  public HlsChunkSource(boolean isMaster, DataSource dataSource, HlsPlaylist playlist,
+      HlsTrackSelector trackSelector, BandwidthMeter bandwidthMeter,
       PtsTimestampAdjusterProvider timestampAdjusterProvider, int adaptiveMode) {
-    this(isMaster, dataSource, playlistUrl, playlist, trackSelector, bandwidthMeter,
+    this(isMaster, dataSource, playlist, trackSelector, bandwidthMeter,
         timestampAdjusterProvider, adaptiveMode, DEFAULT_MIN_BUFFER_TO_SWITCH_UP_MS,
         DEFAULT_MAX_BUFFER_TO_SWITCH_DOWN_MS);
   }
@@ -188,8 +187,7 @@ public class HlsChunkSource implements HlsTrackSelector.Output {
    *     playback must have exactly one master source, which should be the source providing video
    *     chunks (or audio chunks for audio only playbacks).
    * @param dataSource A {@link DataSource} suitable for loading the media data.
-   * @param playlistUrl The playlist URL.
-   * @param playlist The hls playlist.
+   * @param playlist The HLS playlist.
    * @param trackSelector Selects tracks to be exposed by this source.
    * @param bandwidthMeter Provides an estimate of the currently available bandwidth.
    * @param timestampAdjusterProvider A provider of {@link PtsTimestampAdjuster} instances. If
@@ -203,8 +201,8 @@ public class HlsChunkSource implements HlsTrackSelector.Output {
    * @param maxBufferDurationToSwitchDownMs The maximum duration of media that needs to be buffered
    *     for a switch to a lower quality variant to be considered.
    */
-  public HlsChunkSource(boolean isMaster, DataSource dataSource, String playlistUrl,
-      HlsPlaylist playlist, HlsTrackSelector trackSelector, BandwidthMeter bandwidthMeter,
+  public HlsChunkSource(boolean isMaster, DataSource dataSource, HlsPlaylist playlist,
+      HlsTrackSelector trackSelector, BandwidthMeter bandwidthMeter,
       PtsTimestampAdjusterProvider timestampAdjusterProvider, int adaptiveMode,
       long minBufferDurationToSwitchUpMs, long maxBufferDurationToSwitchDownMs) {
     this.isMaster = isMaster;
@@ -225,9 +223,9 @@ public class HlsChunkSource implements HlsTrackSelector.Output {
       Format format = new Format("0", MimeTypes.APPLICATION_M3U8, -1, -1, -1, -1, -1, -1, null,
           null);
       List<Variant> variants = new ArrayList<>();
-      variants.add(new Variant(playlistUrl, format));
-      masterPlaylist = new HlsMasterPlaylist(playlistUrl, variants,
-          Collections.<Variant>emptyList());
+      variants.add(new Variant(baseUri, format));
+      masterPlaylist = new HlsMasterPlaylist(baseUri, variants,
+          Collections.<Variant>emptyList(), Collections.<Variant>emptyList(), null, null);
     }
   }
 
@@ -308,6 +306,23 @@ public class HlsChunkSource implements HlsTrackSelector.Output {
     return variants.length == 1 ? variants[0] : null;
   }
 
+  /**
+   * Returns the language of the audio muxed into variants, or null if unknown.
+   *
+   * @return The language of the audio muxed into variants, or null if unknown.
+   */
+  public String getMuxedAudioLanguage() {
+    return masterPlaylist.muxedAudioLanguage;
+  }
+
+  /**
+   * Returns the language of the captions muxed into variants, or null if unknown.
+   *
+   * @return The language of the captions muxed into variants, or null if unknown.
+   */
+  public String getMuxedCaptionLanguage() {
+    return masterPlaylist.muxedCaptionLanguage;
+  }
 
   /**
    * Returns the currently selected track index.

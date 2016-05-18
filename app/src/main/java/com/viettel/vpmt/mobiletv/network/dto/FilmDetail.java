@@ -15,7 +15,7 @@ public class FilmDetail {
     @SerializedName("parts")
     private List<PartOfFilm> parts;
     @SerializedName("film_related")
-    FilmRelated filmRelated;
+    ContentRelated mContentRelated;
 
     public Content getFilmDetail() {
         return filmDetail;
@@ -41,11 +41,11 @@ public class FilmDetail {
         this.parts = parts;
     }
 
-    public FilmRelated getFilmRelated() {
-        return filmRelated;
+    public ContentRelated getContentRelated() {
+        return mContentRelated;
     }
 
-    public void setFilmRelated(FilmRelated filmRelated) {
-        this.filmRelated = filmRelated;
+    public void setContentRelated(ContentRelated contentRelated) {
+        this.mContentRelated = contentRelated;
     }
 }

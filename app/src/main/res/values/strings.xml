@@ -47,4 +47,5 @@
     <string name="title_playlist">Chọn tập</string>
     <string name="title_speed">Chọn tốc độ</string>
     <string name="title_report">Báo cáo</string>
+    <string name="tab_schedule">LỊCH CHIẾU</string>
 </resources>

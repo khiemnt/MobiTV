@@ -2,6 +2,8 @@ package com.viettel.vpmt.mobiletv.network;
 
 import com.viettel.vpmt.mobiletv.network.dto.AuthenData;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
+import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
@@ -26,16 +28,25 @@ public interface MobitvService {
     Call<ResponseDTO<List<Box>>> getHome();
 
     @GET("film/get-detail")
-    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") float filmId, @Query("part_id") Integer partOfFilm);
+    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") String filmId, @Query("part_id") Integer partOfFilm);
+
+    @GET("channel/get-detail")
+    Call<ResponseDTO<ChannelDetail>> getDetailChannel(@Query("id") String channelId);
 
     @GET("film/get-video-stream")
-    Call<ResponseDTO<VideoStream>> getFilmStream(@Header("Authorization") String authorization, @Query("id") float filmId);
+    Call<ResponseDTO<DataStream>> getFilmStream(@Header("Authorization") String authorization, @Query("id") String filmId);
+
+    @GET("channel/get-channel-stream")
+    Call<ResponseDTO<DataStream>> getChannelStream(@Header("Authorization") String authorization, @Query("id") String channelId);
+
+    @GET("channel/get-program-stream")
+    Call<ResponseDTO<DataStream>> getProgramStream(@Header("Authorization") String authorization, @Query("id") String programId);
 
     @GET("video/get-detail")
-    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Header("Authorization") String authorization, @Query("id") float videoId);
+    Call<ResponseDTO<VideoDetail>> getDetailVideo(@Header("Authorization") String authorization, @Query("id") String videoId);
 
     @GET("video/get-video-stream")
-    Call<ResponseDTO<VideoStream>> getVideoStream(@Header("Authorization") String authorization, @Query("id") float videoId);
+    Call<ResponseDTO<DataStream>> getVideoStream(@Header("Authorization") String authorization, @Query("id") String videoId);
 
     @POST("auth/authorize")
     Call<ResponseDTO<AuthenData>> authorize(@Query("grant_type") String grantType, @Query("msisdn") String msisdn);
@@ -54,8 +65,8 @@ public interface MobitvService {
                                                 @Query("limit") int limit);
 
     @POST("film/toggle-like-film")
-    Call<ResponseDTO<ResponseLikeUnlike>> postLikeFilm(@Header("Authorization") String authorization, @Query("id") float filmId);
+    Call<ResponseDTO<ResponseLikeUnlike>> postLikeFilm(@Header("Authorization") String authorization, @Query("id") String filmId);
 
     @POST("video/toggle-like-video")
-    Call<ResponseDTO<ResponseLikeUnlike>> postLikeVideo(@Header("Authorization") String authorization, @Query("id") float filmId);
+    Call<ResponseDTO<ResponseLikeUnlike>> postLikeVideo(@Header("Authorization") String authorization, @Query("id") String filmId);
 }

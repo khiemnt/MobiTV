@@ -1,40 +1,41 @@
 package com.viettel.vpmt.mobiletv.network.dto;
 
 /**
+ * Video part object
  * Created by ThanhTD on 3/29/2016.
  */
 public class PartOfVideo {
-    private float id;
-    private String name;
-    private String urlAvatar;
+    private String mId;
+    private String mName;
+    private String mUrlAvatar;
 
-    public PartOfVideo(Float id, String name, String urlAvatar) {
-        this.id = id;
-        this.name = name;
-        this.urlAvatar = urlAvatar;
+    public PartOfVideo(String id, String name, String urlAvatar) {
+        mId = id;
+        mName = name;
+        mUrlAvatar = urlAvatar;
     }
 
-    public float getId() {
-        return id;
+    public String getId() {
+        return mId;
     }
 
-    public void setId(float id) {
-        this.id = id;
+    public void setId(String id) {
+        mId = id;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        mName = name;
     }
 
     public String getUrlAvatar() {
-        return urlAvatar;
+        return mUrlAvatar;
     }
 
     public void setUrlAvatar(String urlAvatar) {
-        this.urlAvatar = urlAvatar;
+        mUrlAvatar = urlAvatar;
     }
 }

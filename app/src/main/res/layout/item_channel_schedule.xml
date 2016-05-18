@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_schedule"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_medium"
+        android:gravity="center"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/item_channel_schedule_time_tv"
+            android:layout_width="70dp"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="00:00"
+            android:textColor="@color/grey_translucent"/>
+
+        <TextView
+            android:id="@+id/item_channel_schedule_title_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:textColor="@color/white"
+        />
+
+        <ImageView
+            android:id="@+id/item_channel_schedule_action_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_overflow"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_translucent"/>
+</LinearLayout>

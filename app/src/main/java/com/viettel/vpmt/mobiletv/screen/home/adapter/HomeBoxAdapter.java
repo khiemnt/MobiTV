@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,9 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
         if (box == null) {
             return;
         }
-
+        if (box.getType() == null) {
+            Logger.e("@@@", "Type NULLLL " + box.getId());
+        }
         switch (box.getType()) {
             case BANNER:
                 bindBannerBox(holder, box);

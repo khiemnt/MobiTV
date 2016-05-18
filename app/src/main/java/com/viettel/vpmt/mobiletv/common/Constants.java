@@ -13,5 +13,6 @@ public interface Constants {
         String ID = "id";
         String BOX_TYPE = "box_type";
         String TITLE = "title";
+        String PART = "part";
     }
 }

@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.common.pref;
 
+import com.google.android.exoplayer.C;
+
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 
 import android.content.Context;
@@ -39,6 +41,13 @@ public class PrefManager {
      */
     public static String getAccessToken(Context context) {
         return getPreference(context).getString(ACCESS_TOKEN, null);
+    }
+
+    /**
+     * Get header for OAuth 2.0 request
+     */
+    public static String getHeader(Context context) {
+        return "Bearer " + PrefManager.getAccessToken(context);
     }
 
     /**

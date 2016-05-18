@@ -29,10 +29,16 @@
                 android:name=".screen.home.HomeBoxActivity"
                 android:screenOrientation="portrait"/>
         <activity
-                android:name=".screen.videodetail.activity.VideoDetailActivity"/>
-        <activity android:name=".screen.film.activity.FilmActivityDetail"/>
-        <activity android:name=".media.PlayerActivity"
-                  />
+                android:name=".screen.videodetail.activity.VideoDetailActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+            android:name=".screen.filmdetail.activity.FilmActivityDetail"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".screen.channeldetail.activity.ChannelActivityDetail"
+            android:screenOrientation="portrait"/>
+        <!--<activity android:name=".media.PlayerActivity"-->
+                  <!--/>-->
         <!-- Fabric -->
         <meta-data
                 android:name="io.fabric.ApiKey"

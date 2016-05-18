@@ -3,15 +3,14 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import com.google.android.exoplayer.util.Util;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
+import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
-import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoFragmentPagerAdapter;
-import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.adapter.VideoPartFragmentPagerAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager;
 
 import android.content.Context;
@@ -49,8 +48,9 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     WrapContentHeightViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
-    FragmentStatePagerAdapter adapter;
-    private float videoId = 0;
+
+    private FragmentStatePagerAdapter adapter;
+    private String mVideoId = "";
 
     @Override
     protected int getLayoutId() {
@@ -76,14 +76,14 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     @Override
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
-        videoId = bundle.getFloat("videoId");
-        float partOfVideo = bundle.getFloat("part");
-        getPresenter().getDetailVideo(0, videoId, partOfVideo);
+        mVideoId = bundle.getString(Constants.Extras.ID);
+        String partOfVideo = bundle.getString(Constants.Extras.PART);
+        getPresenter().getDetailVideo(0, mVideoId, partOfVideo);
     }
 
     @OnClick(R.id.video_detail_thumb_up_down)
     void doFavorite() {
-        getPresenter().postLikeVideo(tvFavorite.isChecked(), videoId);
+        getPresenter().postLikeVideo(tvFavorite.isChecked(), mVideoId);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
             initPlayer(Uri.parse(url), Util.TYPE_HLS);
         } else {
             //todo request login later
-            getPresenter().getVideoStream(videoId);
+            getPresenter().getVideoStream(mVideoId);
         }
         tvTitle.setText(videoDetail.getVideoDetail().getName());
         if (!StringUtils.isEmpty(videoDetail.getVideoDetail().getDescription())) {
@@ -114,13 +114,13 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         tvFavorite.setChecked(videoDetail.getVideoDetail().isFavourite());
         tvFavorite.setText(videoDetail.getVideoDetail().getLikeCount() != null ? videoDetail.getVideoDetail().getLikeCount().toString() : "0");
         playCount.setText(videoDetail.getVideoDetail().getPlayCount() != null ? videoDetail.getVideoDetail().getPlayCount().toString() : "0");
-        if (videoDetail.getVideoRelated() != null) {
+        if (videoDetail.getContentRelated() != null) {
             if (videoDetail.getVideoDetail().getType().name().equalsIgnoreCase(Box.Type.TVSHOW.name())) {
-                adapter = new VideoPartFragmentPagerAdapter(videoId, positionPartActive, videoDetail.getVideoRelated().getContents(),
+                adapter = new VideoPartFragmentPagerAdapter(mVideoId, positionPartActive, videoDetail.getContentRelated().getContents(),
                         getActivity().getSupportFragmentManager(), getActivity());
             } else {
-                adapter = new VideoFragmentPagerAdapter(videoDetail.getVideoRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
-            }
+                adapter = new VideoPartFragmentPagerAdapter(mVideoId, -1, videoDetail.getContentRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
+            }//VideoFragmentPagerAdapter
             viewPager.setAdapter(adapter);
         }
         tabLayout.setupWithViewPager(viewPager);
@@ -128,8 +128,8 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     }
 
     @Override
-    public void doLoadVideoStream(VideoStream videoStream) {
-        initPlayer(Uri.parse(videoStream.getStreams()), Util.TYPE_OTHER);
+    public void doLoadVideoStream(DataStream videoStream) {
+        initPlayer(Uri.parse(videoStream.getStreams().getUrlStreaming()), Util.TYPE_OTHER);
     }
 
     @Override
