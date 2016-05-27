@@ -3,9 +3,14 @@ package com.viettel.vpmt.mobiletv.media.player;
 import com.google.android.exoplayer.util.PlayerControl;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
+import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.common.util.SensorOrientationListener;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -20,15 +25,16 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Locale;
 
 /**
+ * Custom media controller
  * Created by ThanhTD on 4/8/2016.
  */
 public class CustomMediaController extends FrameLayout {
@@ -36,51 +42,40 @@ public class CustomMediaController extends FrameLayout {
     private static final String TAG = "MediaController";
 
     private PlayerControl mPlayer;
-    private Context mContext;
+    private Activity mActivity;
     private ViewGroup mAnchor;
     private View mRoot;
-    private ProgressBar mProgress;
+    private SeekBar mProgress;
     private TextView mEndTime, mCurrentTime;
     private boolean mShowing;
     private boolean mDragging;
     private static final int sDefaultTimeout = 3000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
-    private boolean mUseFastForward;
     private boolean mFromXml;
     private boolean mListenersSet;
     private View.OnClickListener mNextListener, mPrevListener;
-    StringBuilder mFormatBuilder;
-    Formatter mFormatter;
-    private ImageButton mPauseButton;
-    private ImageButton mFfwdButton;
-    private ImageButton mRewButton;
-    private ImageButton mNextButton;
-    private ImageButton mPrevButton;
-    private ImageView mFullscreenButton;
+    private StringBuilder mFormatBuilder;
+    private Formatter mFormatter;
+    private ImageView mPauseButton;
+    private ImageView mNextButton;
+    private ImageView mPrevButton;
+    private ImageView mFullScreenIv;
     private Handler mHandler = new MessageHandler(this);
+    private List<PlayerController.VideoPart> mVideoParts;
+    private SensorOrientationListener mSensorListener;
 
-    public CustomMediaController(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public CustomMediaController(Activity activity, AttributeSet attrs) {
+        super(activity, attrs);
         mRoot = null;
-        mContext = context;
-        mUseFastForward = true;
+        mActivity = activity;
         mFromXml = true;
 
-        Log.i(TAG, TAG);
+        initSensor(activity);
     }
 
-    public CustomMediaController(Context context, boolean useFastForward) {
-        super(context);
-        mContext = context;
-        mUseFastForward = useFastForward;
-
-        Log.i(TAG, TAG);
-    }
-
-    public CustomMediaController(Context context) {
-        this(context, true);
-        Log.i(TAG, TAG);
+    public CustomMediaController(Activity activity) {
+        this(activity, null);
     }
 
     @Override
@@ -94,6 +89,52 @@ public class CustomMediaController extends FrameLayout {
         mPlayer = player;
         updatePausePlay();
         updateFullScreen();
+    }
+
+    private void initSensor(Context context) {
+        mSensorListener = new SensorOrientationListener(
+                context) {
+
+            @Override
+            public void onSimpleOrientationChanged(int orientation) {
+                // Activity is handled
+                Activity activity = mActivity;
+
+                // If orientation currently handled by device
+                // Ignore sensor handler
+                if (DeviceUtils.isAutoRotate(activity)) {
+                    mSensorListener.disable();
+                    return;
+                }
+
+                // Activity locked rotation
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    Logger.e(TAG, "SENSOR say landscape");
+
+                    // If activity is in landscape mode
+                    // Disable sensor and unlock activity orientation auto
+                    if (DeviceUtils.isLandscape(activity)) {
+                        DeviceUtils.forceRotateScreen(activity, Configuration.ORIENTATION_LANDSCAPE);
+                        DeviceUtils.forceRotateScreen(activity, Configuration.ORIENTATION_UNDEFINED);
+                        mSensorListener.disable();
+                    } else {
+                        Logger.d("Wait for user rotate screen to unlock auto rotation");
+                    }
+                } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Logger.e(TAG, "SENSOR say portrait");
+
+                    // If activity is in portrait mode
+                    // Disable sensor and unlock activity orientation auto
+                    if (!DeviceUtils.isLandscape(activity)) {
+                        DeviceUtils.forceRotateScreen(activity, Configuration.ORIENTATION_PORTRAIT);
+                        DeviceUtils.forceRotateScreen(activity, Configuration.ORIENTATION_UNDEFINED);
+                        mSensorListener.disable();
+                    } else {
+                        Logger.d("Wait for user rotate screen to unlock auto rotation");
+                    }
+                }
+            }
+        };
     }
 
     /**
@@ -114,7 +155,7 @@ public class CustomMediaController extends FrameLayout {
     }
 
     protected View makeControllerView() {
-        LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflate = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRoot = inflate.inflate(R.layout.media_controller, null);
 
         initControllerView(mRoot);
@@ -123,49 +164,21 @@ public class CustomMediaController extends FrameLayout {
     }
 
     private void initControllerView(View v) {
-        mPauseButton = (ImageButton) v.findViewById(R.id.pause);
+        mPauseButton = (ImageView) v.findViewById(R.id.pause);
         if (mPauseButton != null) {
             mPauseButton.requestFocus();
             mPauseButton.setOnClickListener(mPauseListener);
         }
 
-        mFullscreenButton = (ImageView) v.findViewById(R.id.fullscreen);
-        if (mFullscreenButton != null) {
-            mFullscreenButton.requestFocus();
-            mFullscreenButton.setOnClickListener(mFullscreenListener);
+        mFullScreenIv = (ImageView) v.findViewById(R.id.fullscreen);
+        if (mFullScreenIv != null) {
+            mFullScreenIv.requestFocus();
+            mFullScreenIv.setOnClickListener(mFullscreenListener);
         }
-
-//        mFfwdButton = (ImageButton) v.findViewById(R.id.ffwd);
-//        if (mFfwdButton != null) {
-//            mFfwdButton.setOnClickListener(mFfwdListener);
-//            if (!mFromXml) {
-//                mFfwdButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
-//            }
-//        }
-//
-//        mRewButton = (ImageButton) v.findViewById(R.id.rew);
-//        if (mRewButton != null) {
-//            mRewButton.setOnClickListener(mRewListener);
-//            if (!mFromXml) {
-//                mRewButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
-//            }
-//        }
-
-        mNextButton = (ImageButton) v.findViewById(R.id.next);
-//        if (mNextButton != null && !mFromXml && !mListenersSet) {
-//            mNextButton.setVisibility(View.GONE);
-//        }
-        mPrevButton = (ImageButton) v.findViewById(R.id.prev);
-//        if (mPrevButton != null && !mFromXml && !mListenersSet) {
-//            mPrevButton.setVisibility(View.GONE);
-//        }
 
         mProgress = (SeekBar) v.findViewById(R.id.mediacontroller_progress);
         if (mProgress != null) {
-            if (mProgress instanceof SeekBar) {
-                SeekBar seeker = (SeekBar) mProgress;
-                seeker.setOnSeekBarChangeListener(mSeekListener);
-            }
+            mProgress.setOnSeekBarChangeListener(mSeekListener);
             mProgress.setMax(1000);
         }
 
@@ -174,6 +187,8 @@ public class CustomMediaController extends FrameLayout {
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
+        mNextButton = (ImageView) v.findViewById(R.id.next);
+        mPrevButton = (ImageView) v.findViewById(R.id.prev);
         installPrevNextListeners();
     }
 
@@ -190,13 +205,8 @@ public class CustomMediaController extends FrameLayout {
             if (mPauseButton != null && !mPlayer.canPause()) {
                 mPauseButton.setEnabled(false);
             }
-            if (mRewButton != null && !mPlayer.canSeekBackward()) {
-                mRewButton.setEnabled(false);
-            }
-            if (mFfwdButton != null && !mPlayer.canSeekForward()) {
-                mFfwdButton.setEnabled(false);
-            }
         } catch (IncompatibleClassChangeError ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -376,14 +386,14 @@ public class CustomMediaController extends FrameLayout {
     }
 
     public void updateFullScreen() {
-        if (mRoot == null || mFullscreenButton == null || mPlayer == null) {
+        if (mRoot == null || mFullScreenIv == null || mPlayer == null) {
             return;
         }
 
 //        if (mPlayer.isFullScreen()) {
-//            mFullscreenButton.setImageResource(R.drawable.ic_media_fullscreen_shrink);
+//            mFullScreenIv.setImageResource(R.drawable.ic_media_fullscreen_shrink);
 //        } else {
-//            mFullscreenButton.setImageResource(R.drawable.ic_media_fullscreen_stretch);
+//            mFullScreenIv.setImageResource(R.drawable.ic_media_fullscreen_stretch);
 //        }
     }
 
@@ -404,14 +414,34 @@ public class CustomMediaController extends FrameLayout {
         if (mPlayer == null) {
             return;
         }
-        toggleFullScreen();
+//        toggleFullScreen();
+        forceToggleFullScreen();
     }
 
+    public void forceToggleFullScreen() {
+//        DeviceUtils.setRequestedOrientationSensor((Activity) mActivity, false);
+        if (DeviceUtils.isLandscape(mActivity)) {
+            DeviceUtils.forceRotateScreen(mActivity, Configuration.ORIENTATION_PORTRAIT);
+        } else {
+            DeviceUtils.forceRotateScreen(mActivity, Configuration.ORIENTATION_LANDSCAPE);
+        }
+
+        mSensorListener.disable();
+        mSensorListener.enable();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                DeviceUtils.forceRotateScreen((Activity) mActivity, Configuration.ORIENTATION_UNDEFINED);
+//                DeviceUtils.setRequestedOrientationSensor((Activity) mActivity, true);
+            }
+        }, 1000);
+    }
 
     public void toggleFullScreen() {
         //обрабатываем нажатие на кнопку увеличения видео в весь экран
         DisplayMetrics metrics = new DisplayMetrics();
-        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) mAnchor.getLayoutParams();
         params.width = metrics.widthPixels;
         params.height = metrics.heightPixels;
@@ -457,12 +487,6 @@ public class CustomMediaController extends FrameLayout {
     public void setEnabled(boolean enabled) {
         if (mPauseButton != null) {
             mPauseButton.setEnabled(enabled);
-        }
-        if (mFfwdButton != null) {
-            mFfwdButton.setEnabled(enabled);
-        }
-        if (mRewButton != null) {
-            mRewButton.setEnabled(enabled);
         }
         if (mNextButton != null) {
             mNextButton.setEnabled(enabled && mNextListener != null);
@@ -536,7 +560,49 @@ public class CustomMediaController extends FrameLayout {
         }
     }
 
-//    public interface MediaPlayerControl {
+    public void onConfigurationChanged(Configuration newConfig) {
+        Logger.e(TAG, "onConfigurationChanged");
+        mProgress.setThumb(ImageUtils.getDrawable(mActivity, R.drawable.ic_player_circle));
+        switch (newConfig.orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                mFullScreenIv.setImageResource(R.drawable.ic_player_fullscreen_exit);
+                break;
+
+            case Configuration.ORIENTATION_PORTRAIT:
+                mFullScreenIv.setImageResource(R.drawable.ic_player_ic_fullscreen);
+                break;
+
+        }
+    }
+
+    public void setNextVisibility(int visibility) {
+        if (mNextButton != null) {
+            mNextButton.setVisibility(visibility);
+        }
+    }
+
+    public void setNextEnabled(boolean enabled) {
+        if (mNextButton != null) {
+            mNextButton.setEnabled(enabled);
+        }
+    }
+
+    public void setPreviousVisibility(int visibility) {
+        if (mPrevButton != null) {
+            mPrevButton.setVisibility(visibility);
+        }
+    }
+    public void setPreviousEnabled(boolean enabled) {
+        if (mPrevButton != null) {
+            mPrevButton.setEnabled(enabled);
+        }
+    }
+
+    public void setVideoParts(List<PlayerController.VideoPart> videoParts) {
+        mVideoParts = videoParts;
+    }
+
+    //    public interface MediaPlayerControl {
 //        void start();
 //
 //        void pause();
@@ -566,7 +632,7 @@ public class CustomMediaController extends FrameLayout {
         private final WeakReference<CustomMediaController> mView;
 
         MessageHandler(CustomMediaController view) {
-            mView = new WeakReference<CustomMediaController>(view);
+            mView = new WeakReference<>(view);
         }
 
         @Override

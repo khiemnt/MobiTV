@@ -22,7 +22,7 @@ public class FilmFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private int mPageCount = 2;
     private Context mContext;
     private List<Content> mVideos;
-    List<PartOfFilm> mParts;
+    private List<PartOfFilm> mParts;
     private int mPositionActive = 0;
     private String mFilmId;
     private boolean mHasParts;
@@ -100,13 +100,5 @@ public class FilmFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setVideos(List<Content> videos) {
         mVideos = videos;
-    }
-
-    public String getFilmId() {
-        return mFilmId;
-    }
-
-    public void setFilmId(String filmId) {
-        mFilmId = filmId;
     }
 }

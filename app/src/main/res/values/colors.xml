@@ -14,4 +14,5 @@
     <color name="channel_stroke">#383839</color>
     <color name="image_placeholder">#757575</color>
     <color name="common_bg_color_accent_translucent">#80181818</color>
+    <color name="bg_player_controller">#CC000000</color>
 </resources>

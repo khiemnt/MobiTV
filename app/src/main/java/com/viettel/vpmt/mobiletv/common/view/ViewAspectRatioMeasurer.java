@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.common.view;
 
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+
 import android.view.View;
 
 /**
@@ -27,7 +29,8 @@ import android.view.View;
  * @author Jesper Borgstrup
  */
 public class ViewAspectRatioMeasurer {
-
+    private static final String TAG = ViewAspectRatioMeasurer.class.getSimpleName();
+    
     private double aspectRatio;
 
     /**
@@ -75,27 +78,35 @@ public class ViewAspectRatioMeasurer {
         int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = heightMode == View.MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : View.MeasureSpec.getSize(heightMeasureSpec);
 
+        Logger.e(TAG, "widthMode=" + widthMode);
+        Logger.e(TAG, "widthSize=" + widthSize);
+        Logger.e(TAG, "heightMode=" + heightMode);
+        Logger.e(TAG, "heightSize=" + heightSize);
+
         if (heightMode == View.MeasureSpec.EXACTLY && widthMode == View.MeasureSpec.EXACTLY) {
             /* 
              * Possibility 1: Both width and height fixed
              */
             measuredWidth = widthSize;
             measuredHeight = heightSize;
-
+            Logger.w(TAG, "1--measuredWidth=" + measuredWidth);
+            Logger.w(TAG, "1--measuredHeight=" + measuredHeight);
         } else if (heightMode == View.MeasureSpec.EXACTLY) {
             /*
              * Possibility 2: Width dynamic, height fixed
              */
             measuredWidth = (int) Math.min(widthSize, heightSize * aspectRatio);
             measuredHeight = (int) (measuredWidth / aspectRatio);
-
+            Logger.w(TAG, "2--measuredWidth=" + measuredWidth);
+            Logger.w(TAG, "2--measuredHeight=" + measuredHeight);
         } else if (widthMode == View.MeasureSpec.EXACTLY) {
             /*
              * Possibility 3: Width fixed, height dynamic
              */
             measuredHeight = (int) Math.min(heightSize, widthSize / aspectRatio);
             measuredWidth = (int) (measuredHeight * aspectRatio);
-
+            Logger.w(TAG, "3--measuredWidth=" + measuredWidth);
+            Logger.w(TAG, "3--measuredHeight=" + measuredHeight);
         } else {
             /* 
              * Possibility 4: Both width and height dynamic
@@ -107,7 +118,8 @@ public class ViewAspectRatioMeasurer {
                 measuredWidth = widthSize;
                 measuredHeight = (int) (measuredWidth / aspectRatio);
             }
-
+            Logger.w(TAG, "4--measuredWidth=" + measuredWidth);
+            Logger.w(TAG, "4--measuredHeight=" + measuredHeight);
         }
     }
 

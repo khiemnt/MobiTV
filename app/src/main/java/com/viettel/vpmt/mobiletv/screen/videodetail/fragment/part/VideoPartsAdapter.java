@@ -54,7 +54,7 @@ public class VideoPartsAdapter extends RecyclerView.Adapter<VideoPartsAdapter.My
                 holder.mImageView.setBackgroundResource(R.drawable.background_part_selected);
                 holder.mImageView.setPadding(2, 2, 2, 2);
                 ((VideoDetailActivity) mContext).getFragment().getPresenter()
-                        .getDetailVideo(position, mVideoId, mParts.get(position).getId());
+                        .getVideoDetail(position, mVideoId, mParts.get(position).getId());
             }
         });
     }

@@ -1,25 +1,17 @@
 package com.viettel.vpmt.mobiletv.network.dto;
 
 /**
+ * Response Like/Unlike
  * Created by ThanhTD on 4/4/2016.
  */
 public class ResponseLikeUnlike {
-    private String message;
-    private LikeUnlike data;
+   private boolean isLike;
 
-    public String getMessage() {
-        return message;
+    public boolean isLike() {
+        return isLike;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public LikeUnlike getData() {
-        return data;
-    }
-
-    public void setData(LikeUnlike data) {
-        this.data = data;
+    public void setLike(boolean like) {
+        isLike = like;
     }
 }

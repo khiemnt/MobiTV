@@ -20,12 +20,12 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetai
     }
 
     @Override
-    public void getDetailVideo(final int position, String videoId, Integer partOfFilm, final int tabIndex) {
+    public void getFilmDetail(final int position, String filmId, String partOfFilm, final int tabIndex) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
         mView.showProgress();
-        ServiceBuilder.getService().getDetailFilm(videoId, partOfFilm).enqueue(new BaseCallback<FilmDetail>() {
+        ServiceBuilder.getService().getDetailFilm(filmId, partOfFilm).enqueue(new BaseCallback<FilmDetail>() {
             @Override
             public void onError(String errorCode, String errorMessage) {
                 mView.onRequestError(errorCode, errorMessage);
@@ -58,10 +58,11 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetai
     }
 
     @Override
-    public void postLikeFilm(boolean isLike, String filmId) {
+    public void postLikeFilm(String filmId) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
+
         String header = PrefManager.getHeader(mView.getViewContext());
         ServiceBuilder.getService().postLikeFilm(header, filmId).enqueue(new BaseCallback<ResponseLikeUnlike>() {
             @Override
@@ -71,7 +72,7 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetai
 
             @Override
             public void onResponse(ResponseLikeUnlike data) {
-                mView.doRefreshLike(data.getData().isLike());
+                mView.doRefreshLike(data.isLike());
             }
         });
     }

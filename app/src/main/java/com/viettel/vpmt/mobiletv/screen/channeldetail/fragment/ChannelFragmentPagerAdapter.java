@@ -1,12 +1,14 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelSchedule;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.ChannelDetailFragmentPresenter;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate.ChannelRelativeListFragment;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.schedule.ChannelScheduleFragment;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.comment.CommentFragment;
+import com.viettel.vpmt.mobiletv.screen.home.HomeFakeFragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -22,20 +24,15 @@ import java.util.List;
 public class ChannelFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private static final int PAGE_COUNT = 3;
     private Context mContext;
-    private List<Content> mContents;
-    private List<ChannelSchedule> mSchedules;
-    private String mChannelId;
+    private ChannelDetail mChannelDetail;
     private ChannelDetailFragmentPresenter mChannelDetailFragmentPresenter;
 
 
-    public ChannelFragmentPagerAdapter(String channelId, List<ChannelSchedule> schedules,
-                                       List<Content> contents, FragmentManager fm, Context context,
+    public ChannelFragmentPagerAdapter(ChannelDetail channelDetail, FragmentManager fm, Context context,
                                        ChannelDetailFragmentPresenter channelDetailFragmentPresenter) {
         super(fm);
         mContext = context;
-        mSchedules = schedules;
-        mContents = contents;
-        mChannelId = channelId;
+        mChannelDetail = channelDetail;
         mChannelDetailFragmentPresenter = channelDetailFragmentPresenter;
     }
 
@@ -48,13 +45,17 @@ public class ChannelFragmentPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return ChannelScheduleFragment.newInstance(mSchedules, mChannelDetailFragmentPresenter);
+                return ChannelScheduleFragment.newInstance(mChannelDetail.getDateList(),
+                        mChannelDetail.getSchedules(), mChannelDetail.getCurrentTime(),
+                        mChannelDetailFragmentPresenter);
             case 1:
-                return ChannelRelativeListFragment.newInstance(mContents);
+                return ChannelRelativeListFragment.newInstance(mChannelDetail.getContentRelated().getContents());
             case 2:
                 return CommentFragment.newInstance();
             default:
-                return ChannelScheduleFragment.newInstance(mSchedules, mChannelDetailFragmentPresenter);
+                return ChannelScheduleFragment.newInstance(mChannelDetail.getDateList(),
+                        mChannelDetail.getSchedules(), mChannelDetail.getCurrentTime(),
+                        mChannelDetailFragmentPresenter);
         }
     }
 
@@ -77,20 +78,5 @@ public class ChannelFragmentPagerAdapter extends FragmentStatePagerAdapter {
                 return mContext.getString(R.string.tab_schedule);
         }
     }
-
-    public List<Content> getContents() {
-        return mContents;
-    }
-
-    public void setContents(List<Content> contents) {
-        mContents = contents;
-    }
-
-    public String getChannelId() {
-        return mChannelId;
-    }
-
-    public void setChannelId(String channelId) {
-        mChannelId = channelId;
-    }
 }
+

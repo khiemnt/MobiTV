@@ -8,9 +8,11 @@ import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
+import com.viettel.vpmt.mobiletv.media.player.PlayerController;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmActivityDetail;
+import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.utils.WrapContentHeightViewPager;
 
 import android.net.Uri;
@@ -21,6 +23,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -28,28 +33,41 @@ import butterknife.OnClick;
  * Film detail fragment
  * Created by ThanhTD on 3/26/2016.
  */
-public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmActivityDetail> implements FilmDetailFragmentView {
+public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmDetailActivity> implements FilmDetailFragmentView {
     @Bind(R.id.fragment_film_detail_tvTitle)
-    TextView tvTitle;
+    TextView mTitleTv;
     @Bind(R.id.fragment_film_detail_tvShortDes)
-    TextView tvShortDes;
+    TextView mShortDesTv;
     @Bind(R.id.fragment_film_detail_tvFullDes)
-    ExpandableTextView tvFullDes;
+    ExpandableTextView mFullDesTv;
     @Bind(R.id.fragment_film_detail_tvActor)
-    TextView tvActor;
+    TextView mActorTv;
     @Bind(R.id.fragment_film_detail_tvCountry)
-    TextView tvCountry;
+    TextView mCountryTv;
     @Bind(R.id.viewpager)
-    WrapContentHeightViewPager viewPager;
+    WrapContentHeightViewPager mViewPager;
     @Bind(R.id.sliding_tabs)
-    TabLayout tabLayout;
+    TabLayout mTabLayout;
     @Bind(R.id.film_detail_thumb_up_down)
-    CheckBox cbLike;
+    CheckBox mLikeCb;
     @Bind(R.id.film_detail_number_of_view)
-    CheckBox cbPlay;
+    CheckBox mPlayCb;
 
     FragmentStatePagerAdapter adapter;
-    private String filmId = "";
+    private String mFilmId = "";
+
+    public static FilmDetailFragment newInstance(String filmId, String title, String coverImageUrl) {
+        FilmDetailFragment fragment = new FilmDetailFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.Extras.ID, filmId);
+        bundle.putString(Constants.Extras.TITLE, title);
+        bundle.putString(Constants.Extras.COVER_IMAGE_URL, coverImageUrl);
+        bundle.putString(Constants.Extras.PART, "");
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -57,18 +75,27 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     }
 
 
-
     @Override
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
-        filmId = bundle.getString(Constants.Extras.ID);
-        Integer partOfFilm = bundle.getInt(Constants.Extras.PART);
-        getPresenter().getDetailVideo(0, filmId, partOfFilm, 0);
+        mFilmId = bundle.getString(Constants.Extras.ID);
+        final String partOfFilm = bundle.getString(Constants.Extras.PART);
+
+        getPresenter().getFilmDetail(0, mFilmId, partOfFilm, 0);
+
+        // Pre-fill
+        mTitleTv.setText(bundle.getString(Constants.Extras.TITLE));
+    }
+
+    @Override
+    protected void firstConfigPlayerController() {
+        mPlayerController.setLikeButtonVisibility(View.GONE);
+        mPlayerController.setShareButtonVisibility(View.GONE);
     }
 
     @OnClick(R.id.film_detail_thumb_up_down)
-    void doClick() {
-        getPresenter().postLikeFilm(cbLike.isChecked(), filmId);
+    void onLikeClicked() {
+        getPresenter().postLikeFilm(mFilmId);
     }
 
     @Override
@@ -78,49 +105,99 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
 
     @Override
     public void doLoadToView(FilmDetail filmDetail, int positionPartActive, int tabIndex) {
+        mFilmId = filmDetail.getFilmDetail().getId();
+
         String url = filmDetail.getStreams().getUrlStreaming();
         Logger.e("URL=\n" + url);
         if (!StringUtils.isEmpty(url)) {
-            initPlayer(Uri.parse(url), Util.TYPE_HLS);
+            initPlayer(Uri.parse(url), Util.TYPE_HLS, filmDetail.getFilmDetail().getCoverImage());
         } else {
             //todo request login later
-            getPresenter().getFilmStream(filmId);
+            getPresenter().getFilmStream(mFilmId);
         }
 
-        tvTitle.setText(filmDetail.getFilmDetail().getName());
-        tvShortDes.setText(filmDetail.getFilmDetail().getShortDesc());
+        // Title & Description
+        mTitleTv.setText(filmDetail.getFilmDetail().getName());
+        mShortDesTv.setText(filmDetail.getFilmDetail().getShortDesc());
         if (!StringUtils.isEmpty(filmDetail.getFilmDetail().getDescription())) {
-            tvFullDes.setTrim(true);
-            tvFullDes.setText(filmDetail.getFilmDetail().getDescription(), TextView.BufferType.SPANNABLE);
+            mFullDesTv.setTrim(true);
+            mFullDesTv.setText(filmDetail.getFilmDetail().getDescription(), TextView.BufferType.SPANNABLE);
         } else {
-            tvFullDes.setVisibility(View.GONE);
+            mFullDesTv.setVisibility(View.GONE);
         }
-        cbLike.setChecked(filmDetail.getFilmDetail().isFavourite());
-        cbLike.setText(filmDetail.getFilmDetail().getLikeCount() != null ? filmDetail.getFilmDetail().getLikeCount().toString() : "0");
-        cbPlay.setText(filmDetail.getFilmDetail().getPlayCount() != null ? filmDetail.getFilmDetail().getPlayCount().toString() : "0");
+
+        // Like
+        mLikeCb.setChecked(filmDetail.getFilmDetail().isFavourite());
+        mLikeCb.setText(filmDetail.getFilmDetail().getLikeCount() != null
+                ? filmDetail.getFilmDetail().getLikeCount().toString() : "0");
+
+        // Play count
+        mPlayCb.setText(filmDetail.getFilmDetail().getPlayCount() != null ? filmDetail.getFilmDetail().getPlayCount().toString() : "0");
+
+        // Actors
         if (!StringUtils.isEmpty(filmDetail.getFilmDetail().getActors())) {
-            tvActor.setText(getString(R.string.actor) + filmDetail.getFilmDetail().getActors());
+            mActorTv.setText(String.format(getString(R.string.actor_format), filmDetail.getFilmDetail().getActors()));
         } else {
-            tvActor.setVisibility(View.GONE);
+            mActorTv.setVisibility(View.GONE);
         }
+
+        // Country
         if (!StringUtils.isEmpty(filmDetail.getFilmDetail().getCountry())) {
-            tvCountry.setText(getString(R.string.country) + filmDetail.getFilmDetail().getCountry());
+            mCountryTv.setText(String.format(getString(R.string.country_format), filmDetail.getFilmDetail().getCountry()));
         } else {
-            tvCountry.setVisibility(View.GONE);
+            mCountryTv.setVisibility(View.GONE);
         }
-        if (filmDetail.getContentRelated() != null) {
-//            if (filmDetail.getParts() != null && filmDetail.getParts().size() == 0) {
-                filmDetail.setParts(null);
-//            }
 
-            adapter = new FilmFragmentPagerAdapter(filmId, positionPartActive, filmDetail.getParts(), filmDetail.getContentRelated().getContents(),
-                    getActivity().getSupportFragmentManager(), getActivity());
+        // List of parts, Related films and comments
 
-            viewPager.setAdapter(adapter);
+        // Parts of film
+        List<PartOfFilm> partOfFilms = filmDetail.getParts();
+        if (partOfFilms == null || partOfFilms.size() == 0) {
+            // Has no part
+            mPlayerController.setNextVisibility(View.GONE);
+            mPlayerController.setPreviousVisibility(View.GONE);
+        } else {
+            // Has parts
+            setPlayerParts(partOfFilms, positionPartActive);
         }
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(tabIndex).select();
+
+        adapter = new FilmFragmentPagerAdapter(mFilmId, positionPartActive, filmDetail.getParts(), filmDetail.getContentRelated().getContents(),
+                getActivity().getSupportFragmentManager(), getActivity());
+
+        mViewPager.setAdapter(adapter);
+//        }
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.getTabAt(tabIndex).select();
         hideProgress();
+    }
+
+    private void setPlayerParts(List<PartOfFilm> partOfFilms, int positionPartActive) {
+        // Visible next/prev buttons
+        mPlayerController.setNextVisibility(View.VISIBLE);
+        mPlayerController.setPreviousVisibility(View.VISIBLE);
+
+        // Pass data to controller
+        List<PlayerController.VideoPart> videoParts = new ArrayList<>();
+        for (int i = 0; i < partOfFilms.size(); i++) {
+            PartOfFilm partOfFilm = partOfFilms.get(i);
+            videoParts.add(new PlayerController.VideoPart(i, partOfFilm.getName()));
+        }
+
+        mPlayerController.setVideoParts(videoParts);
+        mPlayerController.setPartPosition(positionPartActive);
+        mPlayerController.setPrevNextListeners(new NextClicked(partOfFilms), new PrevClicked(partOfFilms));
+
+        // Validate views
+        if (positionPartActive == 0) {
+            mPlayerController.setNextEnabled(true);
+            mPlayerController.setPreviousEnabled(false);
+        } else if (positionPartActive == partOfFilms.size() - 1) {
+            mPlayerController.setNextEnabled(false);
+            mPlayerController.setPreviousEnabled(true);
+        } else {
+            mPlayerController.setNextEnabled(true);
+            mPlayerController.setPreviousEnabled(true);
+        }
     }
 
     @Override
@@ -130,6 +207,47 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
 
     @Override
     public void doRefreshLike(boolean isLike) {
-        cbLike.setChecked(isLike);
+        mLikeCb.setChecked(isLike);
+        try {
+            int likeCount = Integer.valueOf(mLikeCb.getText().toString());
+            likeCount = isLike ? likeCount + 1 : likeCount - 1;
+            if (likeCount < 0) {
+                likeCount = 0;
+            }
+            mLikeCb.setText(String.valueOf(likeCount));
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private class NextClicked implements View.OnClickListener {
+        private List<PartOfFilm> mPartOfFilms;
+
+        public NextClicked(List<PartOfFilm> partOfFilms) {
+            mPartOfFilms = partOfFilms;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = mPlayerController.getPartPosition() + 1;
+            getPresenter().getFilmDetail(position, mFilmId,
+                    mPartOfFilms.get(position).getId(),
+                    mTabLayout.getSelectedTabPosition());
+        }
+    }
+
+    private class PrevClicked implements View.OnClickListener {
+        private List<PartOfFilm> mPartOfFilms;
+
+        public PrevClicked(List<PartOfFilm> partOfFilms) {
+            mPartOfFilms = partOfFilms;
+        }
+        @Override
+        public void onClick(View v) {
+            int position = mPlayerController.getPartPosition() - 1;
+            getPresenter().getFilmDetail(position, mFilmId,
+                    mPartOfFilms.get(position).getId(),
+                    mTabLayout.getSelectedTabPosition());
+        }
     }
 }

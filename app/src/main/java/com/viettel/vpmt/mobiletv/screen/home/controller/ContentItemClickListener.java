@@ -2,14 +2,13 @@ package com.viettel.vpmt.mobiletv.screen.home.controller;
 
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelActivityDetail;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 /**
  * Content item clicked
@@ -28,16 +27,22 @@ public class ContentItemClickListener implements View.OnClickListener {
     public void onClick(View v) {
         switch (mContent.getType()) {
             case FILM:
-                mContext.startActivity(new Intent(mContext, FilmActivityDetail.class)
-                        .putExtra(Constants.Extras.ID, mContent.getId()));
+                mContext.startActivity(new Intent(mContext, FilmDetailActivity.class)
+                        .putExtra(Constants.Extras.ID, mContent.getId())
+                        .putExtra(Constants.Extras.TITLE, mContent.getName())
+                        .putExtra(Constants.Extras.COVER_IMAGE_URL, mContent.getCoverImage()));
                 break;
             case VOD:
                 mContext.startActivity(new Intent(mContext, VideoDetailActivity.class)
-                        .putExtra(Constants.Extras.ID, mContent.getId()));
+                        .putExtra(Constants.Extras.ID, mContent.getId())
+                        .putExtra(Constants.Extras.TITLE, mContent.getName())
+                        .putExtra(Constants.Extras.COVER_IMAGE_URL, mContent.getCoverImage()));
                 break;
             case LIVETV:
-                mContext.startActivity(new Intent(mContext, ChannelActivityDetail.class)
-                        .putExtra(Constants.Extras.ID, mContent.getId()));
+                mContext.startActivity(new Intent(mContext, ChannelDetailActivity.class)
+                        .putExtra(Constants.Extras.ID, mContent.getId())
+                        .putExtra(Constants.Extras.TITLE, mContent.getName())
+                        .putExtra(Constants.Extras.COVER_IMAGE_URL, mContent.getCoverImage()));
                 break;
         }
     }

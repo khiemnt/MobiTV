@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
-    <RadioGroup android:layout_width="match_parent"
-                android:layout_height="match_parent">
-        <RadioButton android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="Không xem được"/>
-        <RadioButton android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="Nội dung bạo lực"/>
-        <RadioButton android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="Chất lượng kém"/>
-        <RadioButton android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="Load chậm, chập chờn"/>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/report_cant_play"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/report_inappropriate_content"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/report_low_quality"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/report_loading_slow"/>
     </RadioGroup>
 </LinearLayout>

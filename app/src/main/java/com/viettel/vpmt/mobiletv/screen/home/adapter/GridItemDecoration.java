@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,14 +12,30 @@ import android.view.View;
  */
 public class GridItemDecoration extends RecyclerView.ItemDecoration {
     private int mSpacing;
+    private int mSpan;
+    private int mRecyclerViewPadding;
 
-    public GridItemDecoration(int spacing) {
+    public GridItemDecoration(int spacing, int span, int recyclerViewPadding) {
         this.mSpacing = spacing;
+        mSpan = span;
+        mRecyclerViewPadding = recyclerViewPadding;
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//        int position = parent.getChildAdapterPosition(view); // item position
+        int position = parent.getChildAdapterPosition(view); // item position
+        Logger.e("position " + position);
+        Logger.e("mSpan " + mSpan);
+
+        int diff = position % mSpan;
+        if (diff != 0) {
+            outRect.left = mSpacing * diff;
+            outRect.right = -mSpacing* diff;
+            Logger.i("@@!=0 " + mSpacing);
+        } else {
+            outRect.left = mRecyclerViewPadding;
+            outRect.right = -mRecyclerViewPadding;
+        }
         outRect.top = mSpacing;
 //        outRect.left = mSpacing;
 //        outRect.bottom = mSpacing;

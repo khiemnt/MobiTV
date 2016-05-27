@@ -4,6 +4,7 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
+import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +53,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.mTitleTextView.setText(content.getName());
 
         // Click item behavior
-        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        if (mContents instanceof VideoDetailActivity) {
+            holder.itemView.setOnClickListener(new RelateVideoClickListener(position));
+        } else {
+            holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        }
     }
 
     @Override
@@ -71,6 +76,27 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+        }
+    }
+
+    /**
+     * Related Video item clicked
+     */
+    private class RelateVideoClickListener implements View.OnClickListener {
+        private int mPosition;
+
+        private RelateVideoClickListener(int position) {
+            mPosition = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mContext instanceof VideoDetailActivity) {
+                ((VideoDetailActivity) mContext)
+                        .getFragment()
+                        .getPresenter()
+                        .getVideoDetail(0, mContents.get(mPosition).getId(), "");
+            }
         }
     }
 }

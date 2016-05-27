@@ -17,6 +17,11 @@ public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivi
     private P mPresenter;
     protected View mRootView;
 
+    public BaseFragment() {
+        // Presenter for this view
+        mPresenter = onCreatePresenter();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,9 +29,6 @@ public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivi
 
         // Inject views
         ButterKnife.bind(this, mRootView);
-
-        // Presenter for this view
-        mPresenter = onCreatePresenter();
 
         // Prepare layout
         onPrepareLayout();
@@ -56,7 +58,9 @@ public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivi
 
     @Override
     public void onRequestError(String errorCode, String errorMessage) {
-        getBaseActivity().onRequestError(errorCode, errorMessage);
+        if (getBaseActivity() != null && !getBaseActivity().isFinishing()) {
+            getBaseActivity().onRequestError(errorCode, errorMessage);
+        }
     }
 
     @Override

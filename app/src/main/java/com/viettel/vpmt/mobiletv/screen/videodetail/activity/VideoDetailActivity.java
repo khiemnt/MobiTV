@@ -20,16 +20,16 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         videoId = getIntent().getStringExtra(Constants.Extras.ID);
-        addFragment(videoId);
+        String title = getIntent().getStringExtra(Constants.Extras.TITLE);
+        String coverImageUrl= getIntent().getStringExtra(Constants.Extras.COVER_IMAGE_URL);
+        addFragment(videoId, title, coverImageUrl);
     }
 
-    private void addFragment(String videoId) {
+    private void addFragment(String videoId, String title, String coverImageUrl) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.Extras.ID, videoId);
-        fragment = new VideoDetailFragment();
-        fragment.setArguments(bundle);
+        fragment = VideoDetailFragment.newInstance(videoId, title, coverImageUrl);
         transaction.add(R.id.frame_layout, fragment);
+        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out);
         transaction.commit();
     }
 

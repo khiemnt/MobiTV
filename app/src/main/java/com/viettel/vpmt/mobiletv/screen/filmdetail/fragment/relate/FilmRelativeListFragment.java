@@ -3,7 +3,8 @@ package com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.relate;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.FilmAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HorizontalItemDecoration;
 
 import android.support.v7.widget.RecyclerView;
@@ -15,16 +16,17 @@ import java.util.List;
 import butterknife.Bind;
 
 /**
+ * Related Film fragment
  * Created by ThanhTD on 3/22/2016.
  */
-public class FilmRelativeListFragment extends BaseFragment<FilmRelativePresenter, FilmActivityDetail> implements FilmRelativeView {
+public class FilmRelativeListFragment extends BaseFragment<FilmRelativePresenter, FilmDetailActivity> implements FilmRelativeView {
     @Bind(R.id.recyclerview)
-    RecyclerView recyclerView;
-    List<Content> videos = new ArrayList<>();
+    RecyclerView mRecyclerView;
+    private List<Content> mContents = new ArrayList<>();
 
-    public static FilmRelativeListFragment newInstance(List<Content> videos) {
+    public static FilmRelativeListFragment newInstance(List<Content> contents) {
         FilmRelativeListFragment videoRelativeFragment = new FilmRelativeListFragment();
-        videoRelativeFragment.setVideos(videos);
+        videoRelativeFragment.setContents(contents);
         return videoRelativeFragment;
     }
 
@@ -44,12 +46,12 @@ public class FilmRelativeListFragment extends BaseFragment<FilmRelativePresenter
 
     @Override
     public void onPrepareLayout() {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         int spacingInPixels = getContext().getResources().getDimensionPixelSize(R.dimen.padding_small);
-        recyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
-        getPresenter().setData(videos);
+        mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
+        getPresenter().setData(mContents);
         getPresenter().getData();
     }
 
@@ -59,11 +61,11 @@ public class FilmRelativeListFragment extends BaseFragment<FilmRelativePresenter
     }
 
     @Override
-    public void loadRelativeVideo(FilmRelativeAdapter filmRelativeAdapter) {
-        recyclerView.setAdapter(filmRelativeAdapter);
+    public void loadRelativeVideo(FilmAdapter filmRelativeAdapter) {
+        mRecyclerView.setAdapter(filmRelativeAdapter);
     }
 
-    public void setVideos(List<Content> videos) {
-        this.videos = videos;
+    public void setContents(List<Content> contents) {
+        mContents = contents;
     }
 }

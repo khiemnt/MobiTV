@@ -7,8 +7,9 @@ import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
+import com.viettel.vpmt.mobiletv.network.dto.ScheduleData;
+import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
-import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
 import java.util.List;
 
@@ -28,10 +29,10 @@ public interface MobitvService {
     Call<ResponseDTO<List<Box>>> getHome();
 
     @GET("film/get-detail")
-    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") String filmId, @Query("part_id") Integer partOfFilm);
+    Call<ResponseDTO<FilmDetail>> getDetailFilm(@Query("id") String filmId, @Query("part_id") String partOfFilm);
 
     @GET("channel/get-detail")
-    Call<ResponseDTO<ChannelDetail>> getDetailChannel(@Query("id") String channelId);
+    Call<ResponseDTO<ChannelDetail>> getDetailChannel(@Header("Authorization") String authorization, @Query("id") String channelId);
 
     @GET("film/get-video-stream")
     Call<ResponseDTO<DataStream>> getFilmStream(@Header("Authorization") String authorization, @Query("id") String filmId);
@@ -49,7 +50,7 @@ public interface MobitvService {
     Call<ResponseDTO<DataStream>> getVideoStream(@Header("Authorization") String authorization, @Query("id") String videoId);
 
     @POST("auth/authorize")
-    Call<ResponseDTO<AuthenData>> authorize(@Query("grant_type") String grantType, @Query("msisdn") String msisdn);
+    Call<ResponseDTO<AuthenData>> authorize(@Query("grant_type") String grantType, @Query("msisdn") String msisdn, @Query("refresh_token") String refreshToken);
 
     @POST("auth/authorize")
     Call<ResponseDTO<AuthenData>> autoLogin(@Query("grant_type") String grantType);
@@ -69,4 +70,13 @@ public interface MobitvService {
 
     @POST("video/toggle-like-video")
     Call<ResponseDTO<ResponseLikeUnlike>> postLikeVideo(@Header("Authorization") String authorization, @Query("id") String filmId);
+
+    @POST("channel/notify-channel")
+    Call<ResponseDTO<String>> notifyChannel(@Header("Authorization") String authorization, @Query("id") String channelId);
+
+    @POST("channel/get-channel-program")
+    Call<ResponseDTO<ScheduleData>> getChannelProgram(@Header("Authorization") String authorization, @Query("id") String channelId, @Query("date") String date);
+
+    @GET("default/get-setting")
+    Call<ResponseDTO<PlayerSetting>> getSettings(@Header("Authorization") String authorization);
 }

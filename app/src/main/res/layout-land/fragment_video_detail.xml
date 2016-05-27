@@ -1,109 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg_color">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/common_bg_color">
+        android:id="@+id/llContent"
+        android:orientation="vertical">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:id="@+id/llContent"
-                  android:orientation="vertical">
         <include
-                android:id="@+id/player_root"
-                layout="@layout/layout_player"/>
-        <ScrollView
-                android:layout_width="match_parent"
-                android:scrollbars="vertical"
-                android:visibility="gone"
-                android:layout_marginLeft="@dimen/app_margin_left"
-                android:layout_marginRight="@dimen/app_margin_right"
-                android:id="@+id/mainScroll"
-                android:fillViewport="true"
-                android:layout_below="@id/player_root"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical">
+            android:id="@+id/player_root"
+            layout="@layout/layout_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-                <TextView android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:maxLines="2"
-                          android:ellipsize="end"
-                          android:textColor="@android:color/white"
-                          android:id="@+id/fragment_video_detail_tvTitle"
-                          android:textSize="@dimen/video_detail_title_size"
-                          android:text="Thanh pho toi loiThanh pho toi loiThanh pho toi loiThanh pho toi loiThanh pho toi loiThanh pho toi loi"/>
-                <RelativeLayout android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/padding_small"
-                                android:layout_marginBottom="@dimen/padding_small"
-                                android:layout_marginLeft="@dimen/margin_left_large">
-                    <CheckBox android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:id="@+id/video_detail_thumb_up_down"
-                              android:background="@null"
-                              android:checked="true"
-                              android:text="1.280"
-                              android:paddingLeft="@dimen/app_margin_left"
-                              android:textColor="@color/white"
-                              android:button="@drawable/thum_up_down_selector"/>
-                    <CheckBox android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:id="@+id/video_detail_number_of_view"
-                              android:background="@null"
-                              android:layout_marginLeft="@dimen/margin_left_medium"
-                              android:layout_toRightOf="@id/video_detail_thumb_up_down"
-                              android:enabled="false"
-                              android:text="1.280.230"
-                              android:paddingLeft="@dimen/app_margin_left"
-                              android:textColor="@color/white"
-                              android:button="@drawable/background_icon_view_video"/>
-                </RelativeLayout>
-
-                <com.viettel.vpmt.mobiletv.common.view.ExpandableTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/fragment_video_detail_tvFullDes"
-                        android:textSize="@dimen/video_detail_full_description_size"
-                        android:text="Full description loading..."
-                        android:layout_marginBottom="@dimen/padding_small"
-                        android:textColor="@android:color/white"/>
-                <TextView android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/fragment_video_detail_tvTag"
-                          android:textColor="@color/grey"
-                          android:textSize="@dimen/video_detail_full_description_size"
-                          android:text="Tag: Antoine Griezman, Ronaldo"/>
-
-                <android.support.design.widget.TabLayout
-                        android:id="@+id/sliding_tabs"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        style="@style/MyCustomTabLayout"
-                        android:layout_width="match_parent"/>
-                <com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager
-                        android:id="@+id/viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/padding_medium"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_height="wrap_content"
-                        android:background="@color/common_bg_color"/>
-            </LinearLayout>
-        </ScrollView>
+        <include layout="@layout/layout_content_video_detail"/>
     </LinearLayout>
-    <View android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:id="@+id/view_transparent"
-          android:visibility="gone"
-          android:background="#739E9E9E"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_transparent"
+        android:visibility="gone"
+        android:background="#739E9E9E"/>
     <ProgressBar
-            android:id="@+id/common_progress_bar"
-            style="@android:style/Widget.ProgressBar"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+        android:id="@+id/common_progress_bar"
+        style="@android:style/Widget.ProgressBar"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

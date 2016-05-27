@@ -3,6 +3,9 @@ package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.schedule;
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelSchedule;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
+import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.ChannelDetailFragmentPresenter;
+
+import android.os.Handler;
 
 import java.util.List;
 
@@ -13,5 +16,17 @@ import java.util.List;
 public interface ChannelSchedulePresenter extends BasePresenter {
     void getData();
 
-    void setData(List<ChannelSchedule> schedules);
+    void getChannelProgramSchedule(String channelId, int datePosition);
+
+    List<String> getDateList();
+
+    void setSchedules(List<ChannelSchedule> schedules);
+
+    void setDateList(List<String> dateList);
+
+    void setChannelDetailFragmentPresenter(ChannelDetailFragmentPresenter channelDetailFragmentPresenter);
+
+    void setCurrentTime(String currentTime);
+
+    void onDestroy();
 }

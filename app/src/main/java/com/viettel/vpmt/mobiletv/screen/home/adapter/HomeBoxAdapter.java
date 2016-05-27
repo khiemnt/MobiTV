@@ -38,9 +38,6 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
     public HomeBoxAdapter(Context context, List<Box> boxes) {
         mBoxes = boxes;
         mContext = context;
-
-        int spacingInPixels = mContext.getResources().getDimensionPixelSize(R.dimen.padding_item_common);
-        mItemDecoration = new HorizontalItemDecoration(spacingInPixels);
     }
 
 
@@ -118,8 +115,24 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
         holder.mRecyclerView.setAdapter(adapter);
 
         // Items decoration
-        holder.mRecyclerView.removeItemDecoration(mItemDecoration);
-        holder.mRecyclerView.addItemDecoration(mItemDecoration);
+        holder.mRecyclerView.removeItemDecoration(getItemDecoration(box.getType()));
+        holder.mRecyclerView.addItemDecoration(getItemDecoration(box.getType()));
+    }
+
+    private HorizontalItemDecoration getItemDecoration(Box.Type type) {
+        if (mItemDecoration == null) {
+            int spacingInPixels;
+
+            if (type == Box.Type.FILM || type == Box.Type.LIVETV) {
+                spacingInPixels = 4;
+            } else {
+                spacingInPixels = 6;
+            }
+
+            mItemDecoration = new HorizontalItemDecoration(spacingInPixels);
+        }
+
+        return mItemDecoration;
     }
 
     /**

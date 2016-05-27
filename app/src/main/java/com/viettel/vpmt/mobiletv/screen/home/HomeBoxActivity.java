@@ -1,17 +1,21 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
+import com.google.gson.Gson;
+
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
+import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.network.ApiConstants;
-import com.viettel.vpmt.mobiletv.network.dto.Box;
-import com.viettel.vpmt.mobiletv.screen.bundle.BundleActivity;
+import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
+import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
+import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityPresenter;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityView;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -54,6 +58,31 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
         mNavigationView.setCheckedItem(R.id.nav_home);
+
+        getSettings();
+    }
+
+    /**
+     * Get Settings from server
+     */
+    private void getSettings() {
+        if (PrefManager.getSettings(this) != null) {
+            return;
+        }
+
+        String header = PrefManager.getHeader(this);
+        ServiceBuilder.getService().getSettings(header)
+                .enqueue(new BaseCallback<PlayerSetting>() {
+                    @Override
+                    public void onError(String errorCode, String errorMessage) {
+                        Logger.e(TAG, "Get SETTINGS error " + errorMessage);
+                    }
+
+                    @Override
+                    public void onResponse(PlayerSetting data) {
+                        PrefManager.saveSettings(HomeBoxActivity.this, data);
+                    }
+                });
     }
 
     /**
@@ -271,7 +300,13 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
      */
     public void addChildFragment(BaseFragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // TODO check animation
+//        transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,
+//                R.animator.fragment_slide_left_exit,
+//                R.animator.fragment_slide_right_enter,
+//                R.animator.fragment_slide_right_exit);
         transaction.add(R.id.common_content_frame, fragment);
+
         transaction.addToBackStack(fragment.getClass().getSimpleName());
         transaction.commit();
     }
@@ -281,15 +316,6 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
      */
     public void popBackStack() {
         getSupportFragmentManager().popBackStack();
-    }
-
-    /**
-     * Open bundle home screen
-     */
-    public void openBundleHome(Box.Type type, String id) {
-        startActivity(new Intent(this, BundleActivity.class)
-                .putExtra(Constants.Extras.BOX_TYPE, type)
-                .putExtra(Constants.Extras.ID, id));
     }
 
     @Override

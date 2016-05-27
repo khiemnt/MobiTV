@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.home.adapter;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
@@ -19,7 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Video contents Adapter
+ * Film contents Adapter
  * Created by neo on 3/24/2016.
  */
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
@@ -52,7 +53,12 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         holder.mTitleTextView.setText(content.getName());
 
         // Click item behavior
-        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        if (mContext instanceof FilmDetailActivity) {
+            // Item clicked in Film detail activity
+            holder.itemView.setOnClickListener(new RelateFilmClickListener(position));
+        } else {
+            holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        }
     }
 
     @Override
@@ -71,6 +77,27 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+        }
+    }
+
+    /**
+     * Related Film item clicked
+     */
+    private class RelateFilmClickListener implements View.OnClickListener {
+        private int mPosition;
+
+        private RelateFilmClickListener(int position) {
+            mPosition = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mContext instanceof FilmDetailActivity) {
+                ((FilmDetailActivity) mContext)
+                        .getFragment()
+                        .getPresenter()
+                        .getFilmDetail(0, mContents.get(mPosition).getId(), null, 1);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import com.squareup.picasso.RequestCreator;
 import com.viettel.vpmt.mobiletv.R;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 /**
@@ -35,5 +36,16 @@ public class ImageUtils {
 
         // Load image
         creator.into(imageView);
+    }
+
+    public static Drawable getDrawable(Context context, int drawableId) {
+        Drawable myDrawable;
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            myDrawable = context.getDrawable(drawableId);
+        } else {
+            myDrawable = context.getResources().getDrawable(drawableId);
+        }
+
+        return myDrawable;
     }
 }

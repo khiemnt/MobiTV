@@ -22,10 +22,13 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.media.player.MobiPlayer;
 import com.viettel.vpmt.mobiletv.media.player.PlayerController;
 
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,21 +38,22 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 /**
- * An activity that plays media using {@link MobiPlayer}.
+ * An Fragment that plays media using {@link MobiPlayer}.
  */
-public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActivity> extends BaseFragment<P, A> {
+public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActivity> extends BaseFragment<P, A>
+        implements PlayerController.StateListener {
+    private static final float PLAYER_RATIO = 16.0f / 9;
     @Bind(R.id.shutter)
     View mShutterView;
     @Bind(R.id.video_frame)
     AspectRatioFrameLayout mVideoFrame;
-    @Bind(R.id.surface_view)
+    @Bind(R.id.player_surface_view)
     SurfaceView mSurfaceView;
     @Bind(R.id.subtitles)
     SubtitleLayout mSubtitleLayout;
@@ -59,6 +63,12 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
     View transparent;
+    @Bind(R.id.player_control_quantity)
+    TextView mQualityTv;
+    @Bind(R.id.player_control_report)
+    TextView mReportTv;
+    @Bind(R.id.player_control_speed)
+    TextView mSpeedTv;
 
     protected PlayerController mPlayerController;
 
@@ -68,8 +78,7 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (mPlayerController == null) {
-            mPlayerController = new PlayerController(getActivity(), mRoot, mVideoFrame
-                    , mSurfaceView, mSubtitleLayout, mShutterView);
+            initPlayerController();
         }
         return view;
     }
@@ -78,11 +87,27 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     public void onResume() {
         super.onResume();
         if (mPlayerController == null) {
-            mPlayerController = new PlayerController(getActivity(), mRoot, mVideoFrame
-                    , mSurfaceView, mSubtitleLayout, mShutterView);
+            initPlayerController();
         }
-        mPlayerController.onResume(getActivity().getIntent());
+        mPlayerController.onResume();
     }
+
+    /**
+     * Initialize Player Controller
+     */
+    private void initPlayerController() {
+        String coverUrl = getArguments().getString(Constants.Extras.COVER_IMAGE_URL, null);
+        Logger.e("Cover uu " + coverUrl);
+        mPlayerController = new PlayerController(getActivity(), mRoot, mVideoFrame
+                , mSurfaceView, mSubtitleLayout, mShutterView, coverUrl);
+        mPlayerController.setAspectRatio(PLAYER_RATIO);
+        firstConfigPlayerController();
+
+        String title = getArguments().getString(Constants.Extras.TITLE);
+        setTitle(title);
+    }
+
+    protected abstract void firstConfigPlayerController();
 
     @Override
     public void onPause() {
@@ -90,18 +115,33 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
         mPlayerController.onPause();
     }
 
-    /**
-     * Init Exo player
-     */
-    protected void initPlayer(Uri uri, int contentType, String fileExtension) {
-        mPlayerController.init(uri, contentType, fileExtension);
+    protected void setTitle(String title) {
+        mPlayerController.setTitle(title);
     }
 
     /**
      * Init Exo player
      */
+//    protected void initPlayer(Uri uri, int contentType, String fileExtension) {
+//        mPlayerController.init(uri, contentType, fileExtension);
+//    }
+
+    /**
+     * Init Exo player
+     */
+    protected void initPlayer(Uri uri, int contentType, String title, String coverImageUrl) {
+        mPlayerController.init(uri, contentType, null, coverImageUrl);
+        mPlayerController.setTitle(title);
+    }
+    /**
+     * Init Exo player
+     */
+    protected void initPlayer(Uri uri, int contentType, String coverImageUrl) {
+        mPlayerController.init(uri, contentType, null, coverImageUrl);
+    }
+
     protected void initPlayer(Uri uri, int contentType) {
-        mPlayerController.init(uri, contentType, null);
+        initPlayer(uri, contentType, null);
     }
 
     @Override
@@ -136,6 +176,47 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
         if (mProgressBar != null) {
             mProgressBar.setVisibility(View.GONE);
             transparent.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onPreparing() {
+
+    }
+
+    @Override
+    public void onBuffering() {
+
+    }
+
+    @Override
+    public void onIdle() {
+
+    }
+
+    @Override
+    public void onReady() {
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mQualityTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_setting,0,0);
+        mSpeedTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_motion,0,0);
+        mReportTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_flag,0,0);
+        mPlayerController.onConfigurationChanged(newConfig);
+
+        int orientation = newConfig.orientation;
+        switch (orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                mPlayerController.setTitleVisibility(View.VISIBLE);
+                break;
+
+            case Configuration.ORIENTATION_PORTRAIT:
+                mPlayerController.setTitleVisibility(View.INVISIBLE);
+                break;
+
         }
     }
 }

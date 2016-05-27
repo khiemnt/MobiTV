@@ -28,7 +28,7 @@ public class ChannelSchedule {
 
     private Calendar mCalendar;
     private String mExtractedBeginTime;
-    private boolean isPlaying = false;
+    private boolean mIsPlaying = false;
 
     public enum State {
         @SerializedName("PAST")
@@ -37,6 +37,8 @@ public class ChannelSchedule {
         PRESENT,
         @SerializedName("FUTURE")
         FUTURE,
+
+        OTHER,
     }
 
     public String getId() {
@@ -80,20 +82,17 @@ public class ChannelSchedule {
     }
 
     public boolean isPlaying() {
-        return isPlaying;
+        return mIsPlaying;
     }
 
     public void setPlaying(boolean playing) {
-        isPlaying = playing;
+        mIsPlaying = playing;
     }
 
     public Calendar getFormattedBeginTime() {
         if (mCalendar == null) {
             try {
-                SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.US);
-                Date date = format.parse(mBeginTime);
-                mCalendar = Calendar.getInstance();
-                mCalendar.setTime(date);
+                mCalendar = parse(mBeginTime);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -107,5 +106,16 @@ public class ChannelSchedule {
             mExtractedBeginTime = format.format(getFormattedBeginTime().getTime());
         }
         return mExtractedBeginTime;
+    }
+
+    /**
+     * Parse Date from String to Calendar
+     */
+    public static Calendar parse(String dateString) throws ParseException {
+        Date date = new SimpleDateFormat(ChannelSchedule.DATE_FORMAT, Locale.US)
+                .parse(dateString);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
     }
 }

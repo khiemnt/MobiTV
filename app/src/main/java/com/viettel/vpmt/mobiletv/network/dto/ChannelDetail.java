@@ -19,6 +19,8 @@ public class ChannelDetail {
     private List<String> mDateList;
     @SerializedName("channel_related")
     private ContentRelated mContentRelated;
+    @SerializedName("currentTime")
+    private String mCurrentTime;
 
     public Content getChannelContent() {
         return mChannelContent;
@@ -58,5 +60,13 @@ public class ChannelDetail {
 
     public void setSchedules(List<ChannelSchedule> schedules) {
         mSchedules = schedules;
+    }
+
+    public String getCurrentTime() {
+        return mCurrentTime;
+    }
+
+    public void setCurrentTime(String currentTime) {
+        mCurrentTime = currentTime;
     }
 }

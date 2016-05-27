@@ -4,15 +4,19 @@ import com.google.android.exoplayer.util.Util;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.common.util.StringUtils;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
-import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.utils.WrapContentHeightViewPager;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.view.View;
 import android.widget.ImageView;
 
 import butterknife.Bind;
@@ -21,13 +25,27 @@ import butterknife.Bind;
  * Channel/TV detail fragment
  * Created by neo on 4/17/2016.
  */
-public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentPresenter, ChannelActivityDetail> implements ChannelDetailFragmentView {
+public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentPresenter, ChannelDetailActivity> implements ChannelDetailFragmentView {
     @Bind(R.id.channel_detail_logo_iv)
     ImageView mLogoIv;
     @Bind(R.id.viewpager)
     WrapContentHeightViewPager mViewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout mTabLayout;
+
+    private String mStreamUrl = null;
+
+    public static ChannelDetailFragment newInstance(String channelId, String title, String coverImageUrl) {
+        ChannelDetailFragment fragment = new ChannelDetailFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.Extras.ID, channelId);
+        bundle.putString(Constants.Extras.TITLE, title);
+        bundle.putString(Constants.Extras.COVER_IMAGE_URL, coverImageUrl);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -36,10 +54,16 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
 
     @Override
     public void onPrepareLayout() {
-//        String channelId = getArguments().getString(Constants.Extras.ID);
-        // TODO hard code
-        String channelId = "141";
+        String channelId = getArguments().getString(Constants.Extras.ID);
+        channelId = "141"; // TODO tests
+
         getDetailWithId(channelId);
+    }
+
+    @Override
+    protected void firstConfigPlayerController() {
+        mPlayerController.setLikeButtonVisibility(View.GONE);
+        mPlayerController.setShareButtonVisibility(View.GONE);
     }
 
     private void getDetailWithId(String channelId) {
@@ -58,10 +82,7 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
                 mLogoIv, false);
 
         // Load tabs
-        ChannelFragmentPagerAdapter adapter;
-
-        adapter = new ChannelFragmentPagerAdapter(channelDetail.getChannelContent().getId(),
-                channelDetail.getSchedules(), channelDetail.getContentRelated().getContents(),
+        ChannelFragmentPagerAdapter adapter = new ChannelFragmentPagerAdapter(channelDetail,
                 getActivity().getSupportFragmentManager(), getActivity(), getPresenter());
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -72,21 +93,44 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
         // Play channel
         String url = channelDetail.getStreams().getUrlStreaming();
         Logger.e("URL=\n" + url);
-//        if (!StringUtils.isEmpty(url)) {
-//            initPlayer(Uri.parse(url), Util.TYPE_HLS);
-//        } else {
+        if (!StringUtils.isEmpty(url)) {
+            mStreamUrl = url;
+            String coverImageUrl = channelDetail.getChannelContent().getCoverImage();
+            initPlayer(Uri.parse(url), Util.TYPE_HLS, coverImageUrl);
+        } else {
             //todo request login later
             getPresenter().getChannelStream(channelDetail.getChannelContent().getId());
-//        }
+        }
     }
 
     @Override
     public void doLoadChannelStream(DataStream videoStream) {
-        initPlayer(Uri.parse(videoStream.getStreams().getUrlStreaming()), Util.TYPE_HLS);
+        mStreamUrl = videoStream.getStreams().getUrlStreaming();
+        initPlayer(Uri.parse(mStreamUrl), Util.TYPE_HLS);
     }
 
     @Override
     public void loadProgram(String programStreamUrl) {
         initPlayer(Uri.parse(programStreamUrl), Util.TYPE_HLS);
     }
+
+    @Override
+    public void playPresentProgram() {
+        if (!StringUtils.isEmpty(mStreamUrl)) {
+            initPlayer(Uri.parse(mStreamUrl), Util.TYPE_HLS);
+        }
+    }
+
+//    @Override
+//    public void doRefreshLike(boolean isLike) {
+//        mFavoriteTv.setChecked(isLike);
+//
+//        try {
+//            int likeCount = Integer.valueOf(mFavoriteTv.getText().toString());
+//            likeCount = isLike ? likeCount + 1 : likeCount - 1;
+//            mFavoriteTv.setText(String.valueOf(likeCount));
+//        } catch (NumberFormatException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 }

@@ -3,7 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.ChannelAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.HorizontalItemDecoration;
 
@@ -19,7 +19,7 @@ import butterknife.Bind;
  * Relative channels fragment
  * Created by neo on 5/17/2016.
  */
-public class ChannelRelativeListFragment extends BaseFragment<ChannelRelativePresenter, ChannelActivityDetail> implements ChannelRelativeView {
+public class ChannelRelativeListFragment extends BaseFragment<ChannelRelativePresenter, ChannelDetailActivity> implements ChannelRelativeView {
     @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
     List<Content> videos = new ArrayList<>();

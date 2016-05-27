@@ -20,7 +20,7 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
     }
 
     @Override
-    public void getDetailVideo(final int position, String videoId, String partOfVideo) {
+    public void getVideoDetail(final int position, String videoId, String partOfVideo) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
@@ -72,7 +72,7 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
 
             @Override
             public void onResponse(ResponseLikeUnlike data) {
-                mView.doRefreshLike(data.getData().isLike());
+                mView.doRefreshLike(data.isLike());
             }
         });
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_video_width">240dp</dimen>
+    <dimen name="item_video_height">135dp</dimen>
+    <dimen name="box_title_text_size">22sp</dimen>
+    <dimen name="box_see_all_text_size">17sp</dimen>
+    <dimen name="item_content_title_text_size">20sp</dimen>
+    <dimen name="item_content_subtitle_text_size">20sp</dimen>
+    <dimen name="item_channel_width">160dp</dimen>
+    <dimen name="item_channel_height">160dp</dimen>
+    <dimen name="item_film_width">160dp</dimen>
+    <dimen name="item_film_height">235dp</dimen>
+</resources>

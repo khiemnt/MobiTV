@@ -1,8 +1,10 @@
 package com.viettel.vpmt.mobiletv.common.pref;
 
 import com.google.android.exoplayer.C;
+import com.google.gson.Gson;
 
 import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,7 +18,10 @@ public class PrefManager {
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String REFRESS_TOKEN = "refressToken";
     public static final String MSISDN = "msisdn";
+    public static final String SETTINGS = "settings";
     public static final String EXPIRED_TIME = "expiredTime"; // Timeout of Access token (In SECONDS)
+
+    private static PlayerSetting mPlayerSetting;
 
     public static SharedPreferences getPreference(Context context) {
         return context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -73,5 +78,27 @@ public class PrefManager {
 
     public static void clearData(Context context) {
         getPreference(context).edit().clear().commit();
+    }
+
+    /**
+     * Save settings as JSON
+     */
+    public static void saveSettings(Context context, PlayerSetting playerSetting) {
+        String jsonSettings = new Gson().toJson(playerSetting);
+        getPreference(context).edit().putString(SETTINGS, jsonSettings).commit();
+    }
+
+    public static PlayerSetting getSettings(Context context) {
+        if (mPlayerSetting != null) {
+            return mPlayerSetting;
+        }
+
+        String jsonSettings = getPreference(context).getString(SETTINGS, null);
+        if (jsonSettings == null) {
+            return null;
+        }
+
+        mPlayerSetting = new Gson().fromJson(jsonSettings, PlayerSetting.class);
+        return mPlayerSetting;
     }
 }

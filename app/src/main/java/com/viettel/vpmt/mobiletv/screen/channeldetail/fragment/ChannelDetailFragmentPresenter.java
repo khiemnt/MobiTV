@@ -12,4 +12,10 @@ public interface ChannelDetailFragmentPresenter extends BasePresenter {
     void getChannelStream(String channelId);
 
     void playProgram(String programId);
+
+    void notifyChannel(String channelId);
+
+    String getChannelId();
+
+    void playPresentProgram();
 }

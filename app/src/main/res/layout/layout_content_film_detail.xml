@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scrollbars="vertical"
+    android:fillViewport="true"
+    android:id="@+id/mainScroll"
+    android:layout_marginLeft="@dimen/app_margin_left"
+    android:layout_marginRight="@dimen/app_margin_right"
+    android:layout_marginTop="@dimen/padding_medium"
+    android:layout_below="@id/player_root"
+    android:layout_height="0dp"
+    android:layout_weight="1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:id="@+id/fragment_film_detail_tvTitle"
+            android:textSize="@dimen/video_detail_title_size"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:id="@+id/fragment_film_detail_tvShortDes"
+            android:textSize="@dimen/video_detail_full_description_size"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:layout_marginLeft="@dimen/margin_left_large">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/film_detail_thumb_up_down"
+                android:background="@null"
+                android:checked="true"
+                android:text="@string/default_zero"
+                android:paddingLeft="@dimen/app_margin_left"
+                android:textColor="@color/white"
+                android:button="@drawable/thum_up_down_selector"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/film_detail_number_of_view"
+                android:background="@null"
+                android:layout_marginLeft="@dimen/margin_left_medium"
+                android:layout_toRightOf="@id/film_detail_thumb_up_down"
+                android:enabled="false"
+                android:text="@string/default_zero"
+                android:paddingLeft="@dimen/app_margin_left"
+                android:textColor="@color/white"
+                android:button="@drawable/background_icon_view_video"/>
+        </RelativeLayout>
+
+        <com.viettel.vpmt.mobiletv.common.view.ExpandableTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_film_detail_tvFullDes"
+            android:textSize="@dimen/video_detail_full_description_size"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_film_detail_tvActor"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/video_detail_full_description_size"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_film_detail_tvCountry"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/video_detail_full_description_size"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            style="@style/MyCustomTabLayout"
+            android:layout_width="match_parent"/>
+        <com.viettel.vpmt.mobiletv.screen.filmdetail.utils.WrapContentHeightViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:background="@color/common_bg_color"/>
+    </LinearLayout>
+</ScrollView>

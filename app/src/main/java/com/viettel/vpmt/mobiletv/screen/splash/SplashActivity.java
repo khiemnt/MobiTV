@@ -32,6 +32,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
         Logger.d("TAG", "DPI " + DeviceUtils.getDpi(this));
+        Logger.d("TAG", "Screen size " + DeviceUtils.getDeviceSize(this).x + "x" + DeviceUtils.getDeviceSize(this).y);
 
         setContentView(R.layout.activity_splash);
         autoLogin();
@@ -68,19 +69,36 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void autoLogin() {
         if (PrefManager.getMsisdn(this) == null) {
-            ServiceBuilder.getService().authorize("auto_login", "84985124699").enqueue(mCallback);
+            ServiceBuilder.getService().authorize("auto_login", "84985124699", null)
+                    .enqueue(new AuthorizeCallback(AuthorizeCallback.TYPE_AUTO_LOGIN));
 //            ServiceBuilder.getService().autoLogin("auto_login").enqueue(mCallback);
         } else {
             // Already logged in, just wait for 3 seconds
             waitForSeconds();
+            String refreshToken = PrefManager.getRefreshToken(this);
+            ServiceBuilder.getService().authorize("refresh_token", null,refreshToken)
+                    .enqueue(new AuthorizeCallback(AuthorizeCallback.TYPE_REFRESH_TOKEN));
         }
     }
 
-    private BaseCallback<AuthenData> mCallback = new BaseCallback<AuthenData>() {
+    private class AuthorizeCallback extends BaseCallback<AuthenData> {
+        public static final int TYPE_LOGIN = 0;
+        public static final int TYPE_REFRESH_TOKEN = 1;
+        public static final int TYPE_AUTO_LOGIN = 2;
+
+        private int mType;
+
+        public AuthorizeCallback(int type) {
+            mType = type;
+        }
+
+
         @Override
         public void onError(String errorCode, String errorMessage) {
             Logger.e(TAG, "Authorize error " + errorMessage);
-            goHome();
+            if (mType == TYPE_AUTO_LOGIN || mType == TYPE_LOGIN) {
+                goHome();
+            }
         }
 
         @Override
@@ -88,7 +106,9 @@ public class SplashActivity extends AppCompatActivity {
             Context context = SplashActivity.this;
             PrefManager.saveUserInfo(context, data.getAccessToken(), data.getRefressToken(),
                     data.getMsisdn(), data.getExpiredTime());
-            goHome();
+            if (mType == TYPE_AUTO_LOGIN || mType == TYPE_LOGIN) {
+                goHome();
+            }
         }
-    };
+    }
 }

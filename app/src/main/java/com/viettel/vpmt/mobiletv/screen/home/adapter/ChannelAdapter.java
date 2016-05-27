@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.home.adapter;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
@@ -47,7 +48,11 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, false);
 
         // Click item behavior
-        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        if (mContext instanceof ChannelDetailActivity) {
+            holder.itemView.setOnClickListener(new RelateChannelClickListener(position));
+        } else {
+            holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        }
     }
 
     @Override
@@ -64,6 +69,27 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+        }
+    }
+
+    /**
+     * Related Channel item clicked
+     */
+    private class RelateChannelClickListener implements View.OnClickListener {
+        private int mPosition;
+
+        private RelateChannelClickListener(int position) {
+            mPosition = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mContext instanceof ChannelDetailActivity) {
+                ((ChannelDetailActivity) mContext)
+                        .getFragment()
+                        .getPresenter()
+                        .getChannelDetail(mContents.get(mPosition).getId());
+            }
         }
     }
 }

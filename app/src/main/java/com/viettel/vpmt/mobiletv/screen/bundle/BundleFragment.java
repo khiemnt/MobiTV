@@ -12,11 +12,14 @@ import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.GridItemDecoration;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -126,11 +129,8 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
                 break;
         }
 
-        // Grid layout manager
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.getRecyclerView().setClipToPadding(false);
-        mRecyclerView.getRecyclerView().setHasFixedSize(true);
+        // Item decoration
+        final int spacingInPixels = 20;
 
         // Calculate spacing
         int screenWidth = DeviceUtils.getDeviceSize(getActivity()).x;
@@ -139,11 +139,16 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
                 getResources().getDimensionPixelSize(R.dimen.item_video_width) :
                 getResources().getDimensionPixelSize(R.dimen.item_channel_width));
 
-        int spacing = (screenWidth - itemWidth * spanCount) / (spanCount + 1);
+        int recyclerViewPadding = (screenWidth - itemWidth * spanCount - (spanCount ) * spacingInPixels) / 2;
 
-        // Item decoration
-        mRecyclerView.addItemDecoration(new GridItemDecoration(spacing));
-        mRecyclerView.setPadding(spacing, 0, 0, 0);
+        // Grid layout manager
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.getRecyclerView().setClipToPadding(false);
+        mRecyclerView.getRecyclerView().setHasFixedSize(true);
+
+        // Item spacing
+        mRecyclerView.addItemDecoration(new GridItemDecoration(spacingInPixels, spanCount, recyclerViewPadding));
 
         // Refresh & load more listener
         mRecyclerView.setRefreshListener(this);
@@ -151,6 +156,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
 
         initData();
     }
+
 
     @Override
     public BundlePresenter onCreatePresenter() {
@@ -205,4 +211,9 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
     @Override
     public void hideProgress() {
     }
+//
+//    @Override
+//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+//        return enter ? AnimationUtils.loadAnimation(getActivity(), R.anim.slide_right_in) : AnimationUtils.loadAnimation(getActivity(), R.anim.slide_right_out);
+//    }
 }

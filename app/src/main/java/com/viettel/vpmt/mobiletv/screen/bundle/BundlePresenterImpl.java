@@ -112,12 +112,6 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
             mContents.addAll(box.getContents());
             Logger.i(TAG, "SS==== " + mContents.size());
 
-//            if (mCurrentSize == 0) { // Init data
-//                mView.loadBox(getAdapter(mContents));
-//            } else {
-//                mAdapter.ad
-//                mView.stopLoadMore();
-//            }
             mAdapter.notifyDataSetChanged();
             mCurrentSize += dataSize;
         }

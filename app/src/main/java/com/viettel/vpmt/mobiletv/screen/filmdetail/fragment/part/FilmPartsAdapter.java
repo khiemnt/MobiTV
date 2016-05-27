@@ -2,7 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.part;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmActivityDetail;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +48,8 @@ public class FilmPartsAdapter extends RecyclerView.Adapter<FilmPartsAdapter.MyVi
             @Override
             public void onClick(View v) {
                 holder.title.setBackgroundResource(R.drawable.background_part_selected);
-                ((FilmActivityDetail) mContext).getFragment().getPresenter().getDetailVideo(position, mFilmId, mParts.get(position).getId(), 0);
+                ((FilmDetailActivity) mContext).getFragment().getPresenter()
+                        .getFilmDetail(position, mFilmId, mParts.get(position).getId(), 0);
             }
         });
     }

@@ -25,7 +25,6 @@ public class SeeAllClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Logger.e("@@@", "ID=" + mBox.getId());
         Bundle args = new Bundle();
         args.putString(Constants.Extras.PATH, ApiConstants.PATH_GET_MORE_CONTENT);
         args.putString(Constants.Extras.SCOPE, ApiConstants.SCOPE_DEFAULT);
@@ -34,5 +33,6 @@ public class SeeAllClickListener implements View.OnClickListener {
 
 //        mBaseActivity.openBundleHome(mBox.getType(), mBox.getId());
         mBaseActivity.addChildFragment(BundleFragment.newInstance(mBox.getType(), mBox.getId(), mBox.getName()));
+        // TODO check animation &
     }
 }

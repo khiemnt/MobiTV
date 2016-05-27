@@ -284,6 +284,9 @@ public final class AudioTrack {
     return audioTrack != null;
   }
 
+  public void setPlaybackSampleRate(int sampleRateInHz) {
+    audioTrack.setPlaybackRate(sampleRateInHz);
+  }
   /**
    * Returns the playback position in the stream starting at zero, in microseconds, or
    * {@link #CURRENT_POSITION_NOT_SET} if it is not yet available.

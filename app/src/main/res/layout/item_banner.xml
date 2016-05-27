@@ -2,13 +2,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-android:clickable="true">
+    android:layout_height="wrap_content">
 
     <com.viettel.vpmt.mobiletv.common.view.BannerImage
         android:id="@+id/item_banner_image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:clickable="true"/>
+        android:scaleType="fitXY"/>
 
 </LinearLayout>

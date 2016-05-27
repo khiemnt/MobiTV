@@ -14,5 +14,6 @@ public interface Constants {
         String BOX_TYPE = "box_type";
         String TITLE = "title";
         String PART = "part";
+        String COVER_IMAGE_URL = "cover_image_url";
     }
 }
