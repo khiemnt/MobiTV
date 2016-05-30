@@ -3,6 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
+import com.viettel.vpmt.mobiletv.common.view.VideoImage;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
@@ -15,12 +16,14 @@ import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
  * Created by ThanhTD on 3/26/2016.
  */
 public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDetailFragmentView> implements VideoDetailFragmentPresenter {
+    private VideoDetail mVideoDetail;
+
     public VideoDetailFragmentPresenterImpl(VideoDetailFragmentView view) {
         super(view);
     }
 
     @Override
-    public void getVideoDetail(final int position, String videoId, String partOfVideo) {
+    public void getVideoDetail(final int position, final String videoId) {
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
@@ -35,6 +38,7 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
             @Override
             public void onResponse(VideoDetail data) {
                 mView.doLoadToView(data, position);
+                mVideoDetail = data;
             }
         });
     }
@@ -75,5 +79,10 @@ public class VideoDetailFragmentPresenterImpl extends BasePresenterImpl<VideoDet
                 mView.doRefreshLike(data.isLike());
             }
         });
+    }
+
+    @Override
+    public VideoDetail getVideoDetail() {
+        return mVideoDetail;
     }
 }

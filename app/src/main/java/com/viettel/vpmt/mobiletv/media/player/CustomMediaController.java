@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -61,9 +62,12 @@ public class CustomMediaController extends FrameLayout {
     private ImageView mNextButton;
     private ImageView mPrevButton;
     private ImageView mFullScreenIv;
+    private LinearLayout mProgressTimeLayout;
+    private TextView mLiveNowTv;
     private Handler mHandler = new MessageHandler(this);
     private List<PlayerController.VideoPart> mVideoParts;
     private SensorOrientationListener mSensorListener;
+    private PlayerController.PartSelectionListener mPartSelectionListener;
 
     public CustomMediaController(Activity activity, AttributeSet attrs) {
         super(activity, attrs);
@@ -189,6 +193,8 @@ public class CustomMediaController extends FrameLayout {
 
         mNextButton = (ImageView) v.findViewById(R.id.next);
         mPrevButton = (ImageView) v.findViewById(R.id.prev);
+        mProgressTimeLayout = (LinearLayout) v.findViewById(R.id.mediacontroller_progress_time_layout);
+        mLiveNowTv = (TextView) v.findViewById(R.id.mediacontroller_live_tv);
         installPrevNextListeners();
     }
 
@@ -598,8 +604,17 @@ public class CustomMediaController extends FrameLayout {
         }
     }
 
-    public void setVideoParts(List<PlayerController.VideoPart> videoParts) {
+    public void setProgressTimeLayoutVisibility(int visibility) {
+        mProgressTimeLayout.setVisibility(visibility);
+    }
+
+    public void setLiveNowVisibility(int visibility) {
+        mLiveNowTv.setVisibility(visibility);
+    }
+
+    public void setVideoParts(List<PlayerController.VideoPart> videoParts, PlayerController.PartSelectionListener partSelectionListener) {
         mVideoParts = videoParts;
+        mPartSelectionListener = partSelectionListener;
     }
 
     //    public interface MediaPlayerControl {

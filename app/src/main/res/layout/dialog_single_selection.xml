@@ -4,35 +4,39 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <RadioGroup
-        android:id="@+id/quality_dialog_radio_group"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    android:padding="@dimen/padding_medium">
-        <!--<RadioButton-->
+        android:layout_height="match_parent">
+        <RadioGroup
+            android:id="@+id/dialog_single_selection_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium">
+            <!--<RadioButton-->
             <!--style="@style/RadioButtonBlue"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:text="@string/value_quality_auto"/>-->
-        <!--<RadioButton-->
+            <!--<RadioButton-->
             <!--style="@style/RadioButtonBlue"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:text="@string/value_quality_360"/>-->
-        <!--<RadioButton-->
+            <!--<RadioButton-->
             <!--style="@style/RadioButtonBlue"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:text="@string/value_quality_480"/>-->
-        <!--<RadioButton-->
+            <!--<RadioButton-->
             <!--style="@style/RadioButtonBlue"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:text="@string/value_quality_720"/>-->
-        <!--<RadioButton-->
+            <!--<RadioButton-->
             <!--style="@style/RadioButtonBlue"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:text="@string/value_quality_1080"/>-->
-    </RadioGroup>
+        </RadioGroup>
+    </ScrollView>
 </LinearLayout>

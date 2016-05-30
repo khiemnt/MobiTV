@@ -11,7 +11,6 @@ import com.viettel.vpmt.mobiletv.screen.home.animation.PagerRunner;
 import com.viettel.vpmt.mobiletv.screen.home.controller.SeeAllClickListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,29 +27,29 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Common Adapter
+ * Search Adapter
  * Created by neo on 3/22/2016.
  */
-public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context mContext;
     private List<Box> mBoxes;
     private HorizontalItemDecoration mItemDecoration;
 
-    public HomeBoxAdapter(Context context, List<Box> boxes) {
+    public SearchAdapter(Context context, List<Box> boxes) {
         mBoxes = boxes;
         mContext = context;
     }
 
 
     @Override
-    public HomeBoxAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_box_home, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(HomeBoxAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
         Box box = getItem(position);
         if (box == null) {
             return;

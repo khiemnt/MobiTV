@@ -29,6 +29,9 @@
                 android:name=".screen.home.HomeBoxActivity"
                 android:screenOrientation="portrait"/>
         <activity
+                android:name=".screen.search.SearchActivity"
+                android:screenOrientation="portrait"/>
+        <activity
                 android:name=".screen.videodetail.activity.VideoDetailActivity"
                 android:configChanges="orientation|screenSize"/>
         <activity

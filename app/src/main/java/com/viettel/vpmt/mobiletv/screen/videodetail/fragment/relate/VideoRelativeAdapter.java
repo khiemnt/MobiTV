@@ -54,7 +54,7 @@ public class VideoRelativeAdapter extends RecyclerView.Adapter<VideoRelativeAdap
             @Override
             public void onClick(View v) {
                 ((VideoDetailActivity) context).getFragment().getPresenter()
-                        .getVideoDetail(0, imageItems.get(position).getVideoId(), "");
+                        .getVideoDetail(0, imageItems.get(position).getVideoId());
             }
         });
     }

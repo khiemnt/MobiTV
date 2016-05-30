@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Channel.ItemLayout">
 
-    <ImageView
+    <com.viettel.vpmt.mobiletv.common.view.ChannelImage
         android:id="@+id/item_channel_iv"
         style="@style/Channel.CoverImage"/>
 </LinearLayout>

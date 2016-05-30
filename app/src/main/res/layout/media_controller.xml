@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/media_controller_height"
     android:background="@color/bg_player_controller"
     android:orientation="vertical">
 
@@ -29,32 +29,59 @@
             android:visibility="gone"
             android:src="@drawable/ic_player_next_bt"/>
 
-        <TextView
-            android:id="@+id/time_current"
-            style="@style/PlayerTimeText"/>
 
-        <SeekBar
-            android:id="@+id/mediacontroller_progress"
-            android:indeterminateOnly="false"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:progressDrawable="@drawable/continue_progress_bar"
-            android:minHeight="2dp"
-            android:thumbOffset="8dp"
-            android:focusable="true"
-            android:maxHeight="2dp"
-            android:thumb="@drawable/ic_player_circle"
-            android:indeterminateDrawable="@drawable/continue_progress_bar"
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+            <LinearLayout
+                android:id="@+id/mediacontroller_progress_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/time_current"
+                    style="@style/PlayerTimeText"/>
+                <SeekBar
+                    android:id="@+id/mediacontroller_progress"
+                    android:indeterminateOnly="false"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:progressDrawable="@drawable/continue_progress_bar"
+                    android:minHeight="2dp"
+                    android:thumbOffset="8dp"
+                    android:focusable="true"
+                    android:maxHeight="2dp"
+                    android:thumb="@drawable/ic_player_circle"
+                    android:indeterminateDrawable="@drawable/continue_progress_bar"
+                />
+                <TextView
+                    android:id="@+id/endTime"
+                    style="@style/PlayerTimeText"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/mediacontroller_live_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/ContentItem.Title"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@drawable/ic_live_red"
+                android:paddingTop="0dp"
+                android:drawablePadding="@dimen/padding_small"
+                android:text="@string/label_live"
             />
+        </RelativeLayout>
 
-
-        <TextView
-            android:id="@+id/endTime"
-            style="@style/PlayerTimeText"/>
 
         <ImageView
             android:id="@+id/fullscreen"

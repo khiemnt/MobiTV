@@ -46,6 +46,7 @@ public class ExtractorRendererBuilder implements MobiPlayer.RendererBuilder {
   private final Context context;
   private final String userAgent;
   private final Uri uri;
+  private MediaCodecAudioTrackRenderer audioRenderer;
 
   public ExtractorRendererBuilder(Context context, String userAgent, Uri uri) {
     this.context = context;
@@ -66,7 +67,7 @@ public class ExtractorRendererBuilder implements MobiPlayer.RendererBuilder {
     MediaCodecVideoTrackRenderer videoRenderer = new MediaCodecVideoTrackRenderer(context,
         sampleSource, MediaCodecSelector.DEFAULT, MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT, 5000,
         mainHandler, player, 50);
-    MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
+    audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
         MediaCodecSelector.DEFAULT, null, true, mainHandler, player,
         AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC);
     TrackRenderer textRenderer = new TextTrackRenderer(sampleSource, player,
@@ -85,4 +86,8 @@ public class ExtractorRendererBuilder implements MobiPlayer.RendererBuilder {
     // Do nothing.
   }
 
+  @Override
+  public void setPlaybackSpeed(float playbackSpeed) {
+    audioRenderer.setPlaybackSpeed(playbackSpeed);
+  }
 }

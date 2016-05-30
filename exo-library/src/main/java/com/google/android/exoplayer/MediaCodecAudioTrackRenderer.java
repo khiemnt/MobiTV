@@ -439,6 +439,7 @@ public class MediaCodecAudioTrackRenderer extends MediaCodecTrackRenderer implem
                 long bufferSizeMs = bufferSizeUs == C.UNKNOWN_TIME_US ? -1 : bufferSizeUs / 1000;
                 notifyAudioTrackUnderrun(audioTrack.getBufferSize(), bufferSizeMs, elapsedSinceLastFeedMs);
             }
+            audioTrack.setSpeed(mPlaybackSpeed);
         }
 
         int handleBufferResult;
@@ -525,4 +526,7 @@ public class MediaCodecAudioTrackRenderer extends MediaCodecTrackRenderer implem
         }
     }
 
+    public void setPlaybackSpeed(float playbackSpeed) {
+        mPlaybackSpeed = playbackSpeed;
+    }
 }

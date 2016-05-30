@@ -14,6 +14,8 @@ import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -69,7 +71,10 @@ public interface MobitvService {
     Call<ResponseDTO<ResponseLikeUnlike>> postLikeFilm(@Header("Authorization") String authorization, @Query("id") String filmId);
 
     @POST("video/toggle-like-video")
-    Call<ResponseDTO<ResponseLikeUnlike>> postLikeVideo(@Header("Authorization") String authorization, @Query("id") String filmId);
+    Call<ResponseDTO<ResponseLikeUnlike>> postLikeVideo(@Header("Authorization") String authorization, @Query("id") String videoId);
+
+    @POST("channel/toggle-like-channel")
+    Call<ResponseDTO<ResponseLikeUnlike>> postLikeChannel(@Header("Authorization") String authorization, @Query("id") String channelId);
 
     @POST("channel/notify-channel")
     Call<ResponseDTO<String>> notifyChannel(@Header("Authorization") String authorization, @Query("id") String channelId);
@@ -77,6 +82,13 @@ public interface MobitvService {
     @POST("channel/get-channel-program")
     Call<ResponseDTO<ScheduleData>> getChannelProgram(@Header("Authorization") String authorization, @Query("id") String channelId, @Query("date") String date);
 
+    @POST("default/feed-back")
+    @FormUrlEncoded
+    Call<ResponseDTO<ScheduleData>> sendFeedback(@Header("Authorization") String authorization, @Field("id") String id, @Field("content") String content);
+
     @GET("default/get-setting")
     Call<ResponseDTO<PlayerSetting>> getSettings(@Header("Authorization") String authorization);
+
+    @POST("default/search")
+    Call<ResponseDTO<List<Box>>> search(@Header("Authorization") String authorization, @Query("query") String query);
 }

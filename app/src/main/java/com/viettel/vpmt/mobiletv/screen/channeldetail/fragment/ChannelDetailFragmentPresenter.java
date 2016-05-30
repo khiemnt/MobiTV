@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
+import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 
 /**
  * Presenter for Channel/TV detail fragment
@@ -15,7 +16,9 @@ public interface ChannelDetailFragmentPresenter extends BasePresenter {
 
     void notifyChannel(String channelId);
 
-    String getChannelId();
+    void postLikeChannel(boolean isLike, String channelId);
+
+    ChannelDetail getChannelDetail();
 
     void playPresentProgram();
 }

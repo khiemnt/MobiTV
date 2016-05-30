@@ -1,16 +1,19 @@
 package com.viettel.vpmt.mobiletv.screen.home.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -25,10 +28,12 @@ import butterknife.ButterKnife;
 public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> {
     private List<Content> mContents;
     private Context mContext;
+    private int mItemWidth;
 
-    public FocusAdapter(Context context, List<Content> contents) {
+    public FocusAdapter(Context context, List<Content> contents, int itemWidth) {
         mContents = contents;
         mContext = context;
+        mItemWidth = itemWidth;
     }
 
     @Override
@@ -43,6 +48,10 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> 
         Content content = mContents.get(position);
         if (content == null) {
             return;
+        }
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            holder.mRoot.setLayoutParams(layoutParams);
         }
 
         // Lazy load cover
@@ -76,11 +85,12 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> 
         public TextView mTitleTextView;
         @Bind(R.id.item_focus_desc_tv)
         public TextView mDescTextView;
-
+        public View mRoot;
 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            mRoot = v;
         }
     }
 }

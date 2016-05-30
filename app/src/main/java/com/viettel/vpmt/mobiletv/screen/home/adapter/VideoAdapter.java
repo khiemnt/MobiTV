@@ -7,11 +7,13 @@ import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,10 +28,12 @@ import butterknife.ButterKnife;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
     private List<Content> mContents;
     private Context mContext;
+    private int mItemWidth;
 
-    public VideoAdapter(Context context, List<Content> contents) {
+    public VideoAdapter(Context context, List<Content> contents, int itemWidth) {
         mContents = contents;
         mContext = context;
+        mItemWidth = itemWidth;
     }
 
     @Override
@@ -44,6 +48,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         Content content = mContents.get(position);
         if (content == null) {
             return;
+        }
+
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            holder.mRoot.setLayoutParams(layoutParams);
         }
 
         // Lazy load cover
@@ -71,11 +80,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         public ImageView mImageView;
         @Bind(R.id.item_video_title_tv)
         public TextView mTitleTextView;
-
+        public View mRoot;
 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            mRoot = v;
         }
     }
 
@@ -95,7 +105,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 ((VideoDetailActivity) mContext)
                         .getFragment()
                         .getPresenter()
-                        .getVideoDetail(0, mContents.get(mPosition).getId(), "");
+                        .getVideoDetail(0, mContents.get(mPosition).getId());
             }
         }
     }

@@ -24,9 +24,15 @@ import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
+import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.media.player.MobiPlayer;
 import com.viettel.vpmt.mobiletv.media.player.PlayerController;
+import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
+import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
+import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
+import com.viettel.vpmt.mobiletv.network.dto.ScheduleData;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -41,13 +47,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.Bind;
 
 /**
  * An Fragment that plays media using {@link MobiPlayer}.
  */
 public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActivity> extends BaseFragment<P, A>
-        implements PlayerController.StateListener {
+        implements PlayerController.StateListener, PlayerController.OnReportSelectionListener, PlayerController.PlayerActionListener {
     private static final float PLAYER_RATIO = 16.0f / 9;
     @Bind(R.id.shutter)
     View mShutterView;
@@ -105,6 +113,7 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
 
         String title = getArguments().getString(Constants.Extras.TITLE);
         setTitle(title);
+        mPlayerController.setOnReportSelectionListener(this);
     }
 
     protected abstract void firstConfigPlayerController();
@@ -138,6 +147,7 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
      */
     protected void initPlayer(Uri uri, int contentType, String coverImageUrl) {
         mPlayerController.init(uri, contentType, null, coverImageUrl);
+        mPlayerController.setPlayerActionListener(this);
     }
 
     protected void initPlayer(Uri uri, int contentType) {
@@ -218,5 +228,43 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
                 break;
 
         }
+    }
+
+    @Override
+    public void onReportSelected(int position) {
+        PlayerSetting playerSetting = PrefManager.getSettings(getActivity());
+        if (playerSetting == null) {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.error_cant_report_now), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<PlayerSetting.ErrorType> errorTypes = playerSetting.getErrorType();
+        if (errorTypes == null || errorTypes.size() == 0) {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.error_cant_report_now), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String header = PrefManager.getHeader(getActivity());
+        PlayerSetting.ErrorType errorType = errorTypes.get(position);
+        ServiceBuilder.getService().sendFeedback(header, String.valueOf(errorType.getId()), errorType.getContent())
+        .enqueue(new BaseCallback<ScheduleData>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+                Toast.makeText(getActivity(), getString(R.string.error_cant_report_now), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(ScheduleData data) {
+                Toast.makeText(getActivity(), getString(R.string.send_report_successful), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    protected void shareContent(String contentUrl) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+
+        intent.putExtra(Intent.EXTRA_TEXT, contentUrl);
+        getActivity().startActivity(Intent.createChooser(intent, getString(R.string.title_share)));
     }
 }

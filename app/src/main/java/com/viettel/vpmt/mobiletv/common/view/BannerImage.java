@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
  */
 public class BannerImage extends ImageView implements View.OnTouchListener {
     // The aspect ratio to be respected by the measurer
-    private static final double VIEW_ASPECT_RATIO = 2.0;
+    public static final double VIEW_ASPECT_RATIO = 2.0;
 
     public BannerImage(Context context) {
         super(context);

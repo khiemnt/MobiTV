@@ -10,21 +10,21 @@ import android.widget.ImageView;
  * Video Image view
  * Created by neo on 3/25/2016.
  */
-public class VideoImage extends ImageView implements View.OnTouchListener {
+public class FilmImage extends ImageView implements View.OnTouchListener {
     // The aspect ratio to be respected by the measurer
-    public static final double VIEW_ASPECT_RATIO = 16.0 / 9;
+    public static final double VIEW_ASPECT_RATIO = 222.0 / 325;
 
-    public VideoImage(Context context) {
+    public FilmImage(Context context) {
         super(context);
         init();
     }
 
-    public VideoImage(Context context, AttributeSet attrs) {
+    public FilmImage(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public VideoImage(Context context, AttributeSet attrs, int defStyle) {
+    public FilmImage(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }

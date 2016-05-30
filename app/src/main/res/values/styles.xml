@@ -43,41 +43,43 @@
     <style name="Video" parent="TextSans"></style>
 
     <style name="Video.ItemLayout">
-        <item name="android:layout_width">@dimen/item_video_width</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginBottom">@dimen/screen_margin</item>
     </style>
 
     <style name="Video.CoverImage">
-        <item name="android:layout_width">@dimen/item_video_width</item>
-        <item name="android:layout_height">@dimen/item_video_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- Film -->
     <style name="Film" parent="TextSans"></style>
     <style name="Film.ItemLayout">
-        <item name="android:layout_width">@dimen/item_film_width</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginBottom">@dimen/screen_margin</item>
     </style>
     <style name="Film.CoverImage">
-        <item name="android:layout_width">@dimen/item_film_width</item>
-        <item name="android:layout_height">@dimen/item_film_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- Channel -->
     <style name="Channel" parent="TextSans"></style>
 
     <style name="Channel.ItemLayout">
-        <item name="android:layout_width">@dimen/item_channel_width</item>
-        <item name="android:layout_height">@dimen/item_channel_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@drawable/bg_item_channel</item>
     </style>
 
     <style name="Channel.CoverImage">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- Content item -->
@@ -158,5 +160,32 @@
         <item name="android:padding">@dimen/padding_medium</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--Detail-->
+    <style name="Detail" parent="TextSans"></style>
+    <style name="Detail.Title">
+        <item name="android:textSize">@dimen/detail_title_text_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginBottom">@dimen/padding_small</item>
+        <item name="typeFaceStyle">@string/Medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Detail.Desc">
+        <item name="android:textSize">@dimen/detail_desc_text_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginBottom">@dimen/padding_small</item>
+        <item name="typeFaceStyle">@string/Regular</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="Detail.Desc.Regular">
+        <item name="typeFaceStyle">@string/Regular</item>
+    </style>
+    <style name="Detail.Desc.SemiBold">
+        <item name="typeFaceStyle">@string/Semibold</item>
     </style>
 </resources>

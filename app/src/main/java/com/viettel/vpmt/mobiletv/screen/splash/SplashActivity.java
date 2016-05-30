@@ -68,17 +68,18 @@ public class SplashActivity extends AppCompatActivity {
      * Auto-login
      */
     private void autoLogin() {
-        if (PrefManager.getMsisdn(this) == null) {
+//        if (PrefManager.getMsisdn(this) == null) {
+            // TODO do later
             ServiceBuilder.getService().authorize("auto_login", "84985124699", null)
                     .enqueue(new AuthorizeCallback(AuthorizeCallback.TYPE_AUTO_LOGIN));
 //            ServiceBuilder.getService().autoLogin("auto_login").enqueue(mCallback);
-        } else {
-            // Already logged in, just wait for 3 seconds
-            waitForSeconds();
-            String refreshToken = PrefManager.getRefreshToken(this);
-            ServiceBuilder.getService().authorize("refresh_token", null,refreshToken)
-                    .enqueue(new AuthorizeCallback(AuthorizeCallback.TYPE_REFRESH_TOKEN));
-        }
+//        } else {
+//            // Already logged in, just wait for 3 seconds
+//            waitForSeconds();
+//            String refreshToken = PrefManager.getRefreshToken(this);
+//            ServiceBuilder.getService().authorize("refresh_token", null,refreshToken)
+//                    .enqueue(new AuthorizeCallback(AuthorizeCallback.TYPE_REFRESH_TOKEN));
+//        }
     }
 
     private class AuthorizeCallback extends BaseCallback<AuthenData> {

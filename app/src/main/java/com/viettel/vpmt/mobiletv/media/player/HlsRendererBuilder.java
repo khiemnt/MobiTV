@@ -94,6 +94,7 @@ public class HlsRendererBuilder implements MobiPlayer.RendererBuilder {
     private final ManifestFetcher<HlsPlaylist> playlistFetcher;
 
     private boolean canceled;
+    private MediaCodecAudioTrackRenderer audioRenderer;
 
     public AsyncRendererBuilder(Context context, String userAgent, String url, MobiPlayer player) {
       this.context = context;
@@ -154,7 +155,6 @@ public class HlsRendererBuilder implements MobiPlayer.RendererBuilder {
           sampleSource, new Id3Parser(), player, mainHandler.getLooper());
 
       // Build the audio renderer.
-      MediaCodecAudioTrackRenderer audioRenderer;
       if (haveAudios) {
         DataSource audioDataSource = new DefaultUriDataSource(context, bandwidthMeter, userAgent);
         HlsChunkSource audioChunkSource = new HlsChunkSource(false /* isMaster */, audioDataSource,
@@ -194,7 +194,13 @@ public class HlsRendererBuilder implements MobiPlayer.RendererBuilder {
       renderers[MobiPlayer.TYPE_TEXT] = textRenderer;
       player.onRenderers(renderers, bandwidthMeter);
     }
-
+    public void setPlaybackSpeed(float playbackSpeed) {
+      audioRenderer.setPlaybackSpeed(playbackSpeed);
+    }
   }
 
+  @Override
+  public void setPlaybackSpeed(float playbackSpeed) {
+    currentAsyncBuilder.setPlaybackSpeed(playbackSpeed);
+  }
 }

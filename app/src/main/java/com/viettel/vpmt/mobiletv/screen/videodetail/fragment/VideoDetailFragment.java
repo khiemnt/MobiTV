@@ -10,7 +10,6 @@ import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.media.player.PlayerController;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.network.dto.ContentRelated;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
@@ -36,7 +35,8 @@ import butterknife.OnClick;
  * Video detail fragment
  * Created by ThanhTD on 3/26/2016.
  */
-public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPresenter, VideoDetailActivity> implements VideoDetailFragmentView {
+public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPresenter, VideoDetailActivity>
+        implements VideoDetailFragmentView, PlayerController.PartSelectionListener {
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
@@ -98,8 +98,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     public void onPrepareLayout() {
         Bundle bundle = getArguments();
         mVideoId = bundle.getString(Constants.Extras.ID);
-        String partOfVideo = bundle.getString(Constants.Extras.PART);
-        getPresenter().getVideoDetail(0, mVideoId, partOfVideo);
+        getPresenter().getVideoDetail(0, mVideoId);
 
         // Pre-fill
         mTitleTv.setText(bundle.getString(Constants.Extras.TITLE));
@@ -109,6 +108,8 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     protected void firstConfigPlayerController() {
         mPlayerController.setLikeButtonVisibility(View.GONE);
         mPlayerController.setShareButtonVisibility(View.GONE);
+        mPlayerController.setProgressTimeLayoutVisibility(View.VISIBLE);
+        mPlayerController.setLiveNowVisibility(View.GONE);
     }
 
     @OnClick(R.id.video_detail_thumb_up_down)
@@ -152,6 +153,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         mFavoriteTv.setChecked(videoDetail.getVideoDetail().isFavourite());
         mFavoriteTv.setText(videoDetail.getVideoDetail().getLikeCount() != null
                 ? videoDetail.getVideoDetail().getLikeCount().toString() : "0");
+        mPlayerController.doRefreshLike(videoDetail.getVideoDetail().isFavourite());
 
         // Play count
         mPlayCountCb.setText(videoDetail.getVideoDetail().getPlayCount() != null
@@ -165,7 +167,11 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
                 List<Content> contents = videoDetail.getContentRelated().getContents();
                 if (contents != null && contents.size() > 0) {
                     setPlayerParts(contents, positionPartActive);
+//                    mPlayerController.setPlayListVisibility(View.VISIBLE);
+                } else {
+//                    mPlayerController.setPlayListVisibility(View.GONE);
                 }
+
             } else {
                 mAdapter = new VideoPartFragmentPagerAdapter(mVideoId, -1, videoDetail.getContentRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());
             }//VideoFragmentPagerAdapter
@@ -184,10 +190,10 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         List<PlayerController.VideoPart> videoParts = new ArrayList<>();
         for (int i = 0; i < contents.size(); i++) {
             Content content = contents.get(i);
-            videoParts.add(new PlayerController.VideoPart(i, content.getName()));
+            videoParts.add(new PlayerController.VideoPart(content.getId(), i, content.getName()));
         }
 
-        mPlayerController.setVideoParts(videoParts);
+        mPlayerController.setVideoParts(videoParts, this);
         mPlayerController.setPartPosition(positionPartActive);
         mPlayerController.setPrevNextListeners(new NextClicked(contents), new PrevClicked(contents));
 
@@ -220,6 +226,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
                 likeCount = 0;
             }
             mFavoriteTv.setText(String.valueOf(likeCount));
+            mPlayerController.doRefreshLike(isLike);
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
@@ -245,6 +252,22 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         super.onAttach(context);
     }
 
+    @Override
+    public void onPartSelected(int position) {
+        getPresenter().getVideoDetail(position,
+                mPlayerController.getVideoParts().get(position).getId());
+    }
+
+    @Override
+    public void onPlayerLikeClicked() {
+        getPresenter().postLikeVideo(mFavoriteTv.isChecked(), mVideoId);
+    }
+
+    @Override
+    public void onPlayerShareClicked() {
+        shareContent(getPresenter().getVideoDetail().getVideoDetail().getLink());
+    }
+
     private class NextClicked implements View.OnClickListener {
         private List<Content> mContentRelateds;
 
@@ -255,7 +278,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         @Override
         public void onClick(View v) {
             int position = mPlayerController.getPartPosition() + 1;
-            getPresenter().getVideoDetail(position, mVideoId,
+            getPresenter().getVideoDetail(position,
                     mContentRelateds.get(position).getId());
         }
     }
@@ -269,7 +292,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         @Override
         public void onClick(View v) {
             int position = mPlayerController.getPartPosition() - 1;
-            getPresenter().getVideoDetail(position, mVideoId,
+            getPresenter().getVideoDetail(position,
                     mContentRelateds.get(position).getId());
         }
     }

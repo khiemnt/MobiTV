@@ -5,6 +5,7 @@ import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
+import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
@@ -15,6 +16,8 @@ import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
  * Created by ThanhTD on 3/26/2016.
  */
 public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetailFragmentView> implements FilmDetailFragmentPresenter {
+    private FilmDetail mFilmDetail;
+
     public FilmDetailFragmentPresenterImpl(FilmDetailFragmentView view) {
         super(view);
     }
@@ -34,6 +37,7 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetai
             @Override
             public void onResponse(FilmDetail data) {
                 mView.doLoadToView(data, position, tabIndex);
+                mFilmDetail = data;
             }
         });
     }
@@ -75,5 +79,10 @@ public class FilmDetailFragmentPresenterImpl extends BasePresenterImpl<FilmDetai
                 mView.doRefreshLike(data.isLike());
             }
         });
+    }
+
+    @Override
+    public FilmDetail getFilmDetail() {
+        return mFilmDetail;
     }
 }

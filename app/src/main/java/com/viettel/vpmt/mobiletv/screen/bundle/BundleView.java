@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
  * Created by neo on 2/5/2016.
  */
 public interface BundleView extends BaseView<BundlePresenter> {
-    void loadBox(RecyclerView.Adapter bundleVideoAdapter);
+    void loadBundle(RecyclerView.Adapter bundleVideoAdapter);
 
     void onDataEmpty();
 

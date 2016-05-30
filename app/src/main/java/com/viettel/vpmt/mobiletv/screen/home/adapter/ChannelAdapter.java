@@ -7,11 +7,13 @@ import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActi
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -25,10 +27,12 @@ import butterknife.ButterKnife;
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
     private List<Content> mContents;
     private Context mContext;
+    private int mItemWidth;
 
-    public ChannelAdapter(Context context, List<Content> contents) {
+    public ChannelAdapter(Context context, List<Content> contents, int itemWidth) {
         mContents = contents;
         mContext = context;
+        mItemWidth = itemWidth;
     }
 
     @Override
@@ -43,6 +47,11 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         Content content = mContents.get(position);
         if (content == null) {
             return;
+        }
+
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            holder.mRoot.setLayoutParams(layoutParams);
         }
 
         ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, false);
@@ -64,11 +73,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_channel_iv)
         public ImageView mImageView;
-
+        public View mRoot;
 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            mRoot = v;
         }
     }
 

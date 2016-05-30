@@ -4,11 +4,12 @@
     android:layout_marginTop="@dimen/basic_margin"
     style="@style/Video.ItemLayout">
 
-    <ImageView
+    <com.viettel.vpmt.mobiletv.common.view.VideoImage
         android:id="@+id/item_video_iv"
         style="@style/Video.CoverImage"/>
 
     <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:id="@+id/item_video_title_tv"
-        style="@style/ContentItem.Title"/>
+        style="@style/ContentItem.Title"
+        android:layout_marginBottom="@dimen/screen_margin"/>
 </LinearLayout>

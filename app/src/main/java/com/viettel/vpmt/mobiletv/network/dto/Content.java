@@ -16,13 +16,13 @@ public class Content {
     @SerializedName("description")
     private String mDescription;
     @SerializedName("duration")
-    private float duration;
+    private float mDuration;
     @SerializedName("actors")
-    private String actors;
+    private String mActors;
     @SerializedName("country")
-    private String country;
+    private String mCountry;
     @SerializedName("tag")
-    private String tag;
+    private String mTag;
     @SerializedName("coverImage")
     private String mCoverImage;
     @SerializedName("logoImage")
@@ -42,7 +42,9 @@ public class Content {
     @SerializedName("likeCount")
     private Integer likeCount;
     @SerializedName("playCount")
-    private Integer playCount;
+    private Integer mPlayCount;
+    @SerializedName("link")
+    private String mLink;
 
     public String getId() {
         return mId;
@@ -101,35 +103,35 @@ public class Content {
     }
 
     public float getDuration() {
-        return duration;
+        return mDuration;
     }
 
     public void setDuration(float duration) {
-        this.duration = duration;
+        this.mDuration = duration;
     }
 
     public String getActors() {
-        return actors;
+        return mActors;
     }
 
     public void setActors(String actors) {
-        this.actors = actors;
+        this.mActors = actors;
     }
 
     public String getCountry() {
-        return country;
+        return mCountry;
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.mCountry = country;
     }
 
     public String getTag() {
-        return tag;
+        return mTag;
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+        this.mTag = tag;
     }
 
     public boolean isFavourite() {
@@ -173,11 +175,11 @@ public class Content {
     }
 
     public Integer getPlayCount() {
-        return playCount;
+        return mPlayCount;
     }
 
     public void setPlayCount(Integer playCount) {
-        this.playCount = playCount;
+        this.mPlayCount = playCount;
     }
 
     public String getLogoImage() {
@@ -186,6 +188,14 @@ public class Content {
 
     public void setLogoImage(String logoImage) {
         mLogoImage = logoImage;
+    }
+
+    public String getLink() {
+        return mLink;
+    }
+
+    public void setLink(String link) {
+        mLink = link;
     }
 
     public enum Type {

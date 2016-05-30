@@ -16,4 +16,6 @@ public interface Constants {
         String PART = "part";
         String COVER_IMAGE_URL = "cover_image_url";
     }
+
+    int ITEM_SPACING = 6; //px
 }

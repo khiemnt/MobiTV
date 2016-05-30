@@ -80,7 +80,8 @@ public class ChannelScheduleFragment extends BaseFragment<ChannelSchedulePresent
                 if (mIsInitializingSpinner) {
                     mIsInitializingSpinner = false;
                 } else {
-                    getPresenter().getChannelProgramSchedule(mChannelDetailFragmentPresenter.getChannelId(), position);
+                    getPresenter()
+                            .getChannelProgramSchedule(mChannelDetailFragmentPresenter.getChannelDetail().getChannelContent().getId(), position);
                 }
             }
 

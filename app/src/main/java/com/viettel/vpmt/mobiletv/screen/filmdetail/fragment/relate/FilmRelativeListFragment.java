@@ -1,14 +1,16 @@
 package com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.relate;
 
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.FilmAdapter;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.HorizontalItemDecoration;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.GridDividerDecoration;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import butterknife.Bind;
  * Created by ThanhTD on 3/22/2016.
  */
 public class FilmRelativeListFragment extends BaseFragment<FilmRelativePresenter, FilmDetailActivity> implements FilmRelativeView {
-    @Bind(R.id.recyclerview)
+    @Bind(R.id.relate_recycler_view)
     RecyclerView mRecyclerView;
     private List<Content> mContents = new ArrayList<>();
 
@@ -46,11 +48,13 @@ public class FilmRelativeListFragment extends BaseFragment<FilmRelativePresenter
 
     @Override
     public void onPrepareLayout() {
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Box.getSpanCount(Box.Type.FILM));
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setClipToPadding(false);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-        int spacingInPixels = getContext().getResources().getDimensionPixelSize(R.dimen.padding_small);
-        mRecyclerView.addItemDecoration(new HorizontalItemDecoration(spacingInPixels));
+        // Item spacing
+        mRecyclerView.addItemDecoration(new GridDividerDecoration(getActivity()));
+
         getPresenter().setData(mContents);
         getPresenter().getData();
     }

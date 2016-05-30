@@ -17,4 +17,6 @@ public interface ChannelDetailFragmentView extends BaseView<ChannelDetailFragmen
     void loadProgram(String programStreamUrl);
 
     void playPresentProgram();
+
+    void doRefreshLike(boolean like);
 }

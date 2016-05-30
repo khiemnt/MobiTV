@@ -23,10 +23,12 @@ import com.google.android.exoplayer.util.VerboseLogUtil;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.media.EventLogger;
 import com.viettel.vpmt.mobiletv.media.SmoothStreamingTestMediaDrmCallback;
+import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -34,7 +36,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -85,12 +86,25 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private static final int ID_OFFSET = 2;
     private static final int RADIO_BUTTON_ID_OFFSET = 1;
 
+    // Speed selections
+    private static final int SPEED_POSITION_05 = 0;
+    private static final int SPEED_POSITION_10 = 1;
+    private static final int SPEED_POSITION_15 = 2;
+    private static final int SPEED_POSITION_20 = 3;
+
+    private static final float SPEED_05 = 0.5f;
+    private static final float SPEED_10 = 1.0f;
+    private static final float SPEED_15 = 1.5f;
+    private static final float SPEED_20 = 2.0f;
+
     private static final CookieManager DEFAULT_COOKIE_MANAGER;
 
     static {
         DEFAULT_COOKIE_MANAGER = new CookieManager();
         DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
     }
+
+    private final ImageView mPlayListTv;
 
     private View mRootView;
     private LinearLayout mRootControlLayout;
@@ -128,7 +142,11 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private StateListener mStateListener;
     private String mTitle;
     private int mPartPosition = 0;
+    private int mSpeedSelectionPosition = SPEED_POSITION_10;
     private List<VideoPart> mVideoParts;
+    private PartSelectionListener mPartSelectionListener;
+    private OnReportSelectionListener mOnReportSelectionListener;
+    private PlayerActionListener mPlayerActionListener;
 
     public PlayerController(Activity activity, final ViewGroup rootView,
                             AspectRatioFrameLayout videoFrame, SurfaceView surfaceView,
@@ -184,9 +202,9 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         mShareIv = (ImageView) rootView.findViewById(R.id.player_share_iv);
         mMoreActionLayout = (LinearLayout) rootView.findViewById(R.id.player_top_bar_ll);
         mLikeIv = (ImageView) rootView.findViewById(R.id.player_like_iv);
-        ImageView playListTv = (ImageView) rootView.findViewById(R.id.player_playlist_iv);
+        mPlayListTv = (ImageView) rootView.findViewById(R.id.player_playlist_iv);
         ImageView backIv = (ImageView) rootView.findViewById(R.id.player_back_iv);
-        playListTv.setVisibility(View.GONE);
+        mPlayListTv.setVisibility(View.GONE);
         moreActionIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,27 +225,25 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         mLikeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 4/8/2016 call service like unlike video
+                if (mPlayerActionListener != null) {
+                    mPlayerActionListener.onPlayerLikeClicked();
+                }
             }
         });
 
         mShareIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                intent.setType("text/plain");
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Subject Share");
-                intent.putExtra(Intent.EXTRA_TEXT, "Link video...");
-                mActivity.startActivity(Intent.createChooser(intent, "How do you want to share?"));
+                if (mPlayerActionListener != null) {
+                    mPlayerActionListener.onPlayerShareClicked();
+                }
             }
         });
 
-        playListTv.setOnClickListener(new View.OnClickListener() {
+        mPlayListTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialogPlayList();
+                showPlayListPopup();
             }
         });
 
@@ -366,26 +382,11 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         preparePlayer(true);
     }
 
-    public void showDialogPlayList() {
+    public void showPlayListPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = mActivity.getLayoutInflater();
         builder.setTitle(R.string.title_playlist);
-        builder.setView(inflater.inflate(R.layout.playlist_dialog, null))
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        builder.create().show();
-    }
-
-
-    public void showQualityPopup() {
-        final int TRACK_TYPE = MobiPlayer.TYPE_VIDEO;
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        LayoutInflater inflater = mActivity.getLayoutInflater();
-        builder.setTitle(R.string.title_quality);
-        View view = inflater.inflate(R.layout.quality_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_single_selection, null);
 
         builder.setView(view)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -396,7 +397,51 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         final AlertDialog dialog = builder.create();
         dialog.show();
 
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.quality_dialog_radio_group);
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.dialog_single_selection_radio_group);
+
+        for (int i = 0; i < mVideoParts.size(); i++) {
+            RadioButton button = (RadioButton) mActivity.getLayoutInflater().inflate(R.layout.radio_button, null);
+            button.setText(mVideoParts.get(i).mTitle);
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            radioGroup.addView(button, params);
+        }
+
+        radioGroup.getChildCount();
+
+        ((RadioButton) radioGroup.getChildAt(mPartPosition)).setChecked(true);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int idx = getCheckedIndex(group, checkedId);
+
+                Logger.e(TAG, "CHECCCCK " + idx);
+                if (mPartSelectionListener != null) {
+                    mPartSelectionListener.onPartSelected(idx);
+                    mPartPosition = idx;
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    public void showQualityPopup() {
+        final int TRACK_TYPE = MobiPlayer.TYPE_VIDEO;
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        builder.setTitle(R.string.title_quality);
+        View view = inflater.inflate(R.layout.dialog_single_selection, null);
+
+        builder.setView(view)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.dialog_single_selection_radio_group);
 
         int trackCount = mPlayer.getTrackCount(TRACK_TYPE);
         if (trackCount > 0) {
@@ -413,11 +458,11 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         radioGroup.getChildCount();
 
         int selectedTrack = mPlayer.getSelectedTrack(TRACK_TYPE);
-        ((RadioButton)radioGroup.getChildAt(selectedTrack)).setChecked(true);
+        ((RadioButton) radioGroup.getChildAt(selectedTrack)).setChecked(true);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-               int idx = getCheckedIndex(group, checkedId);
+                int idx = getCheckedIndex(group, checkedId);
 
                 Logger.e(TAG, "CHECCCCK " + idx);
                 mPlayer.setSelectedTrack(TRACK_TYPE, idx);
@@ -433,51 +478,108 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
         View view = inflater.inflate(R.layout.speed_dialog, null);
         builder.setView(view)
-                .setNegativeButton(R.string.send, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
+//                .setNegativeButton(R.string.send, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                })
                 .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
                 });
-        builder.create().show();
+        final AlertDialog dialog = builder.create();
+        dialog.show();
 
+        ((RadioButton) ((RadioGroup) view).getChildAt(mSpeedSelectionPosition)).setChecked(true);
         ((RadioGroup) view).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int idx = getCheckedIndex(group, checkedId);
-
+                mSpeedSelectionPosition = idx;
+                changeSpeed(mSpeedSelectionPosition);
+                dialog.dismiss();
             }
         });
+    }
+
+    private void changeSpeed(int speedSelectionPosition) {
+        switch (speedSelectionPosition) {
+            case SPEED_POSITION_05:
+                mPlayer.setPlaybackSpeed(SPEED_05);
+                break;
+            case SPEED_POSITION_10:
+                mPlayer.setPlaybackSpeed(SPEED_10);
+                break;
+            case SPEED_POSITION_15:
+                mPlayer.setPlaybackSpeed(SPEED_15);
+                break;
+            case SPEED_POSITION_20:
+                mPlayer.setPlaybackSpeed(SPEED_20);
+                break;
+        }
     }
 
     private int getCheckedIndex(RadioGroup group, int checkedId) {
         int radioButtonID = group.getCheckedRadioButtonId();
         View radioButton = group.findViewById(radioButtonID);
-        return  group.indexOfChild(radioButton);
+        return group.indexOfChild(radioButton);
     }
 
     public void showReportPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = mActivity.getLayoutInflater();
         builder.setTitle(R.string.title_report);
-        builder.setView(inflater.inflate(R.layout.report_dialog, null))
-                .setNegativeButton(R.string.send, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        View view = inflater.inflate(R.layout.dialog_single_selection, null);
+
+        builder.setView(view)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
                 });
-        builder.create().show();
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.dialog_single_selection_radio_group);
+
+        // Get reports
+        PlayerSetting playerSetting = PrefManager.getSettings(mActivity);
+        if (playerSetting == null) {
+            Toast.makeText(mActivity, mActivity.getString(R.string.error_cant_report_now), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<PlayerSetting.ErrorType> errorTypes = playerSetting.getErrorType();
+        if (errorTypes == null || errorTypes.size() == 0) {
+            Toast.makeText(mActivity, mActivity.getString(R.string.error_cant_report_now), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (int i = 0; i < errorTypes.size(); i++) {
+            String name = errorTypes.get(i).getContent();
+            RadioButton button = (RadioButton) mActivity.getLayoutInflater().inflate(R.layout.radio_button, null);
+            button.setText(name);
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            radioGroup.addView(button, params);
+        }
+
+        radioGroup.getChildCount();
+
+//        ((RadioButton) radioGroup.getChildAt(selectedTrack)).setChecked(true);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int idx = getCheckedIndex(group, checkedId);
+
+                Logger.e(TAG, "CHECCCCK " + idx);
+                if (mOnReportSelectionListener != null) {
+                    mOnReportSelectionListener.onReportSelected(idx);
+                }
+                dialog.dismiss();
+            }
+        });
     }
 
 
@@ -1032,6 +1134,18 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
     public void onConfigurationChanged(Configuration newConfig) {
         mMediaController.onConfigurationChanged(newConfig);
+        switch (newConfig.orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                setPlayListVisibility(View.VISIBLE);
+                mLikeIv.setVisibility(View.VISIBLE);
+                mShareIv.setVisibility(View.VISIBLE);
+                break;
+            case Configuration.ORIENTATION_PORTRAIT:
+                setPlayListVisibility(View.GONE);
+                mLikeIv.setVisibility(View.GONE);
+                mShareIv.setVisibility(View.GONE);
+                break;
+        }
     }
 
     public void setNextVisibility(int visibility) {
@@ -1054,9 +1168,26 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         mMediaController.setPreviousEnabled(enabled);
     }
 
-    public void setVideoParts(List<VideoPart> videoParts) {
+    public void setProgressTimeLayoutVisibility(int visibility) {
+        mMediaController.setProgressTimeLayoutVisibility(visibility);
+    }
+
+    public void setLiveNowVisibility(int visibility) {
+        mMediaController.setLiveNowVisibility(visibility);
+    }
+
+    public void setPlayListVisibility(int visibility) {
+        if (mVideoParts != null && mVideoParts.size() > 0) {
+            mPlayListTv.setVisibility(visibility);
+        } else {
+            mPlayListTv.setVisibility(View.GONE);
+        }
+    }
+
+    public void setVideoParts(List<VideoPart> videoParts, PartSelectionListener partSelectionListener) {
         mVideoParts = videoParts;
-        mMediaController.setVideoParts(videoParts);
+        mPartSelectionListener = partSelectionListener;
+        mMediaController.setVideoParts(videoParts, partSelectionListener);
     }
 
     public void setPartPosition(int partPosition) {
@@ -1065,6 +1196,22 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
     public int getPartPosition() {
         return mPartPosition;
+    }
+
+    public List<VideoPart> getVideoParts() {
+        return mVideoParts;
+    }
+
+    public void setOnReportSelectionListener(OnReportSelectionListener onReportSelectionListener) {
+        mOnReportSelectionListener = onReportSelectionListener;
+    }
+
+    public void setPlayerActionListener(PlayerActionListener playerActionListener) {
+        mPlayerActionListener = playerActionListener;
+    }
+
+    public void doRefreshLike(boolean isLike) {
+        mLikeIv.setImageResource(isLike ? R.drawable.ic_player_thumb_up_active : R.drawable.ic_player_thumb_up_nomal);
     }
 
     private static final class KeyCompatibleMediaController extends CustomMediaController {
@@ -1113,13 +1260,33 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         void onReady();
     }
 
+    public interface PlayerActionListener {
+        void onPlayerLikeClicked();
+
+        void onPlayerShareClicked();
+    }
+
     public static class VideoPart {
         int mPosition;
         String mTitle;
+        String mId;
 
-        public VideoPart(int position, String title) {
+        public VideoPart(String id, int position, String title) {
             mPosition = position;
             mTitle = title;
+            mId = id;
         }
+
+        public String getId() {
+            return mId;
+        }
+    }
+
+    public interface PartSelectionListener {
+        void onPartSelected(int position);
+    }
+
+    public interface OnReportSelectionListener {
+        void onReportSelected(int position);
     }
 }

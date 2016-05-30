@@ -13,9 +13,9 @@ import android.widget.TextView;
 /**
  * Created by ThanhTD on 3/30/2016.
  */
-public class ExpandableTextView extends TextView {
+public class ExpandableTextView extends CTextView {
     private static final int DEFAULT_TRIM_LENGTH = 150;
-    private static final String ELLIPSIS = "...<font color='#1E90FF'>thêm</font>";
+    private static final String ELLIPSIS = "...<font color='#2196F3'>thêm</font>";
 
     private CharSequence originalText;
     private CharSequence trimmedText;

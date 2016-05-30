@@ -84,6 +84,8 @@ public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
          * {@link MobiPlayer#onRenderersError} on the player, which may have been released.
          */
         void cancel();
+
+        public void setPlaybackSpeed(float playbackSpeed);
     }
 
     /**
@@ -597,6 +599,10 @@ public class MobiPlayer implements ExoPlayer.Listener, ChunkSampleSource.EventLi
             player.sendMessage(
                     videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);
         }
+    }
+
+    public void setPlaybackSpeed(float playbackSpeed) {
+        this.rendererBuilder.setPlaybackSpeed(playbackSpeed);
     }
 
 }

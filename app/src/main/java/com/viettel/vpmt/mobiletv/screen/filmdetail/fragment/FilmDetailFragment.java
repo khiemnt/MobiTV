@@ -33,7 +33,8 @@ import butterknife.OnClick;
  * Film detail fragment
  * Created by ThanhTD on 3/26/2016.
  */
-public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmDetailActivity> implements FilmDetailFragmentView {
+public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresenter, FilmDetailActivity>
+        implements FilmDetailFragmentView, PlayerController.PartSelectionListener {
     @Bind(R.id.fragment_film_detail_tvTitle)
     TextView mTitleTv;
     @Bind(R.id.fragment_film_detail_tvShortDes)
@@ -91,11 +92,23 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     protected void firstConfigPlayerController() {
         mPlayerController.setLikeButtonVisibility(View.GONE);
         mPlayerController.setShareButtonVisibility(View.GONE);
+        mPlayerController.setProgressTimeLayoutVisibility(View.VISIBLE);
+        mPlayerController.setLiveNowVisibility(View.GONE);
     }
 
     @OnClick(R.id.film_detail_thumb_up_down)
-    void onLikeClicked() {
+    void buttonLikeClicked() {
         getPresenter().postLikeFilm(mFilmId);
+    }
+
+    @Override
+    public void onPlayerLikeClicked() {
+        getPresenter().postLikeFilm(mFilmId);
+    }
+
+    @Override
+    public void onPlayerShareClicked() {
+        shareContent(getPresenter().getFilmDetail().getFilmDetail().getLink());
     }
 
     @Override
@@ -130,6 +143,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         mLikeCb.setChecked(filmDetail.getFilmDetail().isFavourite());
         mLikeCb.setText(filmDetail.getFilmDetail().getLikeCount() != null
                 ? filmDetail.getFilmDetail().getLikeCount().toString() : "0");
+        mPlayerController.doRefreshLike(filmDetail.getFilmDetail().isFavourite());
 
         // Play count
         mPlayCb.setText(filmDetail.getFilmDetail().getPlayCount() != null ? filmDetail.getFilmDetail().getPlayCount().toString() : "0");
@@ -156,12 +170,15 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
             // Has no part
             mPlayerController.setNextVisibility(View.GONE);
             mPlayerController.setPreviousVisibility(View.GONE);
+//            mPlayerController.setPlayListVisibility(View.GONE);
         } else {
             // Has parts
             setPlayerParts(partOfFilms, positionPartActive);
+//            mPlayerController.setPlayListVisibility(View.VISIBLE);
         }
 
-        adapter = new FilmFragmentPagerAdapter(mFilmId, positionPartActive, filmDetail.getParts(), filmDetail.getContentRelated().getContents(),
+        adapter = new FilmFragmentPagerAdapter(mFilmId, positionPartActive, filmDetail.getParts(),
+                filmDetail.getContentRelated().getContents(),
                 getActivity().getSupportFragmentManager(), getActivity());
 
         mViewPager.setAdapter(adapter);
@@ -180,10 +197,10 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         List<PlayerController.VideoPart> videoParts = new ArrayList<>();
         for (int i = 0; i < partOfFilms.size(); i++) {
             PartOfFilm partOfFilm = partOfFilms.get(i);
-            videoParts.add(new PlayerController.VideoPart(i, partOfFilm.getName()));
+            videoParts.add(new PlayerController.VideoPart(partOfFilm.getId(), i, partOfFilm.getName()));
         }
 
-        mPlayerController.setVideoParts(videoParts);
+        mPlayerController.setVideoParts(videoParts, this);
         mPlayerController.setPartPosition(positionPartActive);
         mPlayerController.setPrevNextListeners(new NextClicked(partOfFilms), new PrevClicked(partOfFilms));
 
@@ -215,9 +232,17 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
                 likeCount = 0;
             }
             mLikeCb.setText(String.valueOf(likeCount));
+            mPlayerController.doRefreshLike(isLike);
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void onPartSelected(int position) {
+        getPresenter().getFilmDetail(position, mFilmId,
+                mPlayerController.getVideoParts().get(position).getId(),
+                mTabLayout.getSelectedTabPosition());
     }
 
     private class NextClicked implements View.OnClickListener {

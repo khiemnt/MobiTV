@@ -58,6 +58,22 @@ import java.nio.ByteBuffer;
  */
 public final class AudioTrack {
 
+  private int mPlaybackRate;
+  private float mSpeed;
+
+  public void setPlaybackRate(int playbackRate) {
+    mPlaybackRate = playbackRate;
+    audioTrack.setPlaybackRate(playbackRate);
+  }
+
+  public void setSpeed(float speed) {
+    mSpeed = speed;
+    if (audioTrack != null) {
+      int sampleRateInHz = (int) (sampleRate * mSpeed);
+      audioTrack.setPlaybackRate(sampleRateInHz);
+    }
+  }
+
   /**
    * Thrown when a failure occurs instantiating an {@link android.media.AudioTrack}.
    */

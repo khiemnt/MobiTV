@@ -6,11 +6,13 @@ import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,10 +29,12 @@ public class ContinueAdapter extends RecyclerView.Adapter<ContinueAdapter.ViewHo
     private static final int MAX_PROGRESS = 100;
     private List<Content> mContents;
     private Context mContext;
+    private int mItemWidth;
 
-    public ContinueAdapter(Context context, List<Content> contents) {
+    public ContinueAdapter(Context context, List<Content> contents, int itemWidth) {
         mContents = contents;
         mContext = context;
+        mItemWidth = itemWidth;
     }
 
     @Override
@@ -45,6 +49,11 @@ public class ContinueAdapter extends RecyclerView.Adapter<ContinueAdapter.ViewHo
         Content content = mContents.get(position);
         if (content == null) {
             return;
+        }
+
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            holder.mRoot.setLayoutParams(layoutParams);
         }
 
         // Lazy load cover

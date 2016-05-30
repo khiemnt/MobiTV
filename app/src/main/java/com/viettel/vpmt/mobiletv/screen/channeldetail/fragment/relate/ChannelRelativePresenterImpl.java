@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.ChannelAdapter;
 
@@ -24,7 +25,7 @@ public class ChannelRelativePresenterImpl extends BasePresenterImpl<ChannelRelat
 
     @Override
     public void getData() {
-        ChannelAdapter adapter = new ChannelAdapter(mView.getViewContext(), mContents);
+        ChannelAdapter adapter = new ChannelAdapter(mView.getViewContext(), mContents, 0);
         mView.loadRelativeChannel(adapter);
     }
 }

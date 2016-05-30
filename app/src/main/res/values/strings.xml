@@ -68,4 +68,9 @@
     <string name="title_player_speed">TỐC ĐỘ</string>
     <string name="title_player_report">BÁO CÁO</string>
     <string name="title_player_retry">THỬ LẠI</string>
+    <string name="label_live">Trực tiếp</string>
+    <string name="error_cant_report_now">Hiện không thể gửi Báo cáo bây giờ. Vui lòng thử lại sau
+    </string>
+    <string name="send_report_successful">Gửi báo cáo thành công</string>
+    <string name="hint_search">Tìm kiếm TV, Video và Phim</string>
 </resources>

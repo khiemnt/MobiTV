@@ -15,7 +15,9 @@ import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 import com.viettel.vpmt.mobiletv.screen.bundle.BundleFragment;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityPresenter;
 import com.viettel.vpmt.mobiletv.screen.common.CommonHomeActivityView;
+import com.viettel.vpmt.mobiletv.screen.search.SearchActivity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -32,6 +34,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 
 public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> implements
@@ -246,7 +249,7 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
 
         switch (item.getItemId()) {
             case R.id.action_search:
-                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeBoxActivity.this, SearchActivity.class));
                 break;
             case android.R.id.home:
                 break;
@@ -351,4 +354,5 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
         getSupportFragmentManager().removeOnBackStackChangedListener(this);
         super.onDestroy();
     }
+
 }

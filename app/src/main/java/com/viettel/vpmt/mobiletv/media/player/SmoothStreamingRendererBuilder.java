@@ -99,6 +99,7 @@ public class SmoothStreamingRendererBuilder implements MobiPlayer.RendererBuilde
     private final ManifestFetcher<SmoothStreamingManifest> manifestFetcher;
 
     private boolean canceled;
+    private MediaCodecAudioTrackRenderer audioRenderer;
 
     public AsyncRendererBuilder(Context context, String userAgent, String url,
                                 MediaDrmCallback drmCallback, MobiPlayer player) {
@@ -175,7 +176,7 @@ public class SmoothStreamingRendererBuilder implements MobiPlayer.RendererBuilde
       ChunkSampleSource audioSampleSource = new ChunkSampleSource(audioChunkSource, loadControl,
           AUDIO_BUFFER_SEGMENTS * BUFFER_SEGMENT_SIZE, mainHandler, player,
           MobiPlayer.TYPE_AUDIO);
-      TrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(audioSampleSource,
+      audioRenderer = new MediaCodecAudioTrackRenderer(audioSampleSource,
           MediaCodecSelector.DEFAULT, drmSessionManager, true, mainHandler, player,
           AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC);
 
@@ -198,6 +199,13 @@ public class SmoothStreamingRendererBuilder implements MobiPlayer.RendererBuilde
       player.onRenderers(renderers, bandwidthMeter);
     }
 
+    public void setPlaybackSpeed(float playbackSpeed) {
+      audioRenderer.setPlaybackSpeed(playbackSpeed);
+    }
   }
 
+  @Override
+  public void setPlaybackSpeed(float playbackSpeed) {
+    currentAsyncBuilder.setPlaybackSpeed(playbackSpeed);
+  }
 }

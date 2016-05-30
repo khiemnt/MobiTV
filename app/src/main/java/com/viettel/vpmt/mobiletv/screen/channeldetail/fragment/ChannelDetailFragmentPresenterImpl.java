@@ -8,6 +8,7 @@ import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
+import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
 
 /**
  * Presenter for Channel/TV detail fragment
@@ -16,7 +17,7 @@ import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 public class ChannelDetailFragmentPresenterImpl extends BasePresenterImpl<ChannelDetailFragmentView> implements ChannelDetailFragmentPresenter {
     private static final String TAG = ChannelDetailFragmentPresenterImpl.class.getSimpleName();
 
-    private String mChannelId;
+    private ChannelDetail mChannelDetail;
 
     public ChannelDetailFragmentPresenterImpl(ChannelDetailFragmentView view) {
         super(view);
@@ -24,8 +25,6 @@ public class ChannelDetailFragmentPresenterImpl extends BasePresenterImpl<Channe
 
     @Override
     public void getChannelDetail(String channelId) {
-        mChannelId = channelId;
-
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
             return;
         }
@@ -39,6 +38,7 @@ public class ChannelDetailFragmentPresenterImpl extends BasePresenterImpl<Channe
 
             @Override
             public void onResponse(ChannelDetail data) {
+                mChannelDetail = data;
                 mView.loadToView(data);
                 mView.hideProgress();
             }
@@ -107,8 +107,27 @@ public class ChannelDetailFragmentPresenterImpl extends BasePresenterImpl<Channe
     }
 
     @Override
-    public String getChannelId() {
-        return mChannelId;
+    public void postLikeChannel(boolean isLike, String channelId) {
+        if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
+            return;
+        }
+        String header = PrefManager.getHeader(mView.getViewContext());
+        ServiceBuilder.getService().postLikeChannel(header, channelId).enqueue(new BaseCallback<ResponseLikeUnlike>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+                mView.onRequestError(errorCode, errorMessage);
+            }
+
+            @Override
+            public void onResponse(ResponseLikeUnlike data) {
+                mView.doRefreshLike(data.isLike());
+            }
+        });
+    }
+
+    @Override
+    public ChannelDetail getChannelDetail() {
+        return mChannelDetail;
     }
 
     @Override

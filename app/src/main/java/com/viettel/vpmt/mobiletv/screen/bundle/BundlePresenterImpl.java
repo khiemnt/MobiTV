@@ -13,6 +13,7 @@ import com.viettel.vpmt.mobiletv.screen.home.adapter.FilmAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.FocusAdapter;
 import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
 
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
 
     private int mCurrentSize = 0;
     private String mId;
-
+    private Point mItemImageSize ;
     private List<Content> mContents = new ArrayList<>();
 
     public BundlePresenterImpl(BundleView view) {
@@ -38,8 +39,9 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
     }
 
     @Override
-    public void getData(Box.Type boxType, String id) {
+    public void getData(Box.Type boxType, String id, Point itemImageSize) {
         mBoxType = boxType;
+        mItemImageSize = itemImageSize;
         mId = id;
 
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
@@ -47,7 +49,7 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
         }
 
         mAdapter = getAdapter(mContents);
-        mView.loadBox(mAdapter);
+        mView.loadBundle(mAdapter);
         requestGetData(mCurrentSize);
     }
 
@@ -67,19 +69,19 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
     private RecyclerView.Adapter getAdapter(List<Content> contents) {
         switch (mBoxType) {
             case LIVETV:
-                return new ChannelAdapter(mView.getViewContext(), contents);
+                return new ChannelAdapter(mView.getViewContext(), contents, 0);
             case VOD:
-                return new VideoAdapter(mView.getViewContext(), contents);
+                return new VideoAdapter(mView.getViewContext(), contents, 0);
             case TVSHOW:
-                return new VideoAdapter(mView.getViewContext(), contents);
+                return new VideoAdapter(mView.getViewContext(), contents, 0);
             case CONTINUE:
-                return new ContinueAdapter(mView.getViewContext(), contents);
+                return new ContinueAdapter(mView.getViewContext(), contents, 0);
             case FOCUS:
-                return new FocusAdapter(mView.getViewContext(), contents);
+                return new FocusAdapter(mView.getViewContext(), contents, 0);
             case FILM:
-                return new FilmAdapter(mView.getViewContext(), contents);
+                return new FilmAdapter(mView.getViewContext(), contents, 0);
             default:
-                return new VideoAdapter(mView.getViewContext(), contents);
+                return new VideoAdapter(mView.getViewContext(), contents, 0);
         }
     }
 

@@ -55,8 +55,6 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
     @Override
     public void onPrepareLayout() {
         String channelId = getArguments().getString(Constants.Extras.ID);
-        channelId = "141"; // TODO tests
-
         getDetailWithId(channelId);
     }
 
@@ -64,6 +62,7 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
     protected void firstConfigPlayerController() {
         mPlayerController.setLikeButtonVisibility(View.GONE);
         mPlayerController.setShareButtonVisibility(View.GONE);
+        validateView(true);
     }
 
     private void getDetailWithId(String channelId) {
@@ -90,6 +89,9 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
             mTabLayout.getTabAt(0).select();
         }
 
+        // Like
+        mPlayerController.doRefreshLike(channelDetail.getChannelContent().isFavourite());
+
         // Play channel
         String url = channelDetail.getStreams().getUrlStreaming();
         Logger.e("URL=\n" + url);
@@ -112,13 +114,40 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
     @Override
     public void loadProgram(String programStreamUrl) {
         initPlayer(Uri.parse(programStreamUrl), Util.TYPE_HLS);
+        validateView(false);
     }
 
     @Override
     public void playPresentProgram() {
         if (!StringUtils.isEmpty(mStreamUrl)) {
             initPlayer(Uri.parse(mStreamUrl), Util.TYPE_HLS);
+            validateView(true);
         }
+    }
+
+    @Override
+    public void doRefreshLike(boolean like) {
+        mPlayerController.doRefreshLike(like);
+    }
+
+    private void validateView(boolean isPlayLive) {
+        if (isPlayLive) {
+            mPlayerController.setLiveNowVisibility(View.VISIBLE);
+            mPlayerController.setProgressTimeLayoutVisibility(View.GONE);
+        } else {
+            mPlayerController.setLiveNowVisibility(View.GONE);
+            mPlayerController.setProgressTimeLayoutVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onPlayerLikeClicked() {
+
+    }
+
+    @Override
+    public void onPlayerShareClicked() {
+
     }
 
 //    @Override

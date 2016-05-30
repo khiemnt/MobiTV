@@ -1,10 +1,15 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.relate;
 
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.GridDividerDecoration;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -17,13 +22,13 @@ import butterknife.Bind;
  * Created by ThanhTD on 3/22/2016.
  */
 public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresenter, VideoDetailActivity> implements VideoRelativeView {
-    @Bind(R.id.recyclerview)
-    RecyclerView recyclerView;
-    List<Content> videos = new ArrayList<>();
+    @Bind(R.id.relate_recycler_view)
+    RecyclerView mRecyclerView;
+    List<Content> mContents = new ArrayList<>();
 
     public static VideoRelativeListFragment newInstance(List<Content> videos) {
         VideoRelativeListFragment videoRelativeFragment = new VideoRelativeListFragment();
-        videoRelativeFragment.setVideos(videos);
+        videoRelativeFragment.setContents(videos);
         return videoRelativeFragment;
     }
 
@@ -43,10 +48,15 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
 
     @Override
     public void onPrepareLayout() {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        getPresenter().setData(videos);
+        // Grid layout manager
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Box.getSpanCount(Box.Type.VOD));
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setClipToPadding(false);
+        mRecyclerView.setHasFixedSize(true);
+
+        // Item spacing
+        mRecyclerView.addItemDecoration(new GridDividerDecoration(getActivity()));
+        getPresenter().setData(mContents);
         getPresenter().getData();
     }
 
@@ -56,11 +66,11 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
     }
 
     @Override
-    public void loadRelativeVideo(VideoRelativeAdapter videoRelativeAdapter) {
-        recyclerView.setAdapter(videoRelativeAdapter);
+    public void loadRelativeVideo(VideoAdapter videoRelativeAdapter) {
+        mRecyclerView.setAdapter(videoRelativeAdapter);
     }
 
-    public void setVideos(List<Content> videos) {
-        this.videos = videos;
+    public void setContents(List<Content> contents) {
+        this.mContents = contents;
     }
 }

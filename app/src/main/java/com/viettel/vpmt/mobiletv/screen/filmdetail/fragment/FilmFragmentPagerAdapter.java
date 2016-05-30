@@ -34,7 +34,6 @@ public class FilmFragmentPagerAdapter extends FragmentStatePagerAdapter {
         mContext = context;
         mVideos = videos;
         mParts = parts;
-
         mPageCount = parts == null ? 2 : 3;
         mHasParts = parts != null;
     }

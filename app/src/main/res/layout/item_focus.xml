@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Video.ItemLayout">
 
-    <ImageView
+    <com.viettel.vpmt.mobiletv.common.view.VideoImage
         android:id="@+id/item_focus_iv"
         style="@style/Video.CoverImage"/>
 

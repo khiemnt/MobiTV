@@ -10,16 +10,16 @@ import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.common.view.SmoothScrollListener;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.GridItemDecoration;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.BundleItemDecoration;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.GridDividerDecoration;
+import com.viettel.vpmt.mobiletv.screen.home.adapter.GridSpacingItemDecoration;
 
-import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -37,6 +37,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
 
     private Box.Type mBoxType;
     private String mTitle;
+    private Point mItemImageSize;
 
     public static BundleFragment newInstance(Box.Type boxType, String id, String title) {
         BundleFragment fragment = new BundleFragment();
@@ -58,7 +59,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
     /**
      * Initialize data
      */
-    private void initData() {
+    private void initData(Point itemImageSize) {
         String id = getArguments().getString(Constants.Extras.ID, null);
 
         if (id == null) {
@@ -71,7 +72,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
         mTitle = getArguments().getString(Constants.Extras.TITLE);
         setTitle();
 
-        getPresenter().getData(mBoxType, id);
+        getPresenter().getData(mBoxType, id, itemImageSize);
     }
 
     /**
@@ -106,57 +107,23 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
         if (mBoxType == null) {
             mBoxType = Box.Type.VOD;
         }
-        // Set column number by content type
-        int spanCount;
-        switch (mBoxType) {
-            case FILM:
-                spanCount = 3;
-                break;
-            case VOD:
-                spanCount = 2;
-                break;
-            case LIVETV:
-                spanCount = 3;
-                break;
-            case CONTINUE:
-                spanCount = 2;
-                break;
-            case FOCUS:
-                spanCount = 2;
-                break;
-            default:
-                spanCount = 2;
-                break;
-        }
-
-        // Item decoration
-        final int spacingInPixels = 20;
-
-        // Calculate spacing
-        int screenWidth = DeviceUtils.getDeviceSize(getActivity()).x;
-
-        int itemWidth = (spanCount == 2 ?
-                getResources().getDimensionPixelSize(R.dimen.item_video_width) :
-                getResources().getDimensionPixelSize(R.dimen.item_channel_width));
-
-        int recyclerViewPadding = (screenWidth - itemWidth * spanCount - (spanCount ) * spacingInPixels) / 2;
 
         // Grid layout manager
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Box.getSpanCount(mBoxType));
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.getRecyclerView().setClipToPadding(false);
         mRecyclerView.getRecyclerView().setHasFixedSize(true);
 
         // Item spacing
-        mRecyclerView.addItemDecoration(new GridItemDecoration(spacingInPixels, spanCount, recyclerViewPadding));
+        mRecyclerView.addItemDecoration(new GridDividerDecoration(getActivity()));
 
         // Refresh & load more listener
         mRecyclerView.setRefreshListener(this);
         mRecyclerView.setRefreshingColorResources(android.R.color.holo_orange_light, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_red_light);
 
-        initData();
+        mItemImageSize = Box.calculateItemSize(getActivity(), mBoxType);
+        initData(mItemImageSize);
     }
-
 
     @Override
     public BundlePresenter onCreatePresenter() {
@@ -164,7 +131,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
     }
 
     @Override
-    public void loadBox(RecyclerView.Adapter bundleVideoAdapter) {
+    public void loadBundle(RecyclerView.Adapter bundleVideoAdapter) {
         mRecyclerView.setAdapter(bundleVideoAdapter);
     }
 
@@ -175,7 +142,7 @@ public class BundleFragment extends BaseFragment<BundlePresenter, HomeBoxActivit
 
     @Override
     public void onRefresh() {
-        initData();
+        initData(mItemImageSize);
     }
 
     @Override
