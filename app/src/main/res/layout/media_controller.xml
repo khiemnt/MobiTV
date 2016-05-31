@@ -1,44 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.viettel.vpmt.mobiletv.media.player.MediaContainer
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/media_controller_height"
-    android:background="@color/bg_player_controller"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/player_controller_height"
+        android:id="@+id/player_top_bar_ll"
+        android:gravity="right|center"
+        android:background="@color/bg_player_controller"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/player_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            android:src="@drawable/ic_back"/>
+
+        <TextView
+            android:id="@+id/player_title_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:singleLine="true"
+            android:lines="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:ellipsize="end"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/player_playlist_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            android:src="@drawable/ic_player_playlist"/>
+        <ImageView
+            android:id="@+id/player_like_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            android:src="@drawable/like_unlike_video"/>
+        <ImageView
+            android:id="@+id/player_share_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:padding="@dimen/padding_medium"
+            android:src="@drawable/ic_share"/>
+        <ImageView
+            android:id="@+id/player_more_action_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:padding="@dimen/padding_medium"
+            android:src="@drawable/ic_player_overflow"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/mediacontroller_plays_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/prev"
+                style="@style/IconPlayer"
+                android:visibility="gone"
+                android:src="@drawable/ic_player_prev_bt"/>
+
+            <ImageView
+                android:id="@+id/pause"
+                style="@style/IconPlayer"
+                android:src="@drawable/ic_player_play"/>
+
+
+            <ImageView
+                android:id="@+id/next"
+                style="@style/IconPlayer"
+                android:visibility="gone"
+                android:src="@drawable/ic_player_next_bt"/>
+        </LinearLayout>
+
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/mediacontroller_settings_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="center"-->
+            <!--android:visibility="gone"-->
+            <!--android:background="#44000000">-->
+
+            <LinearLayout
+                android:id="@+id/mediacontroller_settings_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_centerInParent="true"
+                android:visibility="visible">
+                <TextView
+                    android:id="@+id/player_control_quality"
+                    style="@style/ContentItem.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_player_setting"
+                    android:drawablePadding="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/title_player_quality"/>
+
+                <TextView
+                    android:id="@+id/player_control_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_player_motion"
+                    style="@style/ContentItem.Title"
+                    android:layout_marginRight="10dp"
+                    android:drawablePadding="5dp"
+                    android:text="@string/title_player_speed"/>
+
+                <TextView
+                    android:id="@+id/player_control_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_player_flag"
+                    style="@style/ContentItem.Title"
+                    android:drawablePadding="5dp"
+                    android:text="@string/title_player_report"/>
+
+                <TextView
+                    android:id="@+id/control_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:drawableTop="@drawable/ic_retry"
+                    style="@style/ContentItem.Title"
+                    android:drawablePadding="5dp"
+                    android:text="@string/title_player_retry"/>
+            </LinearLayout>
+        <!--</LinearLayout>-->
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/mediacontroller_control_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/media_controller_height"
+        android:background="@color/bg_player_controller"
         android:gravity="center">
 
-        <ImageView
-            android:id="@+id/prev"
-            style="@style/IconPlayer"
-            android:visibility="gone"
-            android:src="@drawable/ic_player_prev_bt"/>
-
-        <ImageView
-            android:id="@+id/pause"
-            style="@style/IconPlayer"
-            android:src="@drawable/ic_player_play"/>
-
-
-        <ImageView
-            android:id="@+id/next"
-            style="@style/IconPlayer"
-            android:visibility="gone"
-            android:src="@drawable/ic_player_next_bt"/>
-
-
-        <RelativeLayout android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
             <LinearLayout
                 android:id="@+id/mediacontroller_progress_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
                 <TextView
@@ -77,6 +205,7 @@
                 android:layout_alignParentLeft="true"
                 android:drawableLeft="@drawable/ic_live_red"
                 android:paddingTop="0dp"
+                android:visibility="gone"
                 android:drawablePadding="@dimen/padding_small"
                 android:text="@string/label_live"
             />
@@ -85,8 +214,10 @@
 
         <ImageView
             android:id="@+id/fullscreen"
-            style="@style/IconPlayer"
-            android:src="@drawable/ic_player_ic_fullscreen"/>
+            android:src="@drawable/ic_player_ic_fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"/>
     </LinearLayout>
 
-</LinearLayout>
+</com.viettel.vpmt.mobiletv.media.player.MediaContainer>

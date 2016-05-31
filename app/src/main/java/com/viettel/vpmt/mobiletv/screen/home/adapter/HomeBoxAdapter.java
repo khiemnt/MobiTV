@@ -14,6 +14,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,10 +36,12 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
     private Context mContext;
     private List<Box> mBoxes;
     private HorizontalItemDecoration mItemDecoration;
+    private GroupViewType mGroupViewType;
 
-    public HomeBoxAdapter(Context context, List<Box> boxes) {
+    public HomeBoxAdapter(Context context, List<Box> boxes, GroupViewType groupViewType) {
         mBoxes = boxes;
         mContext = context;
+        mGroupViewType = groupViewType;
     }
 
 
@@ -119,10 +122,10 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
         }
 
         // Bind content of channels
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        holder.mRecyclerView.setLayoutManager(layoutManager);
+//        RecyclerView.LayoutManager layoutManager
+//                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+//        layoutManager.setAutoMeasureEnabled(true);
+        holder.mRecyclerView.setLayoutManager(getLayoutManager(mGroupViewType, box.getType()));
 
         holder.mRecyclerView.setAdapter(adapter);
 
@@ -186,6 +189,26 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
         return mBoxes.size();
     }
 
+    public RecyclerView.LayoutManager getLayoutManager(GroupViewType groupViewType, Box.Type boxType) {
+        RecyclerView.LayoutManager layoutManager;
+
+        switch (groupViewType) {
+            case GRID:
+                layoutManager = new GridLayoutManager(mContext, Box.getSpanCount(boxType));
+                break;
+            case HORIZONTAL_SCROLL:
+                layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                layoutManager.setAutoMeasureEnabled(true);
+                break;
+            default:
+                layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                layoutManager.setAutoMeasureEnabled(true);
+                break;
+        }
+
+        return layoutManager;
+    }
+
     // View holder for adapter view
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private View mRoot;
@@ -209,5 +232,9 @@ public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHold
             mRoot = v;
             ButterKnife.bind(this, v);
         }
+    }
+
+    public enum GroupViewType {
+        HORIZONTAL_SCROLL, GRID
     }
 }

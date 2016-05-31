@@ -38,8 +38,8 @@
                 android:imeOptions="actionSearch"
                 android:hint="@string/hint_search"
                 android:lines="1"
+                android:maxLines="1"
                 android:inputType="textAutoComplete"
-
                 android:paddingRight="18dp"/>
 
             <ImageView

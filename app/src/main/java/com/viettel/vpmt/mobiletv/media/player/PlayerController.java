@@ -17,7 +17,6 @@ import com.google.android.exoplayer.text.CaptionStyleCompat;
 import com.google.android.exoplayer.text.Cue;
 import com.google.android.exoplayer.text.SubtitleLayout;
 import com.google.android.exoplayer.util.MimeTypes;
-import com.google.android.exoplayer.util.PlayerControl;
 import com.google.android.exoplayer.util.Util;
 import com.google.android.exoplayer.util.VerboseLogUtil;
 
@@ -41,7 +40,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,11 +52,9 @@ import android.view.accessibility.CaptioningManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.CookieHandler;
@@ -73,18 +69,9 @@ import java.util.Locale;
  */
 public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.Listener,
         MobiPlayer.CaptionListener, MobiPlayer.Id3MetadataListener, AudioCapabilitiesReceiver.Listener {
-    // For use within demo app code.
-//    public static final String CONTENT_ID_EXTRA = "content_id";
-//    public static final String CONTENT_TYPE_EXTRA = "content_type";
-//    public static final String PROVIDER_EXTRA = "provider";
-
-    // For use when launching the demo app using adb.
-//    private static final String CONTENT_EXT_EXTRA = "type";
-
     private static final String TAG = "PlayerActivity";
     private static final int MENU_GROUP_TRACKS = 1;
     private static final int ID_OFFSET = 2;
-    private static final int RADIO_BUTTON_ID_OFFSET = 1;
 
     // Speed selections
     private static final int SPEED_POSITION_05 = 0;
@@ -104,16 +91,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
     }
 
-    private final ImageView mPlayListTv;
-
-    private View mRootView;
-    private LinearLayout mRootControlLayout;
-    private LinearLayout mActionLayout;
-    private LinearLayout mMoreActionLayout;
-    private ImageView mShareIv;
-    private ImageView mLikeIv;
-
-    private TextView mTitleTv;
+    private ViewGroup mRootView;
     private ImageView mCoverIv;
     // This flag use to display cover 1 time only
     private boolean mIsCoverHasBeenShown = false;
@@ -134,8 +112,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
 
     private Uri mContentUri;
     private int mContentType;
-//    private String mContentId;
-//    private String mProvider;
 
     private AudioCapabilitiesReceiver mAudioCapabilitiesReceiver;
     private Activity mActivity;
@@ -146,7 +122,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     private List<VideoPart> mVideoParts;
     private PartSelectionListener mPartSelectionListener;
     private OnReportSelectionListener mOnReportSelectionListener;
-    private PlayerActionListener mPlayerActionListener;
 
     public PlayerController(Activity activity, final ViewGroup rootView,
                             AspectRatioFrameLayout videoFrame, SurfaceView surfaceView,
@@ -154,132 +129,63 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         mRootView = rootView;
         mActivity = activity;
         mShutterView = shutterView;
-        mRootControlLayout = (LinearLayout) rootView.findViewById(R.id.player_control_root_ll);
-        mActionLayout = (LinearLayout) rootView.findViewById(R.id.controls_root);
-        mTitleTv = (TextView) rootView.findViewById(R.id.player_title_tv);
-        TextView qualityTv = (TextView) rootView.findViewById(R.id.player_control_quantity);
-        TextView speedTv = (TextView) rootView.findViewById(R.id.player_control_speed);
-        TextView reportTv = (TextView) rootView.findViewById(R.id.player_control_report);
-        TextView retryTv = (TextView) rootView.findViewById(R.id.control_retry);
-
         mCoverIv = (ImageView) rootView.findViewById(R.id.player_cover_iv);
         loadCover(activity, coverImageUrl);
-
-        qualityTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActionLayout.setVisibility(View.GONE);
-                showQualityPopup();
-            }
-        });
-
-        speedTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActionLayout.setVisibility(View.GONE);
-                showSpeedPopup();
-            }
-        });
-
-        reportTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActionLayout.setVisibility(View.GONE);
-                showReportPopup();
-            }
-        });
-
-        mActionLayout.setVisibility(View.GONE);
-        retryTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActionLayout.setVisibility(View.GONE);
-                retry();
-            }
-        });
-
-        ImageView moreActionIv = (ImageView) rootView.findViewById(R.id.player_more_action_iv);
-        mShareIv = (ImageView) rootView.findViewById(R.id.player_share_iv);
-        mMoreActionLayout = (LinearLayout) rootView.findViewById(R.id.player_top_bar_ll);
-        mLikeIv = (ImageView) rootView.findViewById(R.id.player_like_iv);
-        mPlayListTv = (ImageView) rootView.findViewById(R.id.player_playlist_iv);
-        ImageView backIv = (ImageView) rootView.findViewById(R.id.player_back_iv);
-        mPlayListTv.setVisibility(View.GONE);
-        moreActionIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMediaController.hide();
-                mMoreActionLayout.setVisibility(View.GONE);
-                mActionLayout.setVisibility(View.VISIBLE);
-                mActionLayout.invalidate();
-                mMoreActionLayout.invalidate();
-//                Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.anim);
-//                animation.setDuration(500);
-//                mActionLayout.setAnimation(animation);
-//                mActionLayout.animate();
-//                animation.start();
-//                toggleFullScreen();
-            }
-        });
-
-        mLikeIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPlayerActionListener != null) {
-                    mPlayerActionListener.onPlayerLikeClicked();
-                }
-            }
-        });
-
-        mShareIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPlayerActionListener != null) {
-                    mPlayerActionListener.onPlayerShareClicked();
-                }
-            }
-        });
-
-        mPlayListTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPlayListPopup();
-            }
-        });
-
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    toggleControlsVisibility();
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    view.performClick();
-                }
-                return true;
-            }
-        });
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                return !(keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_ESCAPE
-                        || keyCode == KeyEvent.KEYCODE_MENU) && mMediaController.dispatchKeyEvent(event);
-            }
-        });
-
-        backIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivity.finish();
-            }
-        });
 
         mVideoFrame = videoFrame;
         mSurfaceView = surfaceView;
         surfaceView.getHolder().addCallback(this);
         mSubtitleLayout = subtitleLayout;
+        mSurfaceView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (mMediaController == null) {
+                        return false;
+                    }
 
+                    mMediaController.toggleControlsVisibility();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.performClick();
+                }
+                return true;
+            }
+        });
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (mMediaController == null) {
+                        return false;
+                    }
+
+                    mMediaController.toggleControlsVisibility();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.performClick();
+                }
+                return true;
+            }
+        });
+
+        mCoverIv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (mMediaController == null) {
+                        return false;
+                    }
+
+                    mMediaController.toggleControlsVisibility();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.performClick();
+                }
+                return true;
+            }
+        });
+//        mMediaController = (CustomMediaController) mRootView.findViewById(R.id.player_control_media_controller);
         mMediaController = new KeyCompatibleMediaController(mActivity);
-        mMediaController.setAnchorView(rootView);
+        mMediaController.initView();
+        mMediaController.setPlayerController(this);
 
         CookieHandler currentHandler = CookieHandler.getDefault();
         if (currentHandler != DEFAULT_COOKIE_MANAGER) {
@@ -297,25 +203,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         ImageUtils.loadImage(activity, coverImageUrl, mCoverIv, true);
     }
 
-//    public void toggleFullScreen() {
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) mRootView.getLayoutParams();
-//        params.width = metrics.widthPixels;
-//        params.height = metrics.heightPixels;
-//        params.leftMargin = 0;
-//        mRootView.requestFocus();
-//        mRootView.setLayoutParams(params);
-//    }
-
-//    public void onNewIntent(Intent intent) {
-//        releasePlayer();
-//        mPlayerPosition = 0;
-//        if (mActivity != null) {
-//            mActivity.setIntent(intent);
-//        }
-//    }
-
     public void init(Uri uri, int contentType, String fileExtension, String coverImageUrl) {
         mContentUri = uri;
         if (coverImageUrl != null) {
@@ -323,8 +210,9 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         }
 
         releasePlayer();
-        mActionLayout.setVisibility(View.GONE);
-        mMoreActionLayout.setVisibility(View.GONE);
+        if (mMediaController != null) {
+            mMediaController.hide();
+        }
         if (contentType < 0 || contentType > 3) {
             mContentType = inferContentType(mContentUri, fileExtension);
         } else {
@@ -343,12 +231,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     public void onResume() {
-//        mContentUri = intent.getData();
-//        mContentType = intent.getIntExtra(CONTENT_TYPE_EXTRA,
-//                inferContentType(mContentUri, intent.getStringExtra(CONTENT_EXT_EXTRA)));
-//        mContentId = intent.getStringExtra(CONTENT_ID_EXTRA);
-//        mProvider = intent.getStringExtra(PROVIDER_EXTRA);
-//        configureSubtitleView();
 
         if (mContentUri == null) {
             return;
@@ -657,8 +539,10 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
             mPlayer.setMetadataListener(this);
             mPlayer.seekTo(mPlayerPosition);
             mPlayerNeedsPrepare = true;
-            mMediaController.setMediaPlayer(mPlayer.getPlayerControl());
-            mMediaController.setEnabled(true);
+            if (mMediaController != null) {
+                mMediaController.setMediaPlayer(mPlayer.getPlayerControl());
+                mMediaController.setEnabled(true);
+            }
             mEventLogger = new EventLogger();
             mEventLogger.startSession();
             mPlayer.addListener(mEventLogger);
@@ -668,7 +552,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         if (mPlayerNeedsPrepare) {
             mPlayer.prepare();
             mPlayerNeedsPrepare = false;
-            updateButtonVisibilities();
         }
         mPlayer.setSurface(mSurfaceView.getHolder().getSurface());
         mPlayer.setPlayWhenReady(playWhenReady);
@@ -701,7 +584,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
         if (playbackState == ExoPlayer.STATE_ENDED) {
-            showControls();
+            mMediaController.show();
         }
         Logger.i(TAG, "State changed: " + playbackState);
         switch (playbackState) {
@@ -757,8 +640,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
             default:
                 break;
         }
-
-        updateButtonVisibilities();
     }
 
     @Override
@@ -794,8 +675,7 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
             Toast.makeText(mActivity.getApplicationContext(), errorString, Toast.LENGTH_LONG).show();
         }
         mPlayerNeedsPrepare = true;
-        updateButtonVisibilities();
-        showControls();
+        mMediaController.show();
     }
 
     @Override
@@ -806,15 +686,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
                 height == 0 ? 1 : (width * pixelWidthAspectRatio) / height);
     }
 
-    // User controls
-
-    private void updateButtonVisibilities() {
-//        retryButton.setVisibility(mPlayerNeedsPrepare ? View.VISIBLE : View.GONE);
-//        videoButton.setVisibility(haveTracks(MobiPlayer.TYPE_VIDEO) ? View.VISIBLE : View.GONE);
-//        audioButton.setVisibility(haveTracks(MobiPlayer.TYPE_AUDIO) ? View.VISIBLE : View.GONE);
-//        textButton.setVisibility(haveTracks(MobiPlayer.TYPE_TEXT) ? View.VISIBLE : View.GONE);
-    }
-
     private boolean haveTracks(int type) {
         return mPlayer != null && mPlayer.getTrackCount(type) > 0;
     }
@@ -822,54 +693,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     public void showVideoPopup(View v) {
         PopupMenu popup = new PopupMenu(mActivity, v);
         configurePopupWithTracks(popup, null, MobiPlayer.TYPE_VIDEO);
-        popup.show();
-    }
-
-    public void showAudioPopup(View v) {
-        PopupMenu popup = new PopupMenu(mActivity, v);
-        Menu menu = popup.getMenu();
-        menu.add(Menu.NONE, Menu.NONE, Menu.NONE, R.string.enable_background_audio);
-        final MenuItem backgroundAudioItem = menu.findItem(0);
-        backgroundAudioItem.setCheckable(true);
-        backgroundAudioItem.setChecked(mEnableBackgroundAudio);
-        PopupMenu.OnMenuItemClickListener clickListener = new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item == backgroundAudioItem) {
-                    mEnableBackgroundAudio = !item.isChecked();
-                    return true;
-                }
-                return false;
-            }
-        };
-        configurePopupWithTracks(popup, clickListener, MobiPlayer.TYPE_AUDIO);
-        popup.show();
-    }
-
-    public void showTextPopup(View v) {
-        PopupMenu popup = new PopupMenu(mActivity, v);
-        configurePopupWithTracks(popup, null, MobiPlayer.TYPE_TEXT);
-        popup.show();
-    }
-
-    public void showVerboseLogPopup(View v) {
-        PopupMenu popup = new PopupMenu(mActivity, v);
-        Menu menu = popup.getMenu();
-        menu.add(Menu.NONE, 0, Menu.NONE, R.string.logging_normal);
-        menu.add(Menu.NONE, 1, Menu.NONE, R.string.logging_verbose);
-        menu.setGroupCheckable(Menu.NONE, true, true);
-        menu.findItem((VerboseLogUtil.areAllTagsEnabled()) ? 1 : 0).setChecked(true);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == 0) {
-                    VerboseLogUtil.setEnableAllTags(false);
-                } else {
-                    VerboseLogUtil.setEnableAllTags(true);
-                }
-                return true;
-            }
-        });
         popup.show();
     }
 
@@ -901,33 +724,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         menu.setGroupCheckable(MENU_GROUP_TRACKS, true, true);
         menu.findItem(mPlayer.getSelectedTrack(trackType) + ID_OFFSET).setChecked(true);
     }
-
-//    private void configureVideoPopupWithTracks(final int trackType) {
-//        if (mPlayer == null) {
-//            return;
-//        }
-//        int trackCount = mPlayer.getTrackCount(trackType);
-//        if (trackCount == 0) {
-//            return;
-//        }
-//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                return (customActionClickListener != null
-//                        && customActionClickListener.onMenuItemClick(item))
-//                        || onTrackItemClick(item, trackType);
-//            }
-//        });
-//        Menu menu = popup.getMenu();
-//        // ID_OFFSET ensures we avoid clashing with Menu.NONE (which equals 0).
-//        menu.add(MENU_GROUP_TRACKS, MobiPlayer.TRACK_DISABLED + ID_OFFSET, Menu.NONE, R.string.off);
-//        for (int i = 0; i < trackCount; i++) {
-//            menu.add(MENU_GROUP_TRACKS, i + ID_OFFSET, Menu.NONE,
-//                    buildTrackName(mPlayer.getTrackFormat(trackType, i)));
-//        }
-//        menu.setGroupCheckable(MENU_GROUP_TRACKS, true, true);
-//        menu.findItem(mPlayer.getSelectedTrack(trackType) + ID_OFFSET).setChecked(true);
-//    }
 
     private String buildTrackName(MediaFormat format) {
         if (format.adaptive) {
@@ -985,31 +781,6 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
         return true;
     }
 
-    private void toggleControlsVisibility() {
-        if (mMediaController.isShowing()) {
-            hideControls();
-        } else {
-            showControls();
-        }
-    }
-
-    private void hideControls() {
-        mMediaController.hide();
-        mMoreActionLayout.setVisibility(View.GONE);
-    }
-
-    private void showControls() {
-        if (mMediaController != null) {
-            try {
-                mRootControlLayout.setVerticalGravity(View.VISIBLE);
-                mMoreActionLayout.setVisibility(View.VISIBLE);
-                mActionLayout.setVisibility(View.GONE);
-                mMediaController.show(0);
-            } catch (NullPointerException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 
     // MobiPlayer.CaptionListener implementation
 
@@ -1105,16 +876,22 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     public void setLikeButtonVisibility(int visibility) {
-        mLikeIv.setVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setLikeButtonVisibility(visibility);
+        }
     }
 
     public void setShareButtonVisibility(int visibility) {
-        mShareIv.setVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setShareButtonVisibility(visibility);
+        }
     }
 
     public void setTitle(String title) {
         mTitle = title;
-        mTitleTv.setText(title);
+        if (mMediaController != null) {
+            mMediaController.setTitleText(title);
+        }
 
         if (DeviceUtils.isLandscape(mActivity)) {
             setTitleVisibility(View.VISIBLE);
@@ -1124,8 +901,10 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     public void setTitleVisibility(int visibility) {
-        mTitleTv.setText(mTitle);
-        mTitleTv.setVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setTitleText(mTitle);
+            mMediaController.setTitleVisibility(visibility);
+        }
     }
 
     public void setAspectRatio(float playerRatio) {
@@ -1133,31 +912,40 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     public void onConfigurationChanged(Configuration newConfig) {
+        if (mMediaController == null) {
+            return;
+        }
         mMediaController.onConfigurationChanged(newConfig);
         switch (newConfig.orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
                 setPlayListVisibility(View.VISIBLE);
-                mLikeIv.setVisibility(View.VISIBLE);
-                mShareIv.setVisibility(View.VISIBLE);
+                mMediaController.setLikeButtonVisibility(View.VISIBLE);
+                mMediaController.setShareButtonVisibility(View.VISIBLE);
                 break;
             case Configuration.ORIENTATION_PORTRAIT:
                 setPlayListVisibility(View.GONE);
-                mLikeIv.setVisibility(View.GONE);
-                mShareIv.setVisibility(View.GONE);
+                mMediaController.setLikeButtonVisibility(View.GONE);
+                mMediaController.setShareButtonVisibility(View.GONE);
                 break;
         }
     }
 
     public void setNextVisibility(int visibility) {
-        mMediaController.setNextVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setNextVisibility(visibility);
+        }
     }
 
     public void setPreviousVisibility(int visibility) {
-        mMediaController.setPreviousVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setPreviousVisibility(visibility);
+        }
     }
 
     public void setPrevNextListeners(View.OnClickListener next, View.OnClickListener prev) {
-        mMediaController.setPrevNextListeners(next, prev);
+        if (mMediaController != null) {
+            mMediaController.setPrevNextListeners(next, prev);
+        }
     }
 
     public void setNextEnabled(boolean enabled) {
@@ -1165,29 +953,37 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     public void setPreviousEnabled(boolean enabled) {
-        mMediaController.setPreviousEnabled(enabled);
+        if (mMediaController != null) {
+            mMediaController.setPreviousEnabled(enabled);
+        }
     }
 
     public void setProgressTimeLayoutVisibility(int visibility) {
-        mMediaController.setProgressTimeLayoutVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setProgressTimeLayoutVisibility(visibility);
+        }
     }
 
     public void setLiveNowVisibility(int visibility) {
-        mMediaController.setLiveNowVisibility(visibility);
+        if (mMediaController != null) {
+            mMediaController.setLiveNowVisibility(visibility);
+        }
     }
 
     public void setPlayListVisibility(int visibility) {
+        if (mMediaController == null) {
+            return;
+        }
         if (mVideoParts != null && mVideoParts.size() > 0) {
-            mPlayListTv.setVisibility(visibility);
+            mMediaController.setPlaylistVisibility(visibility);
         } else {
-            mPlayListTv.setVisibility(View.GONE);
+            mMediaController.setPlaylistVisibility(View.GONE);
         }
     }
 
     public void setVideoParts(List<VideoPart> videoParts, PartSelectionListener partSelectionListener) {
         mVideoParts = videoParts;
         mPartSelectionListener = partSelectionListener;
-        mMediaController.setVideoParts(videoParts, partSelectionListener);
     }
 
     public void setPartPosition(int partPosition) {
@@ -1207,44 +1003,29 @@ public class PlayerController implements SurfaceHolder.Callback, MobiPlayer.List
     }
 
     public void setPlayerActionListener(PlayerActionListener playerActionListener) {
-        mPlayerActionListener = playerActionListener;
+//        mPlayerActionListener = playerActionListener;
+        if (mMediaController != null) {
+            mMediaController.setPlayerActionListener(playerActionListener);
+        }
     }
 
     public void doRefreshLike(boolean isLike) {
-        mLikeIv.setImageResource(isLike ? R.drawable.ic_player_thumb_up_active : R.drawable.ic_player_thumb_up_nomal);
+//        mLikeIv.setImageResource(isLike ? R.drawable.ic_player_thumb_up_active : R.drawable.ic_player_thumb_up_nomal);
+        if (mMediaController != null) {
+            mMediaController.toggleLike(isLike);
+        }
     }
 
-    private static final class KeyCompatibleMediaController extends CustomMediaController {
+    public int getWidth() {
+        return mSurfaceView.getWidth();
+    }
 
-        private PlayerControl mPlayerControl;
+    public int getHeight() {
+        return mShutterView.getHeight();
+    }
 
-        public KeyCompatibleMediaController(Context context) {
-            super((Activity) context);
-        }
-
-        @Override
-        public void setMediaPlayer(PlayerControl playerControl) {
-            super.setMediaPlayer(playerControl);
-        }
-
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent event) {
-            int keyCode = event.getKeyCode();
-            if (mPlayerControl.canSeekForward() && keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    mPlayerControl.seekTo(mPlayerControl.getCurrentPosition() + 15000); // milliseconds
-                    show();
-                }
-                return true;
-            } else if (mPlayerControl.canSeekBackward() && keyCode == KeyEvent.KEYCODE_MEDIA_REWIND) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    mPlayerControl.seekTo(mPlayerControl.getCurrentPosition() - 5000); // milliseconds
-                    show();
-                }
-                return true;
-            }
-            return super.dispatchKeyEvent(event);
-        }
+    public ViewGroup getRootView() {
+        return mRootView;
     }
 
     /**

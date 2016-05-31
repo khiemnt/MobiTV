@@ -56,7 +56,7 @@ import butterknife.Bind;
  */
 public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActivity> extends BaseFragment<P, A>
         implements PlayerController.StateListener, PlayerController.OnReportSelectionListener, PlayerController.PlayerActionListener {
-    private static final float PLAYER_RATIO = 16.0f / 9;
+    public static final float PLAYER_RATIO = 16.0f / 9;
     @Bind(R.id.shutter)
     View mShutterView;
     @Bind(R.id.video_frame)
@@ -66,17 +66,18 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     @Bind(R.id.subtitles)
     SubtitleLayout mSubtitleLayout;
     @Bind(R.id.player_root)
+//    @Bind(R.id.videoSurfaceContainer)
     ViewGroup mRoot;
     @Bind(R.id.common_progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.view_transparent)
     View transparent;
-    @Bind(R.id.player_control_quantity)
-    TextView mQualityTv;
-    @Bind(R.id.player_control_report)
-    TextView mReportTv;
-    @Bind(R.id.player_control_speed)
-    TextView mSpeedTv;
+//    @Bind(R.id.player_control_quantity)
+//    TextView mQualityTv;
+//    @Bind(R.id.player_control_report)
+//    TextView mReportTv;
+//    @Bind(R.id.player_control_speed)
+//    TextView mSpeedTv;
 
     protected PlayerController mPlayerController;
 
@@ -212,9 +213,9 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mQualityTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_setting,0,0);
-        mSpeedTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_motion,0,0);
-        mReportTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_flag,0,0);
+//        mQualityTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_setting,0,0);
+//        mSpeedTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_motion,0,0);
+//        mReportTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_player_flag,0,0);
         mPlayerController.onConfigurationChanged(newConfig);
 
         int orientation = newConfig.orientation;

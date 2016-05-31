@@ -89,6 +89,9 @@ public interface MobitvService {
     @GET("default/get-setting")
     Call<ResponseDTO<PlayerSetting>> getSettings(@Header("Authorization") String authorization);
 
-    @POST("default/search")
+    @GET("default/search")
     Call<ResponseDTO<List<Box>>> search(@Header("Authorization") String authorization, @Query("query") String query);
+
+    @GET("default/search-suggestion")
+    Call<ResponseDTO<List<Box>>> searchSuggestion(@Header("Authorization") String authorization, @Query("query") String query);
 }

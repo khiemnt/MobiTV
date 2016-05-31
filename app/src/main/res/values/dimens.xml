@@ -51,4 +51,5 @@
     <dimen name="player_controller_height">51dp</dimen>
     <dimen name="detail_title_text_size">18dp</dimen>
     <dimen name="detail_desc_text_size">12sp</dimen>
+    <dimen name="item_play_size">70dp</dimen>
 </resources>

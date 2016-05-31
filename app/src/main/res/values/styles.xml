@@ -140,8 +140,8 @@
     <!-- Player Controller -->
     <style name="IconPlayer">
         <item name="android:padding">7dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/item_play_size</item>
+        <item name="android:layout_height">@dimen/item_play_size</item>
     </style>
 
     <style name="PlayerTimeText" parent="TextSans">
@@ -150,6 +150,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">@dimen/screen_margin</item>
+        <item name="android:paddingRight">@dimen/screen_margin</item>
         <item name="android:text">@string/default_time_mm_ss</item>
     </style>
 

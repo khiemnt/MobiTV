@@ -48,7 +48,7 @@ public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragm
         public void onResponse(List<Box> data) {
             mView.onRequestSuccess();
             Logger.i(TAG, "SS==== " + data.size());
-            HomeBoxAdapter homeBoxAdapter = new HomeBoxAdapter(mView.getViewContext(), data);
+            HomeBoxAdapter homeBoxAdapter = new HomeBoxAdapter(mView.getViewContext(), data, HomeBoxAdapter.GroupViewType.HORIZONTAL_SCROLL);
             mView.loadBox(homeBoxAdapter);
         }
     };
