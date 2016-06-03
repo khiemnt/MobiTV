@@ -1,5 +1,7 @@
 package com.viettel.vpmt.mobiletv.base;
 
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -71,5 +73,13 @@ public abstract class BaseFragment<P extends BasePresenter, A extends BaseActivi
     @Override
     public void showAlertDialog(String message) {
         getBaseActivity().showAlertDialog(message);
+    }
+
+    protected void setScreenMarginForGridView() {
+        // This to set margin screen with RecyclerView.
+        int margin = CompatibilityUtil.getScreenMargin(getActivity());
+        int spacing = CompatibilityUtil.getItemSpacing(getActivity());
+        int leftRight = margin - spacing / 2;
+        mRootView.setPadding(leftRight, margin, leftRight, margin);
     }
 }

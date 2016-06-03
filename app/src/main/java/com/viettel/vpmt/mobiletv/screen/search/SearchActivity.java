@@ -3,7 +3,7 @@ package com.viettel.vpmt.mobiletv.screen.search;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.common.view.SmoothScrollListener;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.HomeBoxAdapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,6 +69,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         getPresenter().getSuggestion(mSearchTv.getText().toString());
     }
 
+    @OnClick(R.id.search_clear_text_iv)
+    public void clearTextSearch() {
+        mSearchTv.setText("");
+    }
+
     private void doSearch() {
         getPresenter().search(mSearchTv.getText().toString());
     }
@@ -81,5 +86,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     public void loadBox(HomeBoxAdapter homeBoxAdapter) {
         mRecyclerView.setAdapter(homeBoxAdapter);
+    }
+
+    @Override
+    public void loadSuggestion(SuggestionAdapter adapter) {
+        mSearchTv.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer() );
+//        mSearchTv.setAdapter();
     }
 }

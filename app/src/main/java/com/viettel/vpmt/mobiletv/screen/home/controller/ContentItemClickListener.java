@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.home.controller;
 
 import com.viettel.vpmt.mobiletv.common.Constants;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
@@ -17,10 +18,12 @@ import android.view.View;
 public class ContentItemClickListener implements View.OnClickListener {
     private Context mContext;
     private Content mContent;
+    private Box.Type mBoxType;
 
-    public ContentItemClickListener(Context context, Content content) {
+    public ContentItemClickListener(Context context, Content content, Box.Type boxType) {
         mContext = context;
         mContent = content;
+        mBoxType = boxType;
     }
 
     @Override
@@ -33,10 +36,14 @@ public class ContentItemClickListener implements View.OnClickListener {
                         .putExtra(Constants.Extras.COVER_IMAGE_URL, mContent.getCoverImage()));
                 break;
             case VOD:
-                mContext.startActivity(new Intent(mContext, VideoDetailActivity.class)
+                Intent intent = new Intent(mContext, VideoDetailActivity.class)
                         .putExtra(Constants.Extras.ID, mContent.getId())
                         .putExtra(Constants.Extras.TITLE, mContent.getName())
-                        .putExtra(Constants.Extras.COVER_IMAGE_URL, mContent.getCoverImage()));
+                        .putExtra(Constants.Extras.COVER_IMAGE_URL, mContent.getCoverImage());
+                if (mBoxType == Box.Type.CONTINUE) {
+                    intent.putExtra(Constants.Extras.PROGRESS, mContent.getProgress());
+                }
+                mContext.startActivity(intent);
                 break;
             case LIVETV:
                 mContext.startActivity(new Intent(mContext, ChannelDetailActivity.class)

@@ -2,18 +2,18 @@ package com.viettel.vpmt.mobiletv.screen.bundle;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.ChannelAdapter;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.ContinueAdapter;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.FilmAdapter;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.FocusAdapter;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.ChannelAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.ContinueAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.FilmAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.FocusAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.VideoAdapter;
 
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -31,7 +31,6 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
 
     private int mCurrentSize = 0;
     private String mId;
-    private Point mItemImageSize ;
     private List<Content> mContents = new ArrayList<>();
 
     public BundlePresenterImpl(BundleView view) {
@@ -39,9 +38,8 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
     }
 
     @Override
-    public void getData(Box.Type boxType, String id, Point itemImageSize) {
+    public void getData(Box.Type boxType, String id) {
         mBoxType = boxType;
-        mItemImageSize = itemImageSize;
         mId = id;
 
         if (!NetworkUtils.checkNetwork(mView.getViewContext())) {
@@ -67,21 +65,22 @@ public class BundlePresenterImpl extends BasePresenterImpl<BundleView> implement
      * Get adapter depend on type of item
      */
     private RecyclerView.Adapter getAdapter(List<Content> contents) {
+        int itemWidth = CompatibilityUtil.getWidthItemNoSpacing(mView.getViewContext(), mBoxType);
         switch (mBoxType) {
             case LIVETV:
-                return new ChannelAdapter(mView.getViewContext(), contents, 0);
+                return new ChannelAdapter(mView.getViewContext(), contents, itemWidth);
             case VOD:
-                return new VideoAdapter(mView.getViewContext(), contents, 0);
+                return new VideoAdapter(mView.getViewContext(), contents, itemWidth);
             case TVSHOW:
-                return new VideoAdapter(mView.getViewContext(), contents, 0);
+                return new VideoAdapter(mView.getViewContext(), contents, itemWidth);
             case CONTINUE:
-                return new ContinueAdapter(mView.getViewContext(), contents, 0);
+                return new ContinueAdapter(mView.getViewContext(), contents, itemWidth);
             case FOCUS:
-                return new FocusAdapter(mView.getViewContext(), contents, 0);
+                return new FocusAdapter(mView.getViewContext(), contents, itemWidth);
             case FILM:
-                return new FilmAdapter(mView.getViewContext(), contents, 0);
+                return new FilmAdapter(mView.getViewContext(), contents, itemWidth);
             default:
-                return new VideoAdapter(mView.getViewContext(), contents, 0);
+                return new VideoAdapter(mView.getViewContext(), contents, itemWidth);
         }
     }
 

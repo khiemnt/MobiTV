@@ -1,12 +1,13 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.part;
 
 import com.viettel.vpmt.mobiletv.R;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,30 +23,39 @@ import java.util.List;
  * Created by ThanhTD on 3/29/2016.
  */
 public class VideoPartsAdapter extends RecyclerView.Adapter<VideoPartsAdapter.MyViewHolder> {
+    private final int mItemImageWidth;
     private List<PartOfVideo> mParts;
     private Context mContext;
     private String mVideoId;
     private int mPositionActive = 0;
-    private Point mItemImageSize;
+    private int mItemWidth;
 
-    public VideoPartsAdapter(String videoId, List<PartOfVideo> parts, int positionActive, Context context, Point itemImageSize) {
+    public VideoPartsAdapter(String videoId, List<PartOfVideo> parts, int positionActive, Context context, int itemWidth) {
         mVideoId = videoId;
         mParts = parts;
         mContext = context;
         mPositionActive = positionActive;
-        mItemImageSize = itemImageSize;
+        mItemWidth = itemWidth;
+        mItemImageWidth = CompatibilityUtil.getWidthItemHasSpacing(context, Box.Type.VOD);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_video, parent, false);
+
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(layoutParams);
+        }
+
+
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        if (mItemImageSize != null) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mItemImageSize.x, mItemImageSize.y);
+        if (mItemImageWidth > 0) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mItemImageWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
             holder.mImageView.setLayoutParams(layoutParams);
         }
         holder.title.setText(mParts.get(position).getName());

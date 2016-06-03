@@ -56,7 +56,7 @@ import butterknife.Bind;
  */
 public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActivity> extends BaseFragment<P, A>
         implements PlayerController.StateListener, PlayerController.OnReportSelectionListener, PlayerController.PlayerActionListener {
-    private static final float PLAYER_RATIO = 16.0f / 9;
+    public static final float PLAYER_RATIO = 16.0f / 9;
     @Bind(R.id.shutter)
     View mShutterView;
     @Bind(R.id.video_frame)
@@ -266,5 +266,9 @@ public abstract class PlayerFragment<P extends BasePresenter, A extends BaseActi
 
         intent.putExtra(Intent.EXTRA_TEXT, contentUrl);
         getActivity().startActivity(Intent.createChooser(intent, getString(R.string.title_share)));
+    }
+
+    protected void seekTo(int progressPercent) {
+        mPlayerController.seekTo(progressPercent);
     }
 }

@@ -1,6 +1,5 @@
 package com.viettel.vpmt.mobiletv.common.pref;
 
-import com.google.android.exoplayer.C;
 import com.google.gson.Gson;
 
 import com.viettel.vpmt.mobiletv.base.log.Logger;

@@ -1,12 +1,12 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate;
 
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.ChannelAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.ChannelAdapter;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +48,8 @@ public class ChannelRelativeListFragment extends BaseFragment<ChannelRelativePre
     @Override
     public void onPrepareLayout() {
         // Grid layout manager
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Box.getSpanCount(Box.Type.LIVETV));
+        GridLayoutManager layoutManager
+                = new GridLayoutManager(getActivity(), CompatibilityUtil.getNumberItem(getActivity(), Box.Type.LIVETV));
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setClipToPadding(false);
         mRecyclerView.setHasFixedSize(true);

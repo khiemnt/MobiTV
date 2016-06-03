@@ -1,9 +1,10 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.relate;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.VideoAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.fragment.item.ImageItem;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class VideoRelativePresenterImpl extends BasePresenterImpl<VideoRelativeV
             imageItems.add(new ImageItem(content.getId(), content.getAvatarImage(), content.getDescription(), content.getName()));
         }
 //        VideoRelativeAdapter videoRelativeAdapter = new VideoRelativeAdapter(imageItems, mView.getViewContext());
-        VideoAdapter videoRelativeAdapter = new VideoAdapter(mView.getViewContext(), videos, 0);
+        int itemWidth = CompatibilityUtil.getWidthItemNoSpacing(mView.getViewContext(), Box.Type.VOD);
+        VideoAdapter videoRelativeAdapter = new VideoAdapter(mView.getViewContext(), videos, itemWidth);
         mView.loadRelativeVideo(videoRelativeAdapter);
     }
 }

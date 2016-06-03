@@ -1,7 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.search;
 
 import com.viettel.vpmt.mobiletv.base.BaseView;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.HomeBoxAdapter;
 
 /**
  * Search view
@@ -9,4 +9,6 @@ import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
  */
 public interface SearchView extends BaseView<SearchPresenter>{
     void loadBox(HomeBoxAdapter homeBoxAdapter);
+
+    void loadSuggestion(SuggestionAdapter adapter);
 }

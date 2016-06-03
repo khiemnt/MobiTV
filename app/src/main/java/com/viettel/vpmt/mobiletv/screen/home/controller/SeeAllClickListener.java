@@ -1,6 +1,5 @@
 package com.viettel.vpmt.mobiletv.screen.home.controller;
 
-import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.dto.Box;

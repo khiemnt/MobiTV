@@ -3,7 +3,6 @@ package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment;
 import com.viettel.vpmt.mobiletv.base.BaseView;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
-import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
 /**
  * Presenter for Channel/TV detail fragment

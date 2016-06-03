@@ -1,10 +1,10 @@
-package com.viettel.vpmt.mobiletv.screen.home.adapter;
+package com.viettel.vpmt.mobiletv.screen.common.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.log.Logger;
-import com.viettel.vpmt.mobiletv.common.Constants;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.bundle.BundleDividerDecoration;
 import com.viettel.vpmt.mobiletv.screen.home.HomeBoxActivity;
 import com.viettel.vpmt.mobiletv.screen.home.animation.DepthPageTransformer;
 import com.viettel.vpmt.mobiletv.screen.home.animation.PagerRunner;
@@ -13,11 +13,13 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,74 +29,80 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Search Adapter
+ * Common Adapter
  * Created by neo on 3/22/2016.
  */
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class HomeBoxAdapter extends RecyclerView.Adapter<HomeBoxAdapter.ViewHolder> {
     private Context mContext;
     private List<Box> mBoxes;
-    private HorizontalItemDecoration mItemDecoration;
+    private RecyclerView.ItemDecoration mItemDecoration;
+    private GroupViewType mGroupViewType;
+    private boolean mNoRightMargin;
+    private boolean mIsTvHome;
 
-    public SearchAdapter(Context context, List<Box> boxes) {
+    public HomeBoxAdapter(Context context, List<Box> boxes, GroupViewType groupViewType, boolean noRightMargin, boolean isTvHome) {
         mBoxes = boxes;
         mContext = context;
+        mGroupViewType = groupViewType;
+        mNoRightMargin = noRightMargin;
+        mIsTvHome = isTvHome;
     }
 
 
     @Override
-    public SearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HomeBoxAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_box_home, parent, false);
+        LinearLayout container = (LinearLayout) v.findViewById(R.id.item_box_home_recycler_view_container);
+        int margin = CompatibilityUtil.getScreenMargin(mContext);
+        if (mNoRightMargin) {
+            container.setPadding(margin, margin, 0, margin);
+        } else {
+            container.setPadding(margin, margin, margin, margin);
+        }
+
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(SearchAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(HomeBoxAdapter.ViewHolder holder, int position) {
         Box box = getItem(position);
-        if (box == null) {
+        if (box == null || box.getType() == null) {
             return;
         }
-        if (box.getType() == null) {
-            Logger.e("@@@", "Type NULLLL " + box.getId());
-        }
+
+        int itemWidth = CompatibilityUtil.getWidthItemHasSpacing(mContext, box.getType());
         switch (box.getType()) {
             case BANNER:
                 bindBannerBox(holder, box);
                 break;
             case LIVETV:
                 bindBoxSection(holder, box,
-                        new ChannelAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_channel_width)));
+                        new ChannelAdapter(mContext, box.getContents(), itemWidth));
                 break;
             case VOD:
                 bindBoxSection(holder, box,
-                        new VideoAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_video_width)));
+                        new VideoAdapter(mContext, box.getContents(), itemWidth));
                 break;
             case TVSHOW:
                 bindBoxSection(holder, box,
-                        new VideoAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_channel_width)));
+                        new VideoAdapter(mContext, box.getContents(), itemWidth));
                 break;
             case CONTINUE:
                 bindBoxSection(holder, box,
-                        new ContinueAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_video_width)));
+                        new ContinueAdapter(mContext, box.getContents(), itemWidth));
                 break;
             case FOCUS:
                 bindBoxSection(holder, box,
-                        new FocusAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_video_width)));
+                        new FocusAdapter(mContext, box.getContents(), itemWidth));
                 break;
             case FILM:
                 bindBoxSection(holder, box,
-                        new FilmAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_film_width)));
+                        new FilmAdapter(mContext, box.getContents(), itemWidth));
                 break;
             default:
                 bindBoxSection(holder, box,
-                        new VideoAdapter(mContext, box.getContents(),
-                                mContext.getResources().getDimensionPixelSize(R.dimen.item_video_width)));
+                        new VideoAdapter(mContext, box.getContents(), itemWidth));
                 break;
         }
     }
@@ -110,18 +118,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         holder.mTitleTv.setText(box.getName());
 
-        // See all content clicked
-        if (mContext instanceof HomeBoxActivity) {
-            holder.mSeeAllTv.setOnClickListener(new SeeAllClickListener((HomeBoxActivity) mContext, box));
-        } else {
+        if (mIsTvHome && box.getContents().size() < Box.NUMBER_CHANNEL_THRESHOLD) {
             holder.mSeeAllTv.setVisibility(View.GONE);
+        } else {
+            // See all content clicked
+            if (mContext instanceof HomeBoxActivity) {
+                holder.mSeeAllTv.setOnClickListener(new SeeAllClickListener((HomeBoxActivity) mContext, box));
+            } else {
+                holder.mSeeAllTv.setVisibility(View.GONE);
+            }
         }
 
         // Bind content of channels
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        holder.mRecyclerView.setLayoutManager(layoutManager);
+//        RecyclerView.LayoutManager layoutManager
+//                = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+//        layoutManager.setAutoMeasureEnabled(true);
+        holder.mRecyclerView.setLayoutManager(getLayoutManager(mGroupViewType, box.getType()));
 
         holder.mRecyclerView.setAdapter(adapter);
 
@@ -130,17 +142,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.mRecyclerView.addItemDecoration(getItemDecoration(box.getType()));
     }
 
-    private HorizontalItemDecoration getItemDecoration(Box.Type type) {
+    private RecyclerView.ItemDecoration getItemDecoration(Box.Type type) {
         if (mItemDecoration == null) {
-            int spacingInPixels;
+            int spacingInPixels = CompatibilityUtil.getItemSpacing(mContext);
 
-            if (type == Box.Type.FILM || type == Box.Type.LIVETV) {
-                spacingInPixels = 4;
+            if (mIsTvHome && type == Box.Type.LIVETV) {
+                mItemDecoration = new BundleDividerDecoration(mContext, CompatibilityUtil.getNumberItem(mContext, type));
             } else {
-                spacingInPixels = Constants.ITEM_SPACING;
+                mItemDecoration = new HorizontalItemDecoration(spacingInPixels);
             }
-
-            mItemDecoration = new HorizontalItemDecoration(spacingInPixels);
         }
 
         return mItemDecoration;
@@ -185,6 +195,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return mBoxes.size();
     }
 
+    public RecyclerView.LayoutManager getLayoutManager(GroupViewType groupViewType, Box.Type boxType) {
+        RecyclerView.LayoutManager layoutManager;
+        if (mIsTvHome && boxType == Box.Type.LIVETV) {
+            groupViewType = GroupViewType.GRID;
+        }
+
+        switch (groupViewType) {
+            case GRID:
+                layoutManager = new GridLayoutManager(mContext, CompatibilityUtil.getNumberItem(mContext, boxType));
+                break;
+            case HORIZONTAL_SCROLL:
+                layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                layoutManager.setAutoMeasureEnabled(true);
+                break;
+            default:
+                layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                layoutManager.setAutoMeasureEnabled(true);
+                break;
+        }
+
+        return layoutManager;
+    }
+
     // View holder for adapter view
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private View mRoot;
@@ -208,5 +241,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             mRoot = v;
             ButterKnife.bind(this, v);
         }
+    }
+
+    public enum GroupViewType {
+        HORIZONTAL_SCROLL, GRID
     }
 }

@@ -1,19 +1,17 @@
-package com.viettel.vpmt.mobiletv.screen.home.adapter;
+package com.viettel.vpmt.mobiletv.screen.common.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,52 +20,55 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Continue contents Adapter
+ * Focus contents Adapter
  * Created by neo on 3/24/2016.
  */
-public class ContinueAdapter extends RecyclerView.Adapter<ContinueAdapter.ViewHolder> {
-    private static final int MAX_PROGRESS = 100;
+public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.ViewHolder> {
     private List<Content> mContents;
     private Context mContext;
     private int mItemWidth;
 
-    public ContinueAdapter(Context context, List<Content> contents, int itemWidth) {
+    public FocusAdapter(Context context, List<Content> contents, int itemWidth) {
         mContents = contents;
         mContext = context;
         mItemWidth = itemWidth;
     }
 
     @Override
-    public ContinueAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_continue, parent, false);
+    public FocusAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_focus, parent, false);
 
-        return new ContinueAdapter.ViewHolder(view);
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(layoutParams);
+        }
+
+        return new FocusAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ContinueAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(FocusAdapter.ViewHolder holder, int position) {
         Content content = mContents.get(position);
         if (content == null) {
             return;
         }
 
-        if (mItemWidth > 0) {
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-            holder.mRoot.setLayoutParams(layoutParams);
-        }
-
         // Lazy load cover
-        ImageUtils.loadImage(mContext, content.getCoverImage(), holder.mImageView, true);
+        ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, true);
 
         // Set title
         holder.mTitleTextView.setText(content.getName());
 
-        // Set progress
-        holder.mProgressBar.setMax(MAX_PROGRESS);
-        holder.mProgressBar.setProgress(content.getProgress());
+        // Set Desc
+        holder.mDescTextView.setText(content.getShortDesc());
+
+        // Live status
+        if (!content.isLive()) {
+            holder.mDescTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
 
         // Click item behavior
-        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content, Box.Type.FOCUS));
     }
 
     @Override
@@ -77,15 +78,13 @@ public class ContinueAdapter extends RecyclerView.Adapter<ContinueAdapter.ViewHo
 
     // View holder for adapter view
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private View mRoot;
-
-        @Bind(R.id.item_continue_iv)
+        @Bind(R.id.item_focus_iv)
         public ImageView mImageView;
-        @Bind(R.id.item_continue_title_tv)
+        @Bind(R.id.item_focus_title_tv)
         public TextView mTitleTextView;
-        @Bind(R.id.item_continue_progress)
-        public ProgressBar mProgressBar;
-
+        @Bind(R.id.item_focus_desc_tv)
+        public TextView mDescTextView;
+        public View mRoot;
 
         public ViewHolder(View v) {
             super(v);

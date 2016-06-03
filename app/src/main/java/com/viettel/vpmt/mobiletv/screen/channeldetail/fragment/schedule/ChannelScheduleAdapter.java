@@ -1,7 +1,6 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.schedule;
 
 import com.viettel.vpmt.mobiletv.R;
-import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.util.DeviceUtils;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelSchedule;
 

@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg_color"
-    android:padding="@dimen/screen_margin"
     android:orientation="vertical">
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/bundle_recycler_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         app:layout_moreProgress="@layout/load_more_view"
         app:layout_progress="@layout/layout_progress_bar"
         app:recyclerPadding="0dp"

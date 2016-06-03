@@ -3,13 +3,11 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment;
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
 import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
 import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
-import com.viettel.vpmt.mobiletv.common.view.VideoImage;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
-import com.viettel.vpmt.mobiletv.network.dto.VideoStream;
 
 /**
  * Presenter for video detail fragment

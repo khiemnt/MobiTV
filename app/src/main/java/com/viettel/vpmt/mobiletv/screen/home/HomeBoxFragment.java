@@ -5,7 +5,8 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.view.SmoothScrollListener;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+import com.viettel.vpmt.mobiletv.network.ApiConstants;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.HomeBoxAdapter;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,6 +26,8 @@ public class HomeBoxFragment extends BaseFragment<HomeBoxFragmentPresenter, Home
     SuperRecyclerView mRecyclerView;
 
     private String mTitle;
+    private String mScope;
+    private String mPath;
 
     public static HomeBoxFragment newInstance(String scope, String path, String title) {
         HomeBoxFragment fragment = new HomeBoxFragment();
@@ -99,10 +102,10 @@ public class HomeBoxFragment extends BaseFragment<HomeBoxFragmentPresenter, Home
      */
     private void getData() {
         Bundle args = getArguments();
-        String scope = args.getString(Constants.Extras.SCOPE);
-        String path = args.getString(Constants.Extras.PATH);
+        mScope = args.getString(Constants.Extras.SCOPE);
+        mPath = args.getString(Constants.Extras.PATH);
 
-        getPresenter().getData(scope, path);
+        getPresenter().getData(mScope, mPath);
     }
 
     @Override
@@ -113,6 +116,11 @@ public class HomeBoxFragment extends BaseFragment<HomeBoxFragmentPresenter, Home
     @Override
     public void loadBox(HomeBoxAdapter homeBoxAdapter) {
         mRecyclerView.setAdapter(homeBoxAdapter);
+    }
+
+    @Override
+    public boolean isTvHome() {
+        return mScope.equalsIgnoreCase(ApiConstants.SCOPE_CHANNEL) && mPath.equalsIgnoreCase(ApiConstants.PATH_HOME_CHANNEL);
     }
 
     @Override

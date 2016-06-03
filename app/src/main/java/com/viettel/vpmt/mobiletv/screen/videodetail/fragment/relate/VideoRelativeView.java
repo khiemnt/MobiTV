@@ -1,7 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.relate;
 
 import com.viettel.vpmt.mobiletv.base.BaseView;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.VideoAdapter;
 
 /**
  * Created by ThanhTD on 3/25/2016.

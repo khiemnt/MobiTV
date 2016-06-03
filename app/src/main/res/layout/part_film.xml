@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@color/white"
-    android:layout_marginBottom="@dimen/padding_medium"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <TextView
-        android:layout_width="66.5dp"
-        android:layout_height="38dp"
+        android:layout_width="@dimen/item_film_part_width"
+        android:layout_height="@dimen/item_film_part_height"
         android:id="@+id/tvNumber"
         android:gravity="center"
         android:textColor="@color/white"

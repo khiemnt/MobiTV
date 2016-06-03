@@ -73,7 +73,7 @@
             android:layout_gravity="center"
             style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"/>
-        <com.viettel.vpmt.mobiletv.screen.filmdetail.utils.WrapContentHeightViewPager
+        <com.viettel.vpmt.mobiletv.common.view.DetailWrapContentViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/padding_medium"

@@ -6,7 +6,7 @@ import com.viettel.vpmt.mobiletv.common.util.NetworkUtils;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.HomeBoxAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.HomeBoxAdapter;
 
 import java.util.List;
 
@@ -48,7 +48,8 @@ public class HomeBoxFragmentPresenterImpl extends BasePresenterImpl<HomeBoxFragm
         public void onResponse(List<Box> data) {
             mView.onRequestSuccess();
             Logger.i(TAG, "SS==== " + data.size());
-            HomeBoxAdapter homeBoxAdapter = new HomeBoxAdapter(mView.getViewContext(), data);
+            HomeBoxAdapter homeBoxAdapter
+                    = new HomeBoxAdapter(mView.getViewContext(), data, HomeBoxAdapter.GroupViewType.HORIZONTAL_SCROLL, true, mView.isTvHome());
             mView.loadBox(homeBoxAdapter);
         }
     };

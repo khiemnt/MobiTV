@@ -1,7 +1,8 @@
-package com.viettel.vpmt.mobiletv.screen.home.adapter;
+package com.viettel.vpmt.mobiletv.screen.common.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
@@ -42,7 +43,7 @@ public class BannerAdapter extends PagerAdapter {
 
         container.addView(view, 0);
 
-        imageView.setOnClickListener(new ContentItemClickListener(mContext, content));
+        imageView.setOnClickListener(new ContentItemClickListener(mContext, content, Box.Type.BANNER));
         return view;
     }
 

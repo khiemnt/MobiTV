@@ -5,10 +5,10 @@ import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
+import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseDTO;
 import com.viettel.vpmt.mobiletv.network.dto.ResponseLikeUnlike;
 import com.viettel.vpmt.mobiletv.network.dto.ScheduleData;
-import com.viettel.vpmt.mobiletv.network.dto.PlayerSetting;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 
 import java.util.List;
@@ -89,6 +89,9 @@ public interface MobitvService {
     @GET("default/get-setting")
     Call<ResponseDTO<PlayerSetting>> getSettings(@Header("Authorization") String authorization);
 
-    @POST("default/search")
+    @GET("default/search")
     Call<ResponseDTO<List<Box>>> search(@Header("Authorization") String authorization, @Query("query") String query);
+
+    @GET("default/search-suggestion")
+    Call<ResponseDTO<List<Box>>> searchSuggestion(@Header("Authorization") String authorization, @Query("query") String query);
 }

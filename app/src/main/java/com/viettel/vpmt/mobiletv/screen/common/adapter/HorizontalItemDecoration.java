@@ -1,4 +1,4 @@
-package com.viettel.vpmt.mobiletv.screen.home.adapter;
+package com.viettel.vpmt.mobiletv.screen.common.adapter;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
     private int mSpace;
 
     public HorizontalItemDecoration(int space) {
-        this.mSpace = space;
+        this.mSpace = space / 2;
     }
 
     @Override

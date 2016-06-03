@@ -7,11 +7,11 @@ import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
+import com.viettel.vpmt.mobiletv.common.view.DetailWrapContentViewPager;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.utils.WrapContentHeightViewPager;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ public class ChannelDetailFragment extends PlayerFragment<ChannelDetailFragmentP
     @Bind(R.id.channel_detail_logo_iv)
     ImageView mLogoIv;
     @Bind(R.id.viewpager)
-    WrapContentHeightViewPager mViewPager;
+    DetailWrapContentViewPager mViewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout mTabLayout;
 

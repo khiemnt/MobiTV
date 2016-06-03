@@ -4,8 +4,8 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.comment.CommentFragment;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.relate.FilmRelativeListFragment;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.part.FilmPartsFragment;
+import com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.relate.FilmRelativeListFragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

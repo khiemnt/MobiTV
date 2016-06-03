@@ -48,6 +48,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/player_cover_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/black"/>
+
+        <ImageView
+            android:id="@+id/player_loading_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/black"/>
     </com.google.android.exoplayer.AspectRatioFrameLayout>
 
     <LinearLayout
@@ -113,66 +127,97 @@
                 android:src="@drawable/ic_player_overflow"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/controls_root"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="#88000000">
+            android:layout_height="match_parent">
+            <Space
+                android:id="@+id/center_empty_space"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/controls_playback_root"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="bottom">
-                <TextView
-                    android:id="@+id/player_control_quantity"
-                    style="@style/ContentItem.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_player_setting"
-                    android:drawablePadding="5dp"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/title_player_quality"/>
+                android:layout_centerVertical="true"
+                android:layout_above="@id/center_empty_space"
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/player_control_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_player_motion"
-                    style="@style/ContentItem.Title"
-                    android:layout_marginRight="10dp"
-                    android:drawablePadding="5dp"
-                    android:text="@string/title_player_speed"/>
-
-                <TextView
-                    android:id="@+id/player_control_report"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_player_flag"
-                    style="@style/ContentItem.Title"
-                    android:drawablePadding="5dp"
-                    android:text="@string/title_player_report"/>
-
-                <TextView
-                    android:id="@+id/control_retry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:id="@+id/prev"
+                    style="@style/IconPlayer"
                     android:visibility="gone"
-                    android:drawableTop="@drawable/ic_retry"
-                    style="@style/ContentItem.Title"
-                    android:drawablePadding="5dp"
-                    android:text="@string/title_player_retry"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+                    android:src="@drawable/ic_player_prev_bt"/>
 
-    <ImageView
-        android:id="@+id/player_cover_iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@color/black"/>
+                <ImageView
+                    android:id="@+id/pause"
+                    style="@style/IconPlayer"
+                    android:src="@drawable/ic_player_play"/>
+
+
+                <ImageView
+                    android:id="@+id/next"
+                    style="@style/IconPlayer"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_player_next_bt"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/controls_settings_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:gravity="bottom">
+                    <TextView
+                        android:id="@+id/player_control_quantity"
+                        style="@style/ContentItem.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_player_setting"
+                        android:drawablePadding="5dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/title_player_quality"/>
+
+                    <TextView
+                        android:id="@+id/player_control_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_player_motion"
+                        style="@style/ContentItem.Title"
+                        android:layout_marginRight="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="@string/title_player_speed"/>
+
+                    <TextView
+                        android:id="@+id/player_control_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_player_flag"
+                        style="@style/ContentItem.Title"
+                        android:drawablePadding="5dp"
+                        android:text="@string/title_player_report"/>
+
+                    <TextView
+                        android:id="@+id/control_retry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:drawableTop="@drawable/ic_retry"
+                        style="@style/ContentItem.Title"
+                        android:drawablePadding="5dp"
+                        android:text="@string/title_player_retry"/>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
 </FrameLayout>

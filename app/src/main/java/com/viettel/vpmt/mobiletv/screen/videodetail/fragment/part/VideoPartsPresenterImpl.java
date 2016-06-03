@@ -1,6 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.part;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
@@ -27,8 +28,10 @@ public class VideoPartsPresenterImpl extends BasePresenterImpl<VideoPartsView> i
         for (Content content : mVideos) {
             partOfVideos.add(new PartOfVideo(content.getId(), content.getName(), content.getAvatarImage()));
         }
+
+        int itemWidth = CompatibilityUtil.getWidthItemNoSpacing(mView.getViewContext(), Box.Type.VOD);
         VideoPartsAdapter videoPartsAdapter
-                = new VideoPartsAdapter(mVideoId, partOfVideos, mPositionActive, mView.getViewContext(), Box.calculateItemSize(mView.getViewContext(), Box.Type.VOD));
+                = new VideoPartsAdapter(mVideoId, partOfVideos, mPositionActive, mView.getViewContext(), itemWidth);
         mView.loadDataToView(videoPartsAdapter);
     }
 

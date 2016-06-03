@@ -1,14 +1,10 @@
 package com.viettel.vpmt.mobiletv.common.view;
 
-import com.viettel.vpmt.mobiletv.base.log.Logger;
-
 import android.content.Context;
-import android.support.annotation.IntegerRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 /**
  * Banner Image view

@@ -2,11 +2,15 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.part;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.GridDividerDecoration;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +60,20 @@ public class VideoPartsFragment extends BaseFragment<VideoPartsPresenter, VideoD
 
     @Override
     public void onPrepareLayout() {
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setNestedScrollingEnabled(false);
+//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        int spanCount = CompatibilityUtil.getNumberItem(getActivity(), Box.Type.VOD);
+        Logger.e("@@@", "Span 1 " + spanCount);
+        // Grid layout manager
+        GridLayoutManager layoutManager
+                = new GridLayoutManager(getActivity(), spanCount);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setClipToPadding(false);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+        // Item spacing
+        mRecyclerView.addItemDecoration(new GridDividerDecoration(getActivity(), spanCount));
         getPresenter().setData(parts, mFilmId);
         getPresenter().setPositionActive(positionActive);
         getPresenter().getData();

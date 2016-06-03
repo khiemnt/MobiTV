@@ -2,20 +2,14 @@ package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelDetail;
-import com.viettel.vpmt.mobiletv.network.dto.ChannelSchedule;
-import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.ChannelDetailFragmentPresenter;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate.ChannelRelativeListFragment;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.schedule.ChannelScheduleFragment;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.fragment.comment.CommentFragment;
-import com.viettel.vpmt.mobiletv.screen.home.HomeFakeFragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
-import java.util.List;
 
 /**
  * Adapter for pagers on channel detail screen

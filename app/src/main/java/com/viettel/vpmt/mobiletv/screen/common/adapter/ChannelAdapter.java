@@ -1,19 +1,18 @@
-package com.viettel.vpmt.mobiletv.screen.home.adapter;
+package com.viettel.vpmt.mobiletv.screen.common.adapter;
 
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.util.ImageUtils;
+import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.activity.ChannelDetailActivity;
 import com.viettel.vpmt.mobiletv.screen.home.controller.ContentItemClickListener;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -32,12 +31,18 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     public ChannelAdapter(Context context, List<Content> contents, int itemWidth) {
         mContents = contents;
         mContext = context;
+
         mItemWidth = itemWidth;
     }
 
     @Override
     public ChannelAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_channel, parent, false);
+
+        if (mItemWidth > 0) {
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(layoutParams);
+        }
 
         return new ChannelAdapter.ViewHolder(view);
     }
@@ -49,18 +54,13 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
             return;
         }
 
-        if (mItemWidth > 0) {
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-            holder.mRoot.setLayoutParams(layoutParams);
-        }
-
         ImageUtils.loadImage(mContext, content.getAvatarImage(), holder.mImageView, false);
 
         // Click item behavior
         if (mContext instanceof ChannelDetailActivity) {
             holder.itemView.setOnClickListener(new RelateChannelClickListener(position));
         } else {
-            holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content));
+            holder.itemView.setOnClickListener(new ContentItemClickListener(mContext, content, Box.Type.LIVETV));
         }
     }
 

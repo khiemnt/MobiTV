@@ -44,8 +44,8 @@
                   <!--/>-->
         <!-- Fabric -->
         <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="12586f38823c53b38ef94aa37bd55f447502cfa6"/>
+            android:name="io.fabric.ApiKey"
+            android:value="197658eb4de6a970dd5940d488485baa624f5ffe" />
 
     </application>
 

@@ -73,4 +73,5 @@
     </string>
     <string name="send_report_successful">Gửi báo cáo thành công</string>
     <string name="hint_search">Tìm kiếm TV, Video và Phim</string>
+    <string name="cant_get_data">Hiện không thể tải dữ liệu. Vui lòng thử lại sau</string>
 </resources>

@@ -2,10 +2,7 @@ package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.schedule;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 import com.viettel.vpmt.mobiletv.network.dto.ChannelSchedule;
-import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
 import com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.ChannelDetailFragmentPresenter;
-
-import android.os.Handler;
 
 import java.util.List;
 

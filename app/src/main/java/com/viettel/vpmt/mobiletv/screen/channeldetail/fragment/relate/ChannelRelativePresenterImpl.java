@@ -1,9 +1,10 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenterImpl;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.ChannelAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.ChannelAdapter;
 
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class ChannelRelativePresenterImpl extends BasePresenterImpl<ChannelRelat
 
     @Override
     public void getData() {
-        ChannelAdapter adapter = new ChannelAdapter(mView.getViewContext(), mContents, 0);
+        int itemWidth = CompatibilityUtil.getWidthItemNoSpacing(mView.getViewContext(), Box.Type.LIVETV);
+        ChannelAdapter adapter = new ChannelAdapter(mView.getViewContext(), mContents, itemWidth);
         mView.loadRelativeChannel(adapter);
     }
 }

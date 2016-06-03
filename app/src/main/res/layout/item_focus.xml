@@ -9,7 +9,10 @@
 
     <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:id="@+id/item_focus_title_tv"
-        style="@style/ContentItem.Title"/>
+        style="@style/ContentItem.Title"
+    android:maxLines="1"
+    android:singleLine="true"
+    android:lines="1"/>
 
     <com.viettel.vpmt.mobiletv.common.view.CTextView
         android:id="@+id/item_focus_desc_tv"

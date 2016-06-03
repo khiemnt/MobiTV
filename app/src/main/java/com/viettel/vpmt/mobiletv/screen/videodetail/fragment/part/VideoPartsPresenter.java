@@ -2,7 +2,6 @@ package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.part;
 
 import com.viettel.vpmt.mobiletv.base.BasePresenter;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.network.dto.PartOfVideo;
 
 import java.util.List;
 

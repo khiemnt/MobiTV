@@ -1,13 +1,12 @@
 package com.viettel.vpmt.mobiletv.screen.home;
 
-import com.google.gson.Gson;
-
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseActivity;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.pref.PrefManager;
+import com.viettel.vpmt.mobiletv.common.util.DialogUtils;
 import com.viettel.vpmt.mobiletv.network.ApiConstants;
 import com.viettel.vpmt.mobiletv.network.ServiceBuilder;
 import com.viettel.vpmt.mobiletv.network.callback.BaseCallback;
@@ -31,10 +30,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 
 public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> implements
@@ -185,9 +182,9 @@ public class HomeBoxActivity extends BaseActivity<CommonHomeActivityPresenter> i
             args.putString(Constants.Extras.PATH, path);
             replaceFragment(HomeBoxFragment.newInstance(scope, path, title), null, false);
         } else {
-            BaseFragment fragment = new HomeFakeFragment();
-            replaceFragment(fragment, null, false);
+            DialogUtils.showAlert(this, R.string.cant_get_data);
         }
+
     }
 
     // `onPostCreate` called when activity start-up is complete after `onStart()`

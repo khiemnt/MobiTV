@@ -6,6 +6,7 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.log.Logger;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
+import com.viettel.vpmt.mobiletv.common.view.DetailWrapContentViewPager;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.media.player.PlayerController;
@@ -13,7 +14,6 @@ import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.FilmDetail;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.filmdetail.utils.WrapContentHeightViewPager;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,7 +46,7 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
     @Bind(R.id.fragment_film_detail_tvCountry)
     TextView mCountryTv;
     @Bind(R.id.viewpager)
-    WrapContentHeightViewPager mViewPager;
+    DetailWrapContentViewPager mViewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout mTabLayout;
     @Bind(R.id.film_detail_thumb_up_down)
@@ -184,7 +184,8 @@ public class FilmDetailFragment extends PlayerFragment<FilmDetailFragmentPresent
         mViewPager.setAdapter(adapter);
 //        }
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(tabIndex).select();
+//        mTabLayout.getTabAt(tabIndex).select();
+        mTabLayout.getTabAt(0).select();
         hideProgress();
     }
 

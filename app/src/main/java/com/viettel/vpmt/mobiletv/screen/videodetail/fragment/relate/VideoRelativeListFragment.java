@@ -1,17 +1,17 @@
 package com.viettel.vpmt.mobiletv.screen.videodetail.fragment.relate;
 
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
+import com.viettel.vpmt.mobiletv.base.log.Logger;
+import com.viettel.vpmt.mobiletv.common.util.CompatibilityUtil;
 import com.viettel.vpmt.mobiletv.network.dto.Box;
 import com.viettel.vpmt.mobiletv.network.dto.Content;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.GridDividerDecoration;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.VideoAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.GridDividerDecoration;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.VideoAdapter;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +48,17 @@ public class VideoRelativeListFragment extends BaseFragment<VideoRelativePresent
 
     @Override
     public void onPrepareLayout() {
+        int spanCount = CompatibilityUtil.getNumberItem(getActivity(), Box.Type.VOD);
+        Logger.e("@@@", "Span 1 " + spanCount);
         // Grid layout manager
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), Box.getSpanCount(Box.Type.VOD));
+        GridLayoutManager layoutManager
+                = new GridLayoutManager(getActivity(), spanCount);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setClipToPadding(false);
         mRecyclerView.setHasFixedSize(true);
 
         // Item spacing
-        mRecyclerView.addItemDecoration(new GridDividerDecoration(getActivity()));
+        mRecyclerView.addItemDecoration(new GridDividerDecoration(getActivity(), spanCount));
         getPresenter().setData(mContents);
         getPresenter().getData();
     }

@@ -1,7 +1,7 @@
 package com.viettel.vpmt.mobiletv.screen.channeldetail.fragment.relate;
 
 import com.viettel.vpmt.mobiletv.base.BaseView;
-import com.viettel.vpmt.mobiletv.screen.home.adapter.ChannelAdapter;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.ChannelAdapter;
 
 /**
  * View for channel relative

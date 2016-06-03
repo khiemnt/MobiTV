@@ -15,7 +15,9 @@ public interface Constants {
         String TITLE = "title";
         String PART = "part";
         String COVER_IMAGE_URL = "cover_image_url";
+        String PROGRESS = "progress";
     }
 
-    int ITEM_SPACING = 6; //px
+    int ITEM_SPACING_VOD = 6; //px
+    int ITEM_SPACING_FILM = 4;
 }

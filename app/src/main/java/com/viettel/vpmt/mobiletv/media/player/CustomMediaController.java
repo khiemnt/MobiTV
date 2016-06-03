@@ -23,7 +23,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -31,7 +30,6 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -50,24 +48,22 @@ public class CustomMediaController extends FrameLayout {
     private TextView mEndTime, mCurrentTime;
     private boolean mShowing;
     private boolean mDragging;
-    private static final int sDefaultTimeout = 3000;
+    public static final int DEFAULT_TIMEOUT = 3000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
     private boolean mFromXml;
-    private boolean mListenersSet;
-    private View.OnClickListener mNextListener, mPrevListener;
+    //    private View.OnClickListener mNextListener, mPrevListener;
     private StringBuilder mFormatBuilder;
     private Formatter mFormatter;
-    private ImageView mPauseButton;
-    private ImageView mNextButton;
-    private ImageView mPrevButton;
+    //    private ImageView mPlayPauseButton;
+//    private ImageView mNextButton;
+//    private ImageView mPrevButton;
     private ImageView mFullScreenIv;
     private LinearLayout mProgressTimeLayout;
     private TextView mLiveNowTv;
     private Handler mHandler = new MessageHandler(this);
-    private List<PlayerController.VideoPart> mVideoParts;
     private SensorOrientationListener mSensorListener;
-    private PlayerController.PartSelectionListener mPartSelectionListener;
+    protected PlayerController mPlayerController;
 
     public CustomMediaController(Activity activity, AttributeSet attrs) {
         super(activity, attrs);
@@ -91,7 +87,7 @@ public class CustomMediaController extends FrameLayout {
 
     public void setMediaPlayer(PlayerControl player) {
         mPlayer = player;
-        updatePausePlay();
+        mPlayerController.updatePausePlay();
         updateFullScreen();
     }
 
@@ -168,11 +164,11 @@ public class CustomMediaController extends FrameLayout {
     }
 
     private void initControllerView(View v) {
-        mPauseButton = (ImageView) v.findViewById(R.id.pause);
-        if (mPauseButton != null) {
-            mPauseButton.requestFocus();
-            mPauseButton.setOnClickListener(mPauseListener);
-        }
+//        mPlayPauseButton = (ImageView) v.findViewById(R.id.pause);
+//        if (mPlayPauseButton != null) {
+//            mPlayPauseButton.requestFocus();
+//            mPlayPauseButton.setOnClickListener(mPlayPauseListener);
+//        }
 
         mFullScreenIv = (ImageView) v.findViewById(R.id.fullscreen);
         if (mFullScreenIv != null) {
@@ -191,15 +187,16 @@ public class CustomMediaController extends FrameLayout {
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
-        mNextButton = (ImageView) v.findViewById(R.id.next);
-        mPrevButton = (ImageView) v.findViewById(R.id.prev);
+//        mNextButton = (ImageView) v.findViewById(R.id.next);
+//        mPrevButton = (ImageView) v.findViewById(R.id.prev);
         mProgressTimeLayout = (LinearLayout) v.findViewById(R.id.mediacontroller_progress_time_layout);
         mLiveNowTv = (TextView) v.findViewById(R.id.mediacontroller_live_tv);
-        installPrevNextListeners();
+        if (mPlayerController != null)
+        mPlayerController.installPrevNextListeners();
     }
 
     public void show() {
-        show(sDefaultTimeout);
+        show(DEFAULT_TIMEOUT);
     }
 
     private void disableUnsupportedButtons() {
@@ -208,8 +205,9 @@ public class CustomMediaController extends FrameLayout {
         }
 
         try {
-            if (mPauseButton != null && !mPlayer.canPause()) {
-                mPauseButton.setEnabled(false);
+            if (!mPlayer.canPause()) {
+//                mPlayPauseButton.setEnabled(false);
+                mPlayerController.setPlayButtonEnable(false);
             }
         } catch (IncompatibleClassChangeError ex) {
             ex.printStackTrace();
@@ -219,8 +217,11 @@ public class CustomMediaController extends FrameLayout {
     public void show(int timeout) {
         if (!mShowing && mAnchor != null) {
             setProgress();
-            if (mPauseButton != null) {
-                mPauseButton.requestFocus();
+//            if (mPlayPauseButton != null) {
+//                mPlayPauseButton.requestFocus();
+//            }
+            if (mPlayerController != null) {
+                mPlayerController.requestFocusPlayButton();
             }
             disableUnsupportedButtons();
 
@@ -232,8 +233,11 @@ public class CustomMediaController extends FrameLayout {
 
             mAnchor.addView(this, tlp);
             mShowing = true;
+            if (mPlayerController != null)
+                mPlayerController.showNextPrevLayout();
         }
-        updatePausePlay();
+        if (mPlayerController != null)
+            mPlayerController.updatePausePlay();
         updateFullScreen();
 
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
@@ -255,6 +259,8 @@ public class CustomMediaController extends FrameLayout {
         }
 
         try {
+            if (mPlayerController != null)
+                mPlayerController.hideNextPrevLayout();
             mAnchor.removeView(this);
             mHandler.removeMessages(SHOW_PROGRESS);
         } catch (IllegalArgumentException ex) {
@@ -305,13 +311,13 @@ public class CustomMediaController extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        show(sDefaultTimeout);
+        show(DEFAULT_TIMEOUT);
         return true;
     }
 
     @Override
     public boolean onTrackballEvent(MotionEvent ev) {
-        show(sDefaultTimeout);
+        show(DEFAULT_TIMEOUT);
         return false;
     }
 
@@ -329,25 +335,32 @@ public class CustomMediaController extends FrameLayout {
                 || keyCode == KeyEvent.KEYCODE_SPACE) {
             if (uniqueDown) {
                 doPauseResume();
-                show(sDefaultTimeout);
-                if (mPauseButton != null) {
-                    mPauseButton.requestFocus();
+                show(DEFAULT_TIMEOUT);
+//                if (mPlayPauseButton != null) {
+//                    mPlayPauseButton.requestFocus();
+//                }
+                if (mPlayerController != null) {
+                    mPlayerController.requestFocusPlayButton();
                 }
+
             }
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
             if (uniqueDown && !mPlayer.isPlaying()) {
                 mPlayer.start();
-                updatePausePlay();
-                show(sDefaultTimeout);
+                if (mPlayerController != null)
+                    mPlayerController.updatePausePlay();
+                show(DEFAULT_TIMEOUT);
             }
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
                 || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
             if (uniqueDown && mPlayer.isPlaying()) {
                 mPlayer.pause();
-                updatePausePlay();
-                show(sDefaultTimeout);
+
+                if (mPlayerController != null)
+                    mPlayerController.updatePausePlay();
+                show(DEFAULT_TIMEOUT);
             }
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
@@ -361,35 +374,35 @@ public class CustomMediaController extends FrameLayout {
             return true;
         }
 
-        show(sDefaultTimeout);
+        show(DEFAULT_TIMEOUT);
         return super.dispatchKeyEvent(event);
     }
 
-    private View.OnClickListener mPauseListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            doPauseResume();
-            show(sDefaultTimeout);
-        }
-    };
+//    private View.OnClickListener mPlayPauseListener = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            doPauseResume();
+//            show(DEFAULT_TIMEOUT);
+//        }
+//    };
 
     private View.OnClickListener mFullscreenListener = new View.OnClickListener() {
         public void onClick(View v) {
             doToggleFullscreen();
-            show(sDefaultTimeout);
+            show(DEFAULT_TIMEOUT);
         }
     };
 
-    public void updatePausePlay() {
-        if (mRoot == null || mPauseButton == null || mPlayer == null) {
-            return;
-        }
-
-        if (mPlayer.isPlaying()) {
-            mPauseButton.setImageResource(android.R.drawable.ic_media_pause);
-        } else {
-            mPauseButton.setImageResource(android.R.drawable.ic_media_play);
-        }
-    }
+//    public void updatePausePlay() {
+//        if (mRoot == null || mPlayPauseButton == null || mPlayer == null) {
+//            return;
+//        }
+//
+//        if (mPlayer.isPlaying()) {
+//            mPlayPauseButton.setImageResource(android.R.drawable.ic_media_pause);
+//        } else {
+//            mPlayPauseButton.setImageResource(android.R.drawable.ic_media_play);
+//        }
+//    }
 
     public void updateFullScreen() {
         if (mRoot == null || mFullScreenIv == null || mPlayer == null) {
@@ -403,7 +416,7 @@ public class CustomMediaController extends FrameLayout {
 //        }
     }
 
-    private void doPauseResume() {
+    void doPauseResume() {
         if (mPlayer == null) {
             return;
         }
@@ -413,7 +426,8 @@ public class CustomMediaController extends FrameLayout {
         } else {
             mPlayer.start();
         }
-        updatePausePlay();
+        if (mPlayerController != null)
+            mPlayerController.updatePausePlay();
     }
 
     private void doToggleFullscreen() {
@@ -461,6 +475,7 @@ public class CustomMediaController extends FrameLayout {
 
             mDragging = true;
             mHandler.removeMessages(SHOW_PROGRESS);
+            bar.setThumb(mActivity.getResources().getDrawable(R.drawable.ic_player_circle_focus));
         }
 
         public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
@@ -477,29 +492,35 @@ public class CustomMediaController extends FrameLayout {
             mPlayer.seekTo((int) newposition);
             if (mCurrentTime != null)
                 mCurrentTime.setText(stringForTime((int) newposition));
+
+            bar.setThumb(mActivity.getResources().getDrawable(R.drawable.ic_player_circle_focus));
         }
 
         public void onStopTrackingTouch(SeekBar bar) {
             mDragging = false;
             setProgress();
-            updatePausePlay();
-            show(sDefaultTimeout);
+            if (mPlayerController != null) {
+                mPlayerController.updatePausePlay();
+            }
+            show(DEFAULT_TIMEOUT);
 
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
+
+            bar.setThumb(mActivity.getResources().getDrawable(R.drawable.ic_player_circle));
         }
     };
 
     @Override
     public void setEnabled(boolean enabled) {
-        if (mPauseButton != null) {
-            mPauseButton.setEnabled(enabled);
-        }
-        if (mNextButton != null) {
-            mNextButton.setEnabled(enabled && mNextListener != null);
-        }
-        if (mPrevButton != null) {
-            mPrevButton.setEnabled(enabled && mPrevListener != null);
-        }
+//        if (mPlayPauseButton != null) {
+//            mPlayPauseButton.setEnabled(enabled);
+//        }
+//        if (mNextButton != null) {
+//            mNextButton.setEnabled(enabled && mNextListener != null);
+//        }
+//        if (mPrevButton != null) {
+//            mPrevButton.setEnabled(enabled && mPrevListener != null);
+//        }
         if (mProgress != null) {
             mProgress.setEnabled(enabled);
         }
@@ -518,7 +539,7 @@ public class CustomMediaController extends FrameLayout {
             mPlayer.seekTo(pos);
             setProgress();
 
-            show(sDefaultTimeout);
+            show(DEFAULT_TIMEOUT);
         }
     };
 
@@ -533,38 +554,37 @@ public class CustomMediaController extends FrameLayout {
             mPlayer.seekTo(pos);
             setProgress();
 
-            show(sDefaultTimeout);
+            show(DEFAULT_TIMEOUT);
         }
     };
 
-    private void installPrevNextListeners() {
-        if (mNextButton != null) {
-            mNextButton.setOnClickListener(mNextListener);
-            mNextButton.setEnabled(mNextListener != null);
-        }
-
-        if (mPrevButton != null) {
-            mPrevButton.setOnClickListener(mPrevListener);
-            mPrevButton.setEnabled(mPrevListener != null);
-        }
-    }
-
-    public void setPrevNextListeners(View.OnClickListener next, View.OnClickListener prev) {
-        mNextListener = next;
-        mPrevListener = prev;
-        mListenersSet = true;
-
-        if (mRoot != null) {
-            installPrevNextListeners();
-
-            if (mNextButton != null && !mFromXml) {
-                mNextButton.setVisibility(View.VISIBLE);
-            }
-            if (mPrevButton != null && !mFromXml) {
-                mPrevButton.setVisibility(View.VISIBLE);
-            }
-        }
-    }
+//    private void installPrevNextListeners() {
+//        if (mNextButton != null) {
+//            mNextButton.setOnClickListener(mNextListener);
+//            mNextButton.setEnabled(mNextListener != null);
+//        }
+//
+//        if (mPrevButton != null) {
+//            mPrevButton.setOnClickListener(mPrevListener);
+//            mPrevButton.setEnabled(mPrevListener != null);
+//        }
+//    }
+//
+//    public void setPrevNextListeners(View.OnClickListener next, View.OnClickListener prev) {
+//        mNextListener = next;
+//        mPrevListener = prev;
+//
+//        if (mRoot != null) {
+//            installPrevNextListeners();
+//
+//            if (mNextButton != null && !mFromXml) {
+//                mNextButton.setVisibility(View.VISIBLE);
+//            }
+//            if (mPrevButton != null && !mFromXml) {
+//                mPrevButton.setVisibility(View.VISIBLE);
+//            }
+//        }
+//    }
 
     public void onConfigurationChanged(Configuration newConfig) {
         Logger.e(TAG, "onConfigurationChanged");
@@ -581,28 +601,28 @@ public class CustomMediaController extends FrameLayout {
         }
     }
 
-    public void setNextVisibility(int visibility) {
-        if (mNextButton != null) {
-            mNextButton.setVisibility(visibility);
-        }
-    }
-
-    public void setNextEnabled(boolean enabled) {
-        if (mNextButton != null) {
-            mNextButton.setEnabled(enabled);
-        }
-    }
-
-    public void setPreviousVisibility(int visibility) {
-        if (mPrevButton != null) {
-            mPrevButton.setVisibility(visibility);
-        }
-    }
-    public void setPreviousEnabled(boolean enabled) {
-        if (mPrevButton != null) {
-            mPrevButton.setEnabled(enabled);
-        }
-    }
+//    public void setNextVisibility(int visibility) {
+//        if (mNextButton != null) {
+//            mNextButton.setVisibility(visibility);
+//        }
+//    }
+//
+//    public void setNextEnabled(boolean enabled) {
+//        if (mNextButton != null) {
+//            mNextButton.setEnabled(enabled);
+//        }
+//    }
+//
+//    public void setPreviousVisibility(int visibility) {
+//        if (mPrevButton != null) {
+//            mPrevButton.setVisibility(visibility);
+//        }
+//    }
+//    public void setPreviousEnabled(boolean enabled) {
+//        if (mPrevButton != null) {
+//            mPrevButton.setEnabled(enabled);
+//        }
+//    }
 
     public void setProgressTimeLayoutVisibility(int visibility) {
         mProgressTimeLayout.setVisibility(visibility);
@@ -612,9 +632,12 @@ public class CustomMediaController extends FrameLayout {
         mLiveNowTv.setVisibility(visibility);
     }
 
-    public void setVideoParts(List<PlayerController.VideoPart> videoParts, PlayerController.PartSelectionListener partSelectionListener) {
-        mVideoParts = videoParts;
-        mPartSelectionListener = partSelectionListener;
+    public boolean isPlaying() {
+        return mPlayer.isPlaying();
+    }
+
+    public void setPlayerController(PlayerController playerController) {
+        mPlayerController = playerController;
     }
 
     //    public interface MediaPlayerControl {

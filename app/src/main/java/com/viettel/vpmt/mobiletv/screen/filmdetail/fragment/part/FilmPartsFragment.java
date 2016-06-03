@@ -4,9 +4,12 @@ import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.base.BaseFragment;
 import com.viettel.vpmt.mobiletv.network.dto.PartOfFilm;
 import com.viettel.vpmt.mobiletv.screen.filmdetail.activity.FilmDetailActivity;
+import com.viettel.vpmt.mobiletv.screen.common.adapter.GridDividerDecoration;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +54,19 @@ public class FilmPartsFragment extends BaseFragment<FilmPartsPresenter, FilmDeta
 
     @Override
     public void onPrepareLayout() {
+        LinearLayout.LayoutParams params
+                = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        mRecyclerView.setLayoutParams(params);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
-        GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.part_film_column));
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        int spanCount = getResources().getInteger(R.integer.part_film_column);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
+        GridDividerDecoration decoration = new GridDividerDecoration(getViewContext(), spanCount);
+        mRecyclerView.addItemDecoration(decoration);
+
+        mRecyclerView.setLayoutManager(layoutManager);
         getPresenter().setData(parts, mFilmId);
         getPresenter().setPositionActive(positionActive);
         getPresenter().getData();

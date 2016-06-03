@@ -5,6 +5,7 @@ import com.google.android.exoplayer.util.Util;
 import com.viettel.vpmt.mobiletv.R;
 import com.viettel.vpmt.mobiletv.common.Constants;
 import com.viettel.vpmt.mobiletv.common.util.StringUtils;
+import com.viettel.vpmt.mobiletv.common.view.DetailWrapContentViewPager;
 import com.viettel.vpmt.mobiletv.common.view.ExpandableTextView;
 import com.viettel.vpmt.mobiletv.media.PlayerFragment;
 import com.viettel.vpmt.mobiletv.media.player.PlayerController;
@@ -13,7 +14,6 @@ import com.viettel.vpmt.mobiletv.network.dto.Content;
 import com.viettel.vpmt.mobiletv.network.dto.DataStream;
 import com.viettel.vpmt.mobiletv.network.dto.VideoDetail;
 import com.viettel.vpmt.mobiletv.screen.videodetail.activity.VideoDetailActivity;
-import com.viettel.vpmt.mobiletv.screen.videodetail.utils.WrapContentHeightViewPager;
 
 import android.content.Context;
 import android.net.Uri;
@@ -52,14 +52,15 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
     @Bind(R.id.video_detail_number_of_view)
     CheckBox mPlayCountCb;
     @Bind(R.id.viewpager)
-    WrapContentHeightViewPager mViewPager;
+    DetailWrapContentViewPager mViewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout mTabLayout;
 
     private FragmentStatePagerAdapter mAdapter;
     private String mVideoId = "";
+    private int mProgress;
 
-    public static VideoDetailFragment newInstance(String videoId, String title, String coverImageUrl) {
+    public static VideoDetailFragment newInstance(String videoId, String title, String coverImageUrl, int progress) {
         VideoDetailFragment fragment = new VideoDetailFragment();
 
         Bundle bundle = new Bundle();
@@ -67,6 +68,7 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
         bundle.putString(Constants.Extras.TITLE, title);
         bundle.putString(Constants.Extras.COVER_IMAGE_URL, coverImageUrl);
         bundle.putString(Constants.Extras.PART, "");
+        bundle.putInt(Constants.Extras.PROGRESS, progress);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -134,6 +136,8 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
             getPresenter().getVideoStream(mVideoId);
         }
 
+        seekTo(getArguments().getInt(Constants.Extras.PROGRESS, 0));
+
         // Title & description
         mTitleTv.setText(videoDetail.getVideoDetail().getName());
         if (!StringUtils.isEmpty(videoDetail.getVideoDetail().getDescription())) {
@@ -168,9 +172,10 @@ public class VideoDetailFragment extends PlayerFragment<VideoDetailFragmentPrese
                 if (contents != null && contents.size() > 0) {
                     setPlayerParts(contents, positionPartActive);
 //                    mPlayerController.setPlayListVisibility(View.VISIBLE);
-                } else {
-//                    mPlayerController.setPlayListVisibility(View.GONE);
                 }
+//                else {
+//                    mPlayerController.setPlayListVisibility(View.GONE);
+//                }
 
             } else {
                 mAdapter = new VideoPartFragmentPagerAdapter(mVideoId, -1, videoDetail.getContentRelated().getContents(), getActivity().getSupportFragmentManager(), getActivity());

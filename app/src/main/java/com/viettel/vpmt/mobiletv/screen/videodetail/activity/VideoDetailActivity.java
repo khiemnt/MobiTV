@@ -22,12 +22,13 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailPresenter> impl
         videoId = getIntent().getStringExtra(Constants.Extras.ID);
         String title = getIntent().getStringExtra(Constants.Extras.TITLE);
         String coverImageUrl= getIntent().getStringExtra(Constants.Extras.COVER_IMAGE_URL);
-        addFragment(videoId, title, coverImageUrl);
+        int progress = getIntent().getIntExtra(Constants.Extras.PROGRESS, 0);
+        addFragment(videoId, title, coverImageUrl, progress);
     }
 
-    private void addFragment(String videoId, String title, String coverImageUrl) {
+    private void addFragment(String videoId, String title, String coverImageUrl, int progress) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        fragment = VideoDetailFragment.newInstance(videoId, title, coverImageUrl);
+        fragment = VideoDetailFragment.newInstance(videoId, title, coverImageUrl, progress);
         transaction.add(R.id.frame_layout, fragment);
         transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out);
         transaction.commit();
